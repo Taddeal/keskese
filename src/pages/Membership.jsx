@@ -8,8 +8,8 @@ const benefits = [
     icon: '🤝',
     titleEn: 'Supportive Network',
     titleTi: 'ደጋፊ መርበብ',
-    descEn: 'Connect with Eritrean families and individuals across the Netherlands for guidance and mutual help.',
-    descTi: 'ምስ ኣብ ኔዘርላንድስ ዝርከቡ ኤርትራውያን ስድራቤታትን ውልቀሰባትን ንምስናይን ሓድሕዳዊ ደገፍን ተራኸቡ።',
+    descEn: 'Connect with Keskese Milash Community families and individuals across the Netherlands and worldwide for guidance and mutual help.',
+    descTi: 'ምስ ኣብ ኔዘርላንድስን መላእ ዓለምን ዝርከቡ ስድራቤታትን ውልቀሰባትን ማሕበረሰብ ከስከሰ ምላሽ ንምስናይን ሓድሕዳዊ ደገፍን ተራኸቡ።',
     color: '#1A6B3C',
   },
   {
@@ -177,12 +177,12 @@ export default function Membership() {
                 <div style={{fontSize:'2.2rem'}}>🌍</div>
                 <div>
                   <h4 style={{margin:'0 0 0.25rem', fontSize:'1.05rem', fontWeight:700}}>
-                    {locale === 'ti' ? 'ኣብ መላእ ኔዘርላንድስ' : 'Open to All Community Members'}
+                    {locale === 'ti' ? 'ኣብ ኔዘርላንድስን መላእ ዓለምን' : 'Open to All Community Members'}
                   </h4>
                   <p style={{margin:0, opacity:0.88, fontSize:'0.88rem', lineHeight:'1.5'}}>
                     {locale === 'ti'
-                      ? 'ኣብ ዝኾነ ክፍሊ ኔዘርላንድስ ዝነብሩ ኤርትራውያንን ፈተውቲ ማሕበረሰብናን ኣባላት ክኾኑ ይኽእሉ።'
-                      : 'Whether you recently moved or have resided in the Netherlands for years, everyone is welcome.'}
+                      ? 'ኣብ ኔዘርላንድስን መላእ ዓለምን ዝነብሩ ኣባላት ማሕበረሰብናን ፈተውትናን ኣባላት ክኾኑ ይኽእሉ።'
+                      : 'Whether you reside in the Netherlands or anywhere worldwide, everyone is welcome.'}
                   </p>
                 </div>
               </div>

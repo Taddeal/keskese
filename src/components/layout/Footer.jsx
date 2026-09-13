@@ -21,8 +21,8 @@ export default function Footer() {
         background: 'linear-gradient(90deg, #1A6B3C 0%, #1A6B3C 33%, #D4A843 33%, #D4A843 50%, #1E3A5F 50%, #1E3A5F 80%, #C23B22 80%, #C23B22 100%)'
       }} />
 
-      <div className="container" style={{maxWidth: '1150px'}}>
-        
+      <div className="container" style={{ maxWidth: '1150px' }}>
+
         {/* Main Footer Grid */}
         <div style={{
           display: 'grid',
@@ -30,21 +30,21 @@ export default function Footer() {
           gap: '2.5rem',
           marginBottom: '3.5rem'
         }}>
-          
+
           {/* Column 1: Brand & Identity */}
-          <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-            <div style={{display: 'flex', alignItems: 'center', gap: '0.75rem'}}>
-              <img 
-                src="/logo.png" 
-                alt="Keskese Milash" 
-                style={{height: '42px', width: '42px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #D4A843'}} 
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <img
+                src="/logo.png"
+                alt="Keskese Milash"
+                style={{ height: '42px', width: '42px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #D4A843' }}
               />
-              <h3 style={{margin: 0, color: '#FFFFFF', fontSize: '1.25rem', fontWeight: 700}}>
+              <h3 style={{ margin: 0, color: '#FFFFFF', fontSize: '1.25rem', fontWeight: 700 }}>
                 Keskese Milash
               </h3>
             </div>
 
-            <p style={{color: '#9CA3AF', fontSize: '0.9rem', lineHeight: 1.65, margin: 0}}>
+            <p style={{ color: '#9CA3AF', fontSize: '0.9rem', lineHeight: 1.65, margin: 0 }}>
               {t('footer.about')}
             </p>
 
@@ -66,9 +66,9 @@ export default function Footer() {
             }}>
               {t('footer.quickLinks')}
             </h4>
-            <ul style={{listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.7rem'}}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
               <li>
-                <Link to="/" style={{color: '#9CA3AF', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s ease'}}
+                <Link to="/" style={{ color: '#9CA3AF', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s ease' }}
                   onMouseEnter={e => e.target.style.color = '#D4A843'}
                   onMouseLeave={e => e.target.style.color = '#9CA3AF'}
                 >
@@ -76,7 +76,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/about" style={{color: '#9CA3AF', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s ease'}}
+                <Link to="/about" style={{ color: '#9CA3AF', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s ease' }}
                   onMouseEnter={e => e.target.style.color = '#D4A843'}
                   onMouseLeave={e => e.target.style.color = '#9CA3AF'}
                 >
@@ -84,7 +84,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/plans" style={{color: '#9CA3AF', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s ease'}}
+                <Link to="/plans" style={{ color: '#9CA3AF', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s ease' }}
                   onMouseEnter={e => e.target.style.color = '#D4A843'}
                   onMouseLeave={e => e.target.style.color = '#9CA3AF'}
                 >
@@ -92,7 +92,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/projects" style={{color: '#9CA3AF', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s ease'}}
+                <Link to="/projects" style={{ color: '#9CA3AF', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s ease' }}
                   onMouseEnter={e => e.target.style.color = '#D4A843'}
                   onMouseLeave={e => e.target.style.color = '#9CA3AF'}
                 >
@@ -100,7 +100,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/news" style={{color: '#9CA3AF', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s ease'}}
+                <Link to="/news" style={{ color: '#9CA3AF', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s ease' }}
                   onMouseEnter={e => e.target.style.color = '#D4A843'}
                   onMouseLeave={e => e.target.style.color = '#9CA3AF'}
                 >
@@ -119,9 +119,9 @@ export default function Footer() {
             }}>
               {locale === 'ti' ? 'ተሳተፉ' : 'Get Involved'}
             </h4>
-            <ul style={{listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.7rem'}}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
               <li>
-                <Link to="/membership" style={{color: '#9CA3AF', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s ease'}}
+                <Link to="/membership" style={{ color: '#9CA3AF', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s ease' }}
                   onMouseEnter={e => e.target.style.color = '#D4A843'}
                   onMouseLeave={e => e.target.style.color = '#9CA3AF'}
                 >
@@ -129,7 +129,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/contact" style={{color: '#9CA3AF', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s ease'}}
+                <Link to="/contact" style={{ color: '#9CA3AF', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s ease' }}
                   onMouseEnter={e => e.target.style.color = '#D4A843'}
                   onMouseLeave={e => e.target.style.color = '#9CA3AF'}
                 >
@@ -137,8 +137,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <span style={{color: '#6B7280', fontSize: '0.88rem'}}>
-                  📍 {locale === 'ti' ? 'ኣብ ኔዘርላንድስ' : 'Based in the Netherlands'}
+                <span style={{ color: '#6B7280', fontSize: '0.88rem' }}>
+                  📍 {locale === 'ti' ? 'ኣብ ኔዘርላንድስን መላእ ዓለምን' : 'Based in Netherlands & Worldwide'}
                 </span>
               </li>
             </ul>
@@ -153,21 +153,21 @@ export default function Footer() {
             }}>
               {t('footer.contact')}
             </h4>
-            
-            <div style={{display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.9rem', color: '#9CA3AF'}}>
-              <div style={{display: 'flex', alignItems: 'center', gap: '0.6rem'}}>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.9rem', color: '#9CA3AF' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                 <span>📍</span>
-                <span>Association Keskese Milash, Netherlands</span>
+                <span>Association Keskese Milash Netherlands & Worldwide</span>
               </div>
-              <div style={{display: 'flex', alignItems: 'center', gap: '0.6rem'}}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                 <span>✉️</span>
-                <a href="mailto:info@keskesemilash.org" style={{color: '#D4A843', textDecoration: 'none'}}>
+                <a href="mailto:info@keskesemilash.org" style={{ color: '#D4A843', textDecoration: 'none' }}>
                   info@keskesemilash.org
                 </a>
               </div>
-              <div style={{display: 'flex', alignItems: 'center', gap: '0.6rem'}}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                 <span>📞</span>
-                <span>+31 6 12345678</span>
+                <span>+31 6 86445539</span>
               </div>
             </div>
           </div>
@@ -187,13 +187,13 @@ export default function Footer() {
           color: '#6B7280'
         }}>
           <div>
-            &copy; {new Date().getFullYear()} Association Keskese Milash Netherlands. {t('footer.rights')}
+            &copy; {new Date().getFullYear()} Association Keskese Milash Netherlands & Worldwide. {t('footer.rights')}
           </div>
 
-          <div style={{display: 'flex', alignItems: 'center', gap: '1.5rem'}}>
-            <Link 
-              to="/admin/login" 
-              style={{color: '#4B5563', textDecoration: 'none', fontSize: '0.8rem'}}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+            <Link
+              to="/admin/login"
+              style={{ color: '#4B5563', textDecoration: 'none', fontSize: '0.8rem' }}
               onMouseEnter={e => e.target.style.color = '#9CA3AF'}
               onMouseLeave={e => e.target.style.color = '#4B5563'}
             >

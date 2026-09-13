@@ -255,7 +255,7 @@ export default function Contact() {
                       </h3>
                       <p style={{color:'#6B7280', margin:0, lineHeight:'1.6', fontSize:'0.95rem'}}>
                         <strong>Association Keskese Milash</strong><br/>
-                        Netherlands
+                        Netherlands & Worldwide
                       </p>
                     </div>
                   </div>

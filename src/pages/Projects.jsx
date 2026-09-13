@@ -224,8 +224,8 @@ export default function Projects() {
           </h2>
           <p style={{opacity:0.9, fontSize:'1.05rem', marginBottom:'2rem', lineHeight:'1.6'}}>
             {locale === 'ti'
-              ? 'ንማሕበረሰብና ዝጠቕሙ ሓደስቲ ተበግሶታትን ሓሳባትን ብሓጐስ ንቕበል።'
-              : 'We welcome community-led initiatives and proposals. If you have an idea that benefits Eritreans in the Netherlands, reach out!'}
+              ? 'ንማሕበረሰብ ከስከሰ ምላሽ ዝጠቕሙ ሓደስቲ ተበግሶታትን ሓሳባትን ብሓጐስ ንቕበል።'
+              : 'We welcome community-led initiatives and proposals. If you have an idea that benefits the Keskese Milash Community in the Netherlands & worldwide, reach out!'}
           </p>
           <a 
             href="/contact" 

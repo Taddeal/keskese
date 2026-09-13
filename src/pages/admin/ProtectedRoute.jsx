@@ -36,7 +36,7 @@ export default function ProtectedRoute() {
                 Keskese Admin Control
               </div>
               <div style={{fontSize: '0.75rem', color: '#9CA3AF'}}>
-                Netherlands Association Management
+                Netherlands & Worldwide Association Management
               </div>
             </div>
           </div>
