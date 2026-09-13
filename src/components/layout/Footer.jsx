@@ -138,7 +138,7 @@ export default function Footer() {
               </li>
               <li>
                 <span style={{ color: '#6B7280', fontSize: '0.88rem' }}>
-                  📍 {locale === 'ti' ? 'ኣብ ኔዘርላንድስን መላእ ዓለምን' : 'Based in Netherlands & Worldwide'}
+                  📍 {locale === 'ti' ? 'ኣብ ኔዘርላንድስ' : 'Based in the Netherlands'}
                 </span>
               </li>
             </ul>
@@ -157,7 +157,7 @@ export default function Footer() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.9rem', color: '#9CA3AF' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                 <span>📍</span>
-                <span>Association Keskese Milash Netherlands & Worldwide</span>
+                <span>Association Keskese Milash Netherlands</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                 <span>✉️</span>
@@ -187,7 +187,7 @@ export default function Footer() {
           color: '#6B7280'
         }}>
           <div>
-            &copy; {new Date().getFullYear()} Association Keskese Milash Netherlands & Worldwide. {t('footer.rights')}
+            &copy; {new Date().getFullYear()} Association Keskese Milash Netherlands. {t('footer.rights')}
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>

@@ -75,7 +75,7 @@ export default function AdminDashboard() {
             Association Control Center
           </h1>
           <p style={{margin: 0, opacity: 0.88, fontSize: '0.95rem'}}>
-            Manage announcements, membership applications, and site data backups for Keskese Milash Netherlands & Worldwide.
+            Manage announcements, membership applications, and site data backups for Keskese Milash Netherlands.
           </p>
         </div>
 

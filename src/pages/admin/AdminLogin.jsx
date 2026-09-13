@@ -70,7 +70,7 @@ export default function AdminLogin() {
             <img src="/logo.png" alt="Keskese Milash Logo" style={{width: '64px', height: '64px', borderRadius: '50%', objectFit: 'cover'}} />
           </div>
           <h2 style={{margin: '0 0 0.3rem', fontSize: '1.5rem', fontWeight: 800}}>Admin Control Portal</h2>
-          <p style={{margin: 0, opacity: 0.85, fontSize: '0.9rem'}}>Association Keskese Milash Netherlands & Worldwide</p>
+          <p style={{margin: 0, opacity: 0.85, fontSize: '0.9rem'}}>Association Keskese Milash Netherlands</p>
         </div>
 
         {/* Login Form Body */}

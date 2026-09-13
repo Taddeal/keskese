@@ -11,13 +11,13 @@
   },
   "home": {
     "heroTitle": "Keskese Milash Association",
-    "heroSubtitle": "Bringing our Keskese Milash Community together in the Netherlands & Worldwide",
+    "heroSubtitle": "Bringing our Keskese Milash Community together in the Netherlands",
     "joinUs": "Join Us",
     "learnMore": "Learn More",
     "missionTitle": "Our Mission",
     "missionText": "To create a supportive and united community by fostering social justice, equality, and well-being among our members.",
     "quickLinksTitle": "Explore",
-    "plansDesc": "Discover our strategic plans to expand, support, and strengthen our community across the Netherlands and worldwide.",
+    "plansDesc": "Discover our strategic plans to expand, support, and strengthen our community across the Netherlands.",
     "projectsDesc": "Learn about our ongoing projects in cultural heritage, community support, and recreation.",
     "membershipDesc": "Become a part of our growing family and contribute to a united Keskese Milash Community.",
     "viewPlans": "View Plans",
@@ -26,11 +26,11 @@
   "about": {
     "title": "About Us",
     "introTitle": "Who We Are",
-    "introText": "ASSOCIATION KESKESE MILASH NETHERLANDS & WORLDWIDE aims to bring our community together, addressing challenges and promoting social justice, equality, and well-being. Established with trustworthiness and practicality, our association is dedicated to upholding principles of integrity, transparency, accountability, and responsibility.",
+    "introText": "ASSOCIATION KESKESE MILASH NETHERLANDS aims to bring our community together, addressing challenges and promoting social justice, equality, and well-being. Established with trustworthiness and practicality, our association is dedicated to upholding principles of integrity, transparency, accountability, and responsibility.",
     "heritageTitle": "Our Heritage",
     "heritageText": "Keskese is an ancient archaeological site, and the name of the first civic association in history. Our association carries this historic name to honor our roots and the legacy of unity and civic responsibility that defines our heritage.",
     "missionVisionTitle": "Our Mission & Vision",
-    "missionVisionText": "To create a supportive and united community by fostering social justice, equality, and well-being among our members. We envision a thriving Keskese Milash Community in the Netherlands and worldwide, connected by shared values, cultural pride, and mutual support.",
+    "missionVisionText": "To create a supportive and united community by fostering social justice, equality, and well-being among our members. We envision a thriving Keskese Milash Community in the Netherlands, connected by shared values, cultural pride, and mutual support.",
     "valuesTitle": "Core Values",
     "values": {
       "integrity": "Integrity",
@@ -41,11 +41,11 @@
   },
   "plans": {
     "title": "Our Focus Areas",
-    "subtitle": "Strategic plans to empower the Keskese Milash Community in the Netherlands & Worldwide"
+    "subtitle": "Strategic plans to empower the Keskese Milash Community in the Netherlands"
   },
   "projects": {
     "title": "Our Projects",
-    "subtitle": "Initiatives designed to support our community in the Netherlands & Worldwide"
+    "subtitle": "Initiatives designed to support our community in the Netherlands"
   },
   "news": {
     "title": "News & Events",
@@ -85,7 +85,7 @@
     "submitAnother": "Submit Another"
   },
   "footer": {
-    "about": "Bringing the Keskese Milash Community together in the Netherlands & Worldwide. Keskese Milash stands for unity, justice, and cultural heritage.",
+    "about": "Bringing the Keskese Milash Community together in the Netherlands. Keskese Milash stands for unity, justice, and cultural heritage.",
     "quickLinks": "Quick Links",
     "contact": "Contact Us",
     "rights": "All rights reserved."

@@ -55,7 +55,7 @@ export default function Home() {
               color: '#FDF6E3', fontSize: '0.88rem', fontWeight: 600, letterSpacing: '0.05em',
               backdropFilter: 'blur(6px)',
             }}>
-              ✨ {locale === 'ti' ? 'ማሕበር ከስከሰ ምላሽ ኔዘርላንድስን መላእ ዓለምን' : 'ASSOCIATION KESKESE MILASH NETHERLANDS & WORLDWIDE'}
+              ✨ {locale === 'ti' ? 'ማሕበር ከስከሰ ምላሽ ኔዘርላንድስ' : 'ASSOCIATION KESKESE MILASH NETHERLANDS'}
             </span>
           </div>
 
@@ -118,8 +118,8 @@ export default function Home() {
             <div style={{display: 'flex', alignItems: 'center', gap: '0.85rem'}}>
               <div style={{fontSize: '1.8rem'}}>🇳🇱</div>
               <div>
-                <div style={{fontSize: '0.95rem', fontWeight: 700}}>Netherlands & Worldwide</div>
-                <div style={{fontSize: '0.8rem', opacity: 0.8}}>{locale === 'ti' ? 'ኣብ ኔዘርላንድስን መላእ ዓለምን' : 'Connecting Globally'}</div>
+                <div style={{fontSize: '0.95rem', fontWeight: 700}}>Netherlands</div>
+                <div style={{fontSize: '0.8rem', opacity: 0.8}}>{locale === 'ti' ? 'ኣብ ኔዘርላንድስ ዝርከብ ማሕበር' : 'Serving Nationwide'}</div>
               </div>
             </div>
             <div style={{display: 'flex', alignItems: 'center', gap: '0.85rem', borderLeft: '1px solid rgba(255,255,255,0.15)', paddingLeft: '1rem'}}>
@@ -433,8 +433,8 @@ export default function Home() {
           </h2>
           <p style={{opacity: 0.9, fontSize: '1.1rem', lineHeight: 1.6, marginBottom: '2.25rem'}}>
             {locale === 'ti'
-              ? 'ኣብ ኔዘርላንድስን መላእ ዓለምን ንዝርከቡ ኣባላት ማሕበረሰብ ከስከሰ ምላሽ ዝያዳ ሓያልን ዝተጠርነፈን ማሕበረሰብ ንምህናጽ ተጸንብሩና።'
-              : 'Join Association Keskese Milash in the Netherlands & Worldwide today and help foster social justice, equality, and well-being.'}
+              ? 'ኣብ ኔዘርላንድስ ንዝርከቡ ኣባላት ማሕበረሰብ ከስከሰ ምላሽ ዝያዳ ሓያልን ዝተጠርነፈን ማሕበረሰብ ንምህናጽ ተጸንብሩና።'
+              : 'Join Association Keskese Milash in the Netherlands today and help foster social justice, equality, and well-being.'}
           </p>
           <Link to="/membership" style={{
             background: '#D4A843', color: '#FFFFFF', padding: '0.95rem 2.5rem',
