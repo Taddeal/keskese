@@ -1,0 +1,74 @@
+[
+  {
+    "id": "cultural",
+    "icon": "🏛️",
+    "title_en": "Cultural Heritage",
+    "title_ti": "ባህላዊ ውርሻ",
+    "description_en": "Preserving and promoting Eritrean culture and history within the Netherlands.",
+    "description_ti": "ኣብ ውሽጢ ኔዘርላንድስ ባህልን ታሪኽን ኤርትራ ምዕቃብን ምልላይን።",
+    "items": [
+      {
+        "en": "Language classes for youth",
+        "ti": "ንመንእሰያት ዝወሃብ ትምህርቲ ቋንቋ"
+      },
+      {
+        "en": "Traditional music and dance workshops",
+        "ti": "ናይ ባህላዊ ሙዚቃን ሳዕስዒትን ስልጠናታት"
+      }
+    ]
+  },
+  {
+    "id": "support_projects",
+    "icon": "🤲",
+    "title_en": "Community Support",
+    "title_ti": "ደገፍ ማሕበረሰብ",
+    "description_en": "Initiatives focused on the immediate needs and long-term success of our members.",
+    "description_ti": "ኣብ ህጹጽ ድሌታትን ነዊሕ-እዋናዊ ዓወትን ኣባላትና ዘተኮሩ ተበግሶታት።",
+    "items": [
+      {
+        "en": "Mentorship programs for students",
+        "ti": "ንተምሃሮ ዝወሃብ ናይ ምኽርን ደገፍን መደባት"
+      },
+      {
+        "en": "Career guidance and networking events",
+        "ti": "ናይ ስራሕ መምርሒን ናይ ዝምድና መድረኻትን"
+      }
+    ]
+  },
+  {
+    "id": "sports",
+    "icon": "⚽",
+    "title_en": "Sports & Recreation",
+    "title_ti": "ስፖርትን መዘናግዕን",
+    "description_en": "Fostering physical health and teamwork through organized sports.",
+    "description_ti": "ብውዱብ ስፖርታዊ ንጥፈታት ኣካላዊ ጥዕናን ናይ ሓባር ስራሕን ምድንፋዕ።",
+    "items": [
+      {
+        "en": "Community soccer tournaments",
+        "ti": "ማሕበረሰባዊ ናይ ኩዕሶ እግሪ ውድድራት"
+      },
+      {
+        "en": "Family recreation days",
+        "ti": "ናይ ስድራቤት መዘናግዒ መዓልታት"
+      }
+    ]
+  },
+  {
+    "id": "center",
+    "icon": "🏢",
+    "title_en": "Community Center",
+    "title_ti": "ማእከል ማሕበረሰብ",
+    "description_en": "Working towards establishing a dedicated community center in the Netherlands.",
+    "description_ti": "ኣብ ኔዘርላንድስ ፍሉይ ማእከል ማሕበረሰብ ንምቛም ምስራሕ።",
+    "items": [
+      {
+        "en": "Fundraising campaigns",
+        "ti": "ወፈራታት እቶብ ገንዘብ"
+      },
+      {
+        "en": "Planning and development committees",
+        "ti": "ናይ መደብን ምዕባለን ኮሚተታት"
+      }
+    ]
+  }
+]

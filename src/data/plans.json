@@ -1,0 +1,74 @@
+[
+  {
+    "id": "membership",
+    "icon": "🤝",
+    "title_en": "Expanding Membership",
+    "title_ti": "ኣባልነት ምስፋሕ",
+    "description_en": "Actively recruiting more members to build a stronger and more unified Eritrean community in the Netherlands.",
+    "description_ti": "ኣብ ኔዘርላንድስ ዝያዳ ሓያልን ዝተወሃሃደን ማሕበረሰብ ኤርትራውያን ንምህናጽ ብንጥፈት ሓደስቲ ኣባላት ምምልማል።",
+    "items": [
+      {
+        "en": "Reaching out to Eritreans across the Netherlands",
+        "ti": "ኣብ መላእ ኔዘርላንድስ ዝርከቡ ኤርትራውያን ምብጻሕ"
+      },
+      {
+        "en": "Creating accessible membership programs",
+        "ti": "ተበጻሕነት ዘለዎ መደባት ኣባልነት ምድላው"
+      }
+    ]
+  },
+  {
+    "id": "support",
+    "icon": "🛡️",
+    "title_en": "Enhancing Support",
+    "title_ti": "ደገፍ ምሕያል",
+    "description_en": "Strengthening the support network to ensure the well-being of all members.",
+    "description_ti": "ንድሕነት ኩሎም ኣባላት ንምርግጋጽ መርበብ ደገፍ ምሕያል።",
+    "items": [
+      {
+        "en": "Providing assistance to newcomers",
+        "ti": "ንሓደስቲ መጻእቲ ሓገዝ ምቕራብ"
+      },
+      {
+        "en": "Offering guidance on navigating the Dutch system",
+        "ti": "ኣብ ስርዓት ኔዘርላንድስ ንምልማድ መምርሒ ምሃብ"
+      }
+    ]
+  },
+  {
+    "id": "community",
+    "icon": "👨‍👩‍👧‍👦",
+    "title_en": "Strengthening Community Ties",
+    "title_ti": "ማሕበራዊ ዝምድናታት ምድልዳል",
+    "description_en": "Organizing events and activities that promote unity and cultural heritage.",
+    "description_ti": "ሓድነትን ባህላዊ ውርሻን ዘስፋሕፍሑ ምድላዋትን ንጥፈታትን ምውዳብ።",
+    "items": [
+      {
+        "en": "Hosting cultural festivals and gatherings",
+        "ti": "ባህላዊ ፈስቲቫላትን ኣኼባታትን ምክያድ"
+      },
+      {
+        "en": "Facilitating networking among members",
+        "ti": "ኣብ መንጎ ኣባላት ዝምድናታት ምፍጣር"
+      }
+    ]
+  },
+  {
+    "id": "education",
+    "icon": "📚",
+    "title_en": "Promoting Education",
+    "title_ti": "ትምህርቲ ምድንፋዕ",
+    "description_en": "Supporting educational initiatives for the youth and adults alike.",
+    "description_ti": "ንመንእሰያትን ዓበይትን ዝጠቅም ትምህርታዊ ተበግሶታት ምድጋፍ።",
+    "items": [
+      {
+        "en": "Providing language and integration courses",
+        "ti": "ናይ ቋንቋን ውህደትን ትምህርቲ ምሃብ"
+      },
+      {
+        "en": "Offering workshops on skill development",
+        "ti": "ምዕባለ ክእለት ዘተባብዑ ዓውደ-ጽናዕትታት ምድላው"
+      }
+    ]
+  }
+]
