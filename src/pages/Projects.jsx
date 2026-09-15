@@ -235,12 +235,14 @@ export default function Projects() {
         <div className="container" style={{maxWidth:'650px'}}>
           <div style={{fontSize:'3rem', marginBottom:'0.75rem'}}>💡</div>
           <h2 style={{fontSize:'1.8rem', marginBottom:'0.75rem', fontWeight:700}}>
-            {locale === 'ti' ? 'ናይ ፕሮጀክት ሓሳብ ኣሎኩም?' : 'Have a Community Project Idea?'}
+            {locale === 'ti' ? 'ናይ ፕሮጀክት ሓሳብ ኣሎኩም?' : (locale === 'nl' ? 'Heeft u een idee voor een project?' : 'Have a Community Project Idea?')}
           </h2>
           <p style={{opacity:0.9, fontSize:'1.05rem', marginBottom:'2rem', lineHeight:'1.6'}}>
             {locale === 'ti'
               ? 'ንማሕበረሰብ ከስከሰ ምላሽ ዝጠቕሙ ሓደስቲ ተበግሶታትን ሓሳባትን ብሓጐስ ንቕበል።'
-              : 'We welcome community-led initiatives and proposals. If you have an idea that benefits the Keskese Milash Community in the Netherlands, reach out!'}
+              : (locale === 'nl'
+                ? 'We verwelkomen initiatieven uit de gemeenschap. Als u een idee heeft waar de Keskese Melash-gemeenschap in Nederland bij gebaat is, neem dan contact met ons op!'
+                : 'We welcome community-led initiatives and proposals. If you have an idea that benefits the Keskese Milash Community in the Netherlands, reach out!')}
           </p>
           <a 
             href="/contact" 
@@ -251,7 +253,7 @@ export default function Projects() {
               boxShadow: '0 4px 14px rgba(212,168,67,0.3)', border: 'none'
             }}
           >
-            {locale === 'ti' ? 'ሓሳብኩም ኣካፍሉና' : 'Pitch Your Project'} →
+            {locale === 'ti' ? 'ሓሳብኩም ኣካፍሉና' : (locale === 'nl' ? 'Dien uw idee in' : 'Pitch Your Project')} →
           </a>
         </div>
       </section>

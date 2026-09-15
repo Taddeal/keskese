@@ -39,7 +39,7 @@ export default function Contact() {
             fontSize:'0.85rem', letterSpacing:'0.05em', marginBottom:'0.75rem',
             backdropFilter: 'blur(4px)',
           }}>
-            {locale === 'ti' ? 'ተወከሱና' : 'Reach Out To Us'}
+            {locale === 'ti' ? 'ተወከሱና' : (locale === 'nl' ? 'Neem contact op' : 'Reach Out To Us')}
           </span>
           <h1 style={{fontSize:'2.5rem', margin:'0 0 0.5rem'}}>{t('contact.title')}</h1>
           <p style={{maxWidth:'600px', margin:'0 auto', opacity:0.9, fontSize:'1.05rem'}}>
@@ -73,7 +73,9 @@ export default function Contact() {
                   <p style={{color:'#6B7280', fontSize:'0.95rem', margin:0}}>
                     {locale === 'ti' 
                       ? 'መልእኽትኹም ኣእትዉ፡ ኣብ ሓጺር እዋን ክንምልሰልኩም ኢና።' 
-                      : 'Send us a message and we will get back to you as soon as possible.'}
+                      : (locale === 'nl' 
+                        ? 'Stuur ons een bericht en we nemen zo snel mogelijk contact met u op.' 
+                        : 'Send us a message and we will get back to you as soon as possible.')}
                   </p>
                 </div>
 
@@ -119,7 +121,7 @@ export default function Contact() {
                           border:'1.5px solid #E5E7EB', fontSize:'0.95rem',
                           transition:'all 0.2s ease', outline:'none'
                         }} 
-                        placeholder={locale === 'ti' ? 'ሽምኩም ኣእትዉ' : 'Enter your full name'}
+                        placeholder={locale === 'ti' ? 'ሽምኩም ኣእትዉ' : (locale === 'nl' ? 'Voer uw volledige naam in' : 'Enter your full name')}
                         required 
                         type="text" 
                         name="name" 
@@ -140,7 +142,7 @@ export default function Contact() {
                           border:'1.5px solid #E5E7EB', fontSize:'0.95rem',
                           transition:'all 0.2s ease', outline:'none'
                         }} 
-                        placeholder={locale === 'ti' ? 'ኣድራሻ ኢመይልኩም' : 'name@example.com'}
+                        placeholder={locale === 'ti' ? 'ኣድራሻ ኢመይልኩም' : (locale === 'nl' ? 'naam@voorbeeld.nl' : 'name@example.com')}
                         required 
                         type="email" 
                         name="email" 
@@ -161,7 +163,7 @@ export default function Contact() {
                           border:'1.5px solid #E5E7EB', fontSize:'0.95rem',
                           transition:'all 0.2s ease', outline:'none'
                         }} 
-                        placeholder={locale === 'ti' ? 'ኣርእስቲ መልእኽቲ' : 'How can we help?'}
+                        placeholder={locale === 'ti' ? 'ኣርእስቲ መልእኽቲ' : (locale === 'nl' ? 'Hoe kunnen we u helpen?' : 'How can we help?')}
                         type="text" 
                         name="subject" 
                         value={formData.subject} 
@@ -181,7 +183,7 @@ export default function Contact() {
                           border:'1.5px solid #E5E7EB', fontSize:'0.95rem',
                           transition:'all 0.2s ease', outline:'none', resize:'vertical'
                         }} 
-                        placeholder={locale === 'ti' ? 'መልእኽትኹም ኣብዚ ጽሓፉ...' : 'Write your message here...'}
+                        placeholder={locale === 'ti' ? 'መልእኽትኹም ኣብዚ ጽሓፉ...' : (locale === 'nl' ? 'Schrijf hier uw bericht...' : 'Write your message here...')}
                         required 
                         name="message" 
                         rows="5" 
@@ -325,12 +327,14 @@ export default function Contact() {
                 <div style={{fontSize:'2rem'}}>⏱️</div>
                 <div>
                   <h4 style={{margin:'0 0 0.2rem', color:'#145A30', fontSize:'0.95rem', fontWeight:700}}>
-                    {locale === 'ti' ? 'ቀልጣፋ ምላሽ' : 'Quick Response Time'}
+                    {locale === 'ti' ? 'ቀልጣፋ ምላሽ' : (locale === 'nl' ? 'Snelle reactietijd' : 'Quick Response Time')}
                   </h4>
                   <p style={{margin:0, color:'#4B5563', fontSize:'0.85rem'}}>
                     {locale === 'ti'
                       ? 'ንኩሎም ሕቶታት ኣብ ውሽጢ 24 ሰዓታት ምላሽ ንህበሎም።'
-                      : 'We aim to respond to all inquiries within 24 business hours.'}
+                      : (locale === 'nl'
+                        ? 'We streven ernaar om alle vragen binnen 24 uur te beantwoorden.'
+                        : 'We aim to respond to all inquiries within 24 business hours.')}
                   </p>
                 </div>
               </div>

@@ -53,7 +53,7 @@ export default function Footer() {
               padding: '0.4rem 0.8rem', borderRadius: '8px', background: 'rgba(255,255,255,0.05)',
               fontSize: '0.78rem', color: '#D4A843', border: '1px solid rgba(212,168,67,0.2)'
             }}>
-              ⚖️ {locale === 'ti' ? 'ቅንዕና • ግልጽነት • ተሓታትነት • ሓላፍነት' : 'Integrity • Transparency • Accountability'}
+              ⚖️ {locale === 'ti' ? 'ቅንዕና • ግልጽነት • ተሓታትነት • ሓላፍነት' : (locale === 'nl' ? 'Eerlijkheid • Transparantie • Verantwoording' : 'Integrity • Transparency • Accountability')}
             </div>
           </div>
 
@@ -117,7 +117,7 @@ export default function Footer() {
               marginBottom: '1.25rem', borderBottom: '2px solid #D4A843', paddingBottom: '0.5rem',
               display: 'inline-block'
             }}>
-              {locale === 'ti' ? 'ተሳተፉ' : 'Get Involved'}
+              {locale === 'ti' ? 'ተሳተፉ' : (locale === 'nl' ? 'Doe mee' : 'Get Involved')}
             </h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
               <li>
@@ -138,7 +138,7 @@ export default function Footer() {
               </li>
               <li>
                 <span style={{ color: '#6B7280', fontSize: '0.88rem' }}>
-                  📍 {locale === 'ti' ? 'ኣብ ኔዘርላንድስ' : 'Based in the Netherlands'}
+                  📍 {locale === 'ti' ? 'ኣብ ኔዘርላንድስ' : (locale === 'nl' ? 'Gevestigd in Nederland' : 'Based in the Netherlands')}
                 </span>
               </li>
             </ul>

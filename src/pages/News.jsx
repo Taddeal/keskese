@@ -37,7 +37,7 @@ export default function News() {
             fontSize:'0.85rem', letterSpacing:'0.05em', marginBottom:'0.75rem',
             backdropFilter: 'blur(4px)',
           }}>
-            📰 {locale === 'ti' ? 'ሓበሬታታትን ፍጻመታትን' : 'Updates & Announcements'}
+            📰 {locale === 'ti' ? 'ሓበሬታታትን ፍጻመታትን' : (locale === 'nl' ? 'Nieuws & Aankondigingen' : 'Updates & Announcements')}
           </span>
           <h1 style={{fontSize:'2.5rem', margin:'0 0 0.5rem'}}>{t('nav.news')}</h1>
           <p style={{maxWidth:'600px', margin:'0 auto', opacity:0.9, fontSize:'1.05rem'}}>
@@ -58,7 +58,7 @@ export default function News() {
             }}>
               <div style={{fontSize:'3.5rem', marginBottom:'1rem'}}>📢</div>
               <h3 style={{fontSize:'1.35rem', color:'#1A1A2E', marginBottom:'0.5rem', fontWeight:700}}>
-                {locale === 'ti' ? 'ዝተሓትመ ዜና የለን' : 'No News Posts Yet'}
+                {locale === 'ti' ? 'ዝተሓትመ ዜና የለን' : (locale === 'nl' ? 'Nog geen nieuwsberichten' : 'No News Posts Yet')}
               </h3>
               <p style={{color:'#6B7280', fontSize:'1rem', maxWidth:'450px', margin:'0 auto'}}>
                 {t('news.noPosts')}

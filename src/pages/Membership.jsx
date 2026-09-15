@@ -8,32 +8,40 @@ const benefits = [
     icon: '🤝',
     titleEn: 'Supportive Network',
     titleTi: 'ደጋፊ መርበብ',
+    titleNl: 'Ondersteunend netwerk',
     descEn: 'Connect with Keskese Milash Community families and individuals across the Netherlands for guidance and mutual help.',
     descTi: 'ምስ ኣብ ኔዘርላንድስ ዝርከቡ ስድራቤታትን ውልቀሰባትን ማሕበረሰብ ከስከሰ ምላሽ ንምስናይን ሓድሕዳዊ ደገፍን ተራኸቡ።',
+    descNl: 'Kom in contact met gezinnen en individuen in de Keskese gemeenschap in Nederland om elkaar te begeleiden en te ondersteunen.',
     color: '#1A6B3C',
   },
   {
     icon: '🏺',
     titleEn: 'Cultural Heritage',
     titleTi: 'ባህላዊ ውርሻ',
+    titleNl: 'Cultureel erfgoed',
     descEn: 'Participate in cultural celebrations, language programs, and community traditions.',
     descTi: 'ኣብ ባህላዊ በዓላት፡ ናይ ቋንቋ መደባትን ማሕበረሰባዊ ልምድታትን ተሳተፉ።',
+    descNl: 'Neem deel aan culturele vieringen, taalprogramma\'s en gemeenschapstradities.',
     color: '#D4A843',
   },
   {
     icon: '🌱',
     titleEn: 'Youth & Family Programs',
     titleTi: 'መደባት መንእሰያትን ስድራቤታትን',
+    titleNl: 'Jeugd- & familieprogramma\'s',
     descEn: 'Educational workshops, sports activities, and mentorship for the younger generation.',
-    descTi: 'ንመጻኢ  my ማሕበረሰብና ዝሕግዙ ትምህርታዊ ዎርክሾፓት፡ ስፖርታውን ናይ ምኽሪ መደባትን።',
+    descTi: 'ንመጻኢ ማሕበረሰብና ዝሕግዙ ትምህርታዊ ዎርክሾፓት፡ ስፖርታውን ናይ ምኽሪ መደባትን።',
+    descNl: 'Educatieve workshops, sportactiviteiten en begeleiding voor de jongere generatie.',
     color: '#1E3A5F',
   },
   {
     icon: '⚖️',
     titleEn: 'Advocacy & Social Justice',
     titleTi: 'ማሕበራዊ ፍትሕን ወኪልነትን',
+    titleNl: 'Belangenbehartiging & sociale rechtvaardigheid',
     descEn: 'Upholding accountability, equality, and representing our community interests.',
     descTi: 'ተሓታትነትን ማዕርነትን ብምኽባር ንረብሓታት ማሕበረሰብና ምውካልን ምጉስጓስን።',
+    descNl: 'Verantwoording en gelijkheid hoog in het vaandel dragen en de belangen van onze gemeenschap vertegenwoordigen.',
     color: '#C23B22',
   },
 ];
@@ -95,7 +103,7 @@ export default function Membership() {
             fontSize:'0.85rem', letterSpacing:'0.05em', marginBottom:'0.75rem',
             backdropFilter: 'blur(4px)',
           }}>
-            {locale === 'ti' ? 'ኣባልነት ማሕበር' : 'Association Membership'}
+            {locale === 'ti' ? 'ኣባልነት ማሕበር' : (locale === 'nl' ? 'Verenigingslidmaatschap' : 'Association Membership')}
           </span>
           <h1 style={{fontSize:'2.5rem', margin:'0 0 0.5rem'}}>{t('membership.title')}</h1>
           <p style={{maxWidth:'650px', margin:'0 auto', opacity:0.9, fontSize:'1.05rem'}}>
@@ -120,15 +128,17 @@ export default function Membership() {
                   color:'#1A6B3C', fontWeight:700, fontSize:'0.85rem',
                   letterSpacing:'0.08em', textTransform:'uppercase', display:'block', marginBottom:'0.4rem'
                 }}>
-                  {locale === 'ti' ? 'ስለምንታይ ኣባል ትኾኑ?' : 'Why Join Keskese Milash?'}
+                  {locale === 'ti' ? 'ስለምንታይ ኣባል ትኾኑ?' : (locale === 'nl' ? 'Waarom lid worden van Keskese Melash?' : 'Why Join Keskese Milash?')}
                 </span>
                 <h2 style={{fontSize:'1.85rem', color:'#1A1A2E', fontWeight:700, margin:'0 0 0.75rem'}}>
-                  {locale === 'ti' ? 'ናይ ኣባልነት ረብሓታት' : 'Member Benefits & Opportunities'}
+                  {locale === 'ti' ? 'ናይ ኣባልነት ረብሓታት' : (locale === 'nl' ? 'Lidmaatschapsvoordelen & kansen' : 'Member Benefits & Opportunities')}
                 </h2>
                 <p style={{color:'#6B7280', fontSize:'0.98rem', lineHeight:'1.75', margin:0}}>
                   {locale === 'ti'
                     ? 'ኣብ ማሕበርና ብምጽንባር፡ ንሓድነት ማሕበረሰብና ኣብ ምድልዳል ኣበርክቶ እናገበርኩም፡ ኣብ ዝተፈላለዩ ደገፋትን መደባትን ተሳተፍቲ ትኾኑ።'
-                    : 'By joining Association Keskese Milash, you become an active partner in strengthening our community while accessing support networks and cultural programs.'}
+                    : (locale === 'nl'
+                      ? 'Door lid te worden van de Keskese Melash Vereniging wordt u een actieve partner in het versterken van onze gemeenschap.'
+                      : 'By joining Association Keskese Milash, you become an active partner in strengthening our community while accessing support networks and cultural programs.')}
                 </p>
               </div>
 
@@ -158,10 +168,10 @@ export default function Membership() {
                     </div>
                     <div>
                       <h3 style={{fontSize:'1.05rem', fontWeight:700, color:'#1A1A2E', margin:'0 0 0.25rem'}}>
-                        {locale === 'ti' ? b.titleTi : b.titleEn}
+                        {locale === 'ti' ? b.titleTi : (locale === 'nl' ? b.titleNl : b.titleEn)}
                       </h3>
                       <p style={{color:'#6B7280', fontSize:'0.9rem', lineHeight:'1.6', margin:0}}>
-                        {locale === 'ti' ? b.descTi : b.descEn}
+                        {locale === 'ti' ? b.descTi : (locale === 'nl' ? b.descNl : b.descEn)}
                       </p>
                     </div>
                   </div>
@@ -177,12 +187,14 @@ export default function Membership() {
                 <div style={{fontSize:'2.2rem'}}>🌍</div>
                 <div>
                   <h4 style={{margin:'0 0 0.25rem', fontSize:'1.05rem', fontWeight:700}}>
-                    {locale === 'ti' ? 'ኣብ መላእ ኔዘርላንድስ' : 'Open to All Community Members'}
+                    {locale === 'ti' ? 'ኣብ መላእ ኔዘርላንድስ' : (locale === 'nl' ? 'Open voor alle leden van de gemeenschap' : 'Open to All Community Members')}
                   </h4>
                   <p style={{margin:0, opacity:0.88, fontSize:'0.88rem', lineHeight:'1.5'}}>
                     {locale === 'ti'
                       ? 'ኣብ ኔዘርላንድስ ዝነብሩ ኣባላት ማሕበረሰብናን ፈተውትናን ኣባላት ክኾኑ ይኽእሉ።'
-                      : 'Whether you recently moved or have resided in the Netherlands for years, everyone is welcome.'}
+                      : (locale === 'nl'
+                        ? 'Of u nu onlangs bent verhuisd of al jaren in Nederland woont, iedereen is welkom.'
+                        : 'Whether you recently moved or have resided in the Netherlands for years, everyone is welcome.')}
                   </p>
                 </div>
               </div>
@@ -200,12 +212,14 @@ export default function Membership() {
               <div className="card-body" style={{padding:'2.5rem'}}>
                 <div style={{marginBottom:'2rem', borderBottom:'2px solid #FDF6E3', pb:'1rem'}}>
                   <h2 style={{fontSize:'1.6rem', color:'#1A1A2E', marginBottom:'0.5rem', fontWeight:700}}>
-                    {locale === 'ti' ? 'ናይ ኣባልነት ፎርም' : 'Membership Registration'}
+                    {locale === 'ti' ? 'ናይ ኣባልነት ፎርም' : (locale === 'nl' ? 'Lidmaatschapsregistratie' : 'Membership Registration')}
                   </h2>
                   <p style={{color:'#6B7280', fontSize:'0.95rem', margin:0}}>
                     {locale === 'ti'
                       ? 'ሓበሬታኹም ብምምላእ ምስ ማሕበርና ተጸንበሩ።'
-                      : 'Fill in your details below to submit your membership application.'}
+                      : (locale === 'nl'
+                        ? 'Vul hieronder uw gegevens in om uw lidmaatschapsaanvraag in te dienen.'
+                        : 'Fill in your details below to submit your membership application.')}
                   </p>
                 </div>
 
@@ -229,7 +243,9 @@ export default function Membership() {
                     <p style={{color:'#374151', fontSize:'0.95rem', marginBottom:'1.5rem'}}>
                       {locale === 'ti' 
                         ? 'ብዕዉት ተመዝጊብኩም ኣለኹም። ቀልጢፍና ክንራኸበኩም ኢና።' 
-                        : 'Your membership application has been received! Our team will contact you shortly.'}
+                        : (locale === 'nl'
+                          ? 'Uw lidmaatschapsaanvraag is ontvangen! Ons team neemt binnenkort contact met u op.'
+                          : 'Your membership application has been received! Our team will contact you shortly.')}
                     </p>
                     <button 
                       className="btn btn-primary"
@@ -253,7 +269,7 @@ export default function Membership() {
                           border: errors.name ? '1.5px solid #C23B22' : '1.5px solid #E5E7EB',
                           fontSize:'0.95rem', transition:'all 0.2s ease', outline:'none'
                         }} 
-                        placeholder={locale === 'ti' ? 'ምሉእ ሽምኩም ኣእትዉ' : 'First and Last Name'}
+                        placeholder={locale === 'ti' ? 'ምሉእ ሽምኩም ኣእትዉ' : (locale === 'nl' ? 'Voor- en achternaam' : 'First and Last Name')}
                         type="text" 
                         name="name" 
                         value={formData.name} 
@@ -274,7 +290,7 @@ export default function Membership() {
                           border: errors.email ? '1.5px solid #C23B22' : '1.5px solid #E5E7EB',
                           fontSize:'0.95rem', transition:'all 0.2s ease', outline:'none'
                         }} 
-                        placeholder={locale === 'ti' ? 'ኢመይል ኣድራሻ' : 'email@example.com'}
+                        placeholder={locale === 'ti' ? 'ኢመይል ኣድራሻ' : (locale === 'nl' ? 'e-mail@voorbeeld.nl' : 'email@example.com')}
                         type="email" 
                         name="email" 
                         value={formData.email} 
@@ -295,7 +311,7 @@ export default function Membership() {
                           border: errors.phone ? '1.5px solid #C23B22' : '1.5px solid #E5E7EB',
                           fontSize:'0.95rem', transition:'all 0.2s ease', outline:'none'
                         }} 
-                        placeholder={locale === 'ti' ? 'ቁጽሪ ስልኪ (+31...)' : '+31 6 12345678'}
+                        placeholder={locale === 'ti' ? 'ቁጽሪ ስልኪ (+31...)' : (locale === 'nl' ? '+31 6 12345678' : '+31 6 12345678')}
                         type="tel" 
                         name="phone" 
                         value={formData.phone} 
@@ -307,7 +323,7 @@ export default function Membership() {
                     {/* Message / Areas of Interest */}
                     <div className="form-group">
                       <label className="form-label" style={{fontWeight:600, color:'#374151', marginBottom:'0.4rem', display:'flex', alignItems:'center', gap:'0.4rem'}}>
-                        <span>📝</span> {locale === 'ti' ? 'ተወሳኺ ሓበሬታ / ድልየታት (እግረ-መንገዲ)' : 'Additional Notes / Interests (Optional)'}
+                        <span>📝</span> {locale === 'ti' ? 'ተወሳኺ ሓበሬታ / ድልየታት (እግረ-መንገዲ)' : (locale === 'nl' ? 'Aanvullende opmerkingen / interesses (optioneel)' : 'Additional Notes / Interests (Optional)')}
                       </label>
                       <textarea 
                         className="form-textarea"
@@ -318,7 +334,9 @@ export default function Membership() {
                         }} 
                         placeholder={locale === 'ti' 
                           ? 'ብኸመይ ክትሳተፉ ከምትደልዩ ё ብዛዕባኹም ሓጺር መግለጺ...' 
-                          : 'Tell us how you would like to participate or any specific areas of interest...'}
+                          : (locale === 'nl'
+                            ? 'Vertel ons hoe u wilt deelnemen of specifieke interessegebieden...'
+                            : 'Tell us how you would like to participate or any specific areas of interest...')}
                         name="message" 
                         rows="4" 
                         value={formData.message} 
@@ -350,7 +368,7 @@ export default function Membership() {
                       {status.loading ? (
                         <><span>⌛</span> {t('form.submitting')}</>
                       ) : (
-                        <><span>🤝</span> {locale === 'ti' ? 'ኣባልነተይ ኣረጋግጽ' : 'Complete Registration'}</>
+                        <><span>🤝</span> {locale === 'ti' ? 'ኣባልነተይ ኣረጋግጽ' : (locale === 'nl' ? 'Registratie voltooien' : 'Complete Registration')}</>
                       )}
                     </button>
                   </form>

@@ -55,7 +55,7 @@ export default function Home() {
               color: '#FDF6E3', fontSize: '0.88rem', fontWeight: 600, letterSpacing: '0.05em',
               backdropFilter: 'blur(6px)',
             }}>
-              ✨ {locale === 'ti' ? 'ማሕበር ከስከሰ ምላሽ ኔዘርላንድስ' : 'ASSOCIATION KESKESE MILASH NETHERLANDS'}
+              ✨ {locale === 'ti' ? 'ማሕበር ከስከሰ ምላሽ ኔዘርላንድስ' : (locale === 'nl' ? 'VERENIGING KESKESE MELASH NEDERLAND' : 'ASSOCIATION KESKESE MILASH NETHERLANDS')}
             </span>
           </div>
 
@@ -118,22 +118,22 @@ export default function Home() {
             <div style={{display: 'flex', alignItems: 'center', gap: '0.85rem'}}>
               <div style={{fontSize: '1.8rem'}}>🇳🇱</div>
               <div>
-                <div style={{fontSize: '0.95rem', fontWeight: 700}}>Netherlands</div>
-                <div style={{fontSize: '0.8rem', opacity: 0.8}}>{locale === 'ti' ? 'ኣብ ኔዘርላንድስ ዝርከብ ማሕበር' : 'Serving Nationwide'}</div>
+                <div style={{fontSize: '0.95rem', fontWeight: 700}}>{locale === 'ti' ? 'ኔዘርላንድስ' : (locale === 'nl' ? 'Nederland' : 'Netherlands')}</div>
+                <div style={{fontSize: '0.8rem', opacity: 0.8}}>{locale === 'ti' ? 'ኣብ ኔዘርላንድስ ዝርከብ ማሕበር' : (locale === 'nl' ? 'Landelijke gemeenschap' : 'Serving Nationwide')}</div>
               </div>
             </div>
             <div style={{display: 'flex', alignItems: 'center', gap: '0.85rem', borderLeft: '1px solid rgba(255,255,255,0.15)', paddingLeft: '1rem'}}>
               <div style={{fontSize: '1.8rem'}}>🏛️</div>
               <div>
-                <div style={{fontSize: '0.95rem', fontWeight: 700}}>Historic Roots</div>
-                <div style={{fontSize: '0.8rem', opacity: 0.8}}>{locale === 'ti' ? 'ታሪኻዊ ስም ከስከሰ' : 'Ancient Heritage'}</div>
+                <div style={{fontSize: '0.95rem', fontWeight: 700}}>{locale === 'ti' ? 'ታሪኻዊ ስም' : (locale === 'nl' ? 'Historische wortels' : 'Historic Roots')}</div>
+                <div style={{fontSize: '0.8rem', opacity: 0.8}}>{locale === 'ti' ? 'ታሪኻዊ ስም ከስከሰ' : (locale === 'nl' ? 'Oud erfgoed' : 'Ancient Heritage')}</div>
               </div>
             </div>
             <div style={{display: 'flex', alignItems: 'center', gap: '0.85rem', borderLeft: '1px solid rgba(255,255,255,0.15)', paddingLeft: '1rem'}}>
               <div style={{fontSize: '1.8rem'}}>🤝</div>
               <div>
-                <div style={{fontSize: '0.95rem', fontWeight: 700}}>Community First</div>
-                <div style={{fontSize: '0.8rem', opacity: 0.8}}>{locale === 'ti' ? 'ማሕበራዊ ፍትሕን ድሕነትን' : 'Unity & Social Justice'}</div>
+                <div style={{fontSize: '0.95rem', fontWeight: 700}}>{locale === 'ti' ? 'ማሕበረሰብ ቀዳምነት' : (locale === 'nl' ? 'Gemeenschap eerst' : 'Community First')}</div>
+                <div style={{fontSize: '0.8rem', opacity: 0.8}}>{locale === 'ti' ? 'ማሕበራዊ ፍትሕን ድሕነትን' : (locale === 'nl' ? 'Eenheid & Rechtvaardigheid' : 'Unity & Social Justice')}</div>
               </div>
             </div>
           </div>
@@ -190,7 +190,7 @@ export default function Home() {
               {t('home.quickLinksTitle')}
             </span>
             <h2 style={{fontSize: '2.25rem', color: '#1A1A2E', fontWeight: 700, margin: 0}}>
-              {locale === 'ti' ? 'ዓውድታት ስራሕና' : 'Explore Our Key Initiatives'}
+              {locale === 'ti' ? 'ዓውድታት ስራሕና' : (locale === 'nl' ? 'Ontdek onze belangrijkste initiatieven' : 'Explore Our Key Initiatives')}
             </h2>
           </div>
 
@@ -346,7 +346,7 @@ export default function Home() {
               {t('about.valuesTitle')}
             </span>
             <h2 style={{fontSize: '2rem', color: '#1A1A2E', fontWeight: 700, margin: 0}}>
-              {locale === 'ti' ? 'መሰረታውያን መትከላትና' : 'Guiding Pillars of Governance'}
+              {locale === 'ti' ? 'መሰረታውያን መትከላትና' : (locale === 'nl' ? 'Pijlers van ons bestuur' : 'Guiding Pillars of Governance')}
             </h2>
           </div>
 
@@ -389,18 +389,23 @@ export default function Home() {
                   {t('nav.news')}
                 </h2>
                 <p style={{color: '#6B7280', margin: 0, fontSize: '0.95rem'}}>
-                  {locale === 'ti' ? 'ሓደስቲ ሓበሬታታትን ፍጻመታትን' : 'Latest announcements and community news'}
+                  {locale === 'ti' ? 'ሓደስቲ ሓበሬታታትን ፍጻመታትን' : (locale === 'nl' ? 'Laatste aankondigingen en nieuws' : 'Latest announcements and community news')}
                 </p>
               </div>
               <Link to="/news" className="btn btn-secondary" style={{borderRadius: '8px'}}>
-                {locale === 'ti' ? 'ኩሎም ዜናታት ርኣዩ' : 'View All News'} &rarr;
+                {locale === 'ti' ? 'ኩሎም ዜናታት ርኣዩ' : (locale === 'nl' ? 'Bekijk al het nieuws' : 'View All News')} &rarr;
               </Link>
             </div>
 
             <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem'}}>
               {latestNews.map(item => {
-                const title = locale === 'ti' && item.title_ti ? item.title_ti : item.title_en;
-                const body = locale === 'ti' && item.body_ti ? item.body_ti : item.body_en;
+                let title = item.title_en;
+                if (locale === 'ti' && item.title_ti) title = item.title_ti;
+                if (locale === 'nl' && item.title_nl) title = item.title_nl;
+
+                let body = item.body_en;
+                if (locale === 'ti' && item.body_ti) body = item.body_ti;
+                if (locale === 'nl' && item.body_nl) body = item.body_nl;
                 return (
                   <div key={item.id} style={{
                     background: '#FFFFFF', borderRadius: '16px', padding: '1.5rem',
@@ -429,12 +434,14 @@ export default function Home() {
         <div className="container" style={{maxWidth: '700px'}}>
           <div style={{fontSize: '3rem', marginBottom: '0.5rem'}}>🤝</div>
           <h2 style={{fontSize: '2.2rem', fontWeight: 800, marginBottom: '0.85rem'}}>
-            {locale === 'ti' ? 'ንሓደስቲ ኣባላት ዕድመ' : 'Together We Build Our Community'}
+            {locale === 'ti' ? 'ንሓደስቲ ኣባላት ዕድመ' : (locale === 'nl' ? 'Samen bouwen we aan onze gemeenschap' : 'Together We Build Our Community')}
           </h2>
           <p style={{opacity: 0.9, fontSize: '1.1rem', lineHeight: 1.6, marginBottom: '2.25rem'}}>
             {locale === 'ti'
               ? 'ኣብ ኔዘርላንድስ ንዝርከቡ ኣባላት ማሕበረሰብ ከስከሰ ምላሽ ዝያዳ ሓያልን ዝተጠርነፈን ማሕበረሰብ ንምህናጽ ተጸንብሩና።'
-              : 'Join Association Keskese Milash in the Netherlands today and help foster social justice, equality, and well-being.'}
+              : (locale === 'nl'
+                ? 'Sluit je vandaag nog aan bij de Keskese Melash Vereniging in Nederland en help mee sociale rechtvaardigheid, gelijkheid en veiligheid te bevorderen.'
+                : 'Join Association Keskese Milash in the Netherlands today and help foster social justice, equality, and well-being.')}
           </p>
           <Link to="/membership" style={{
             background: '#D4A843', color: '#FFFFFF', padding: '0.95rem 2.5rem',

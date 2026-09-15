@@ -22,7 +22,7 @@ export default function Plans() {
             fontSize:'0.85rem', letterSpacing:'0.05em', marginBottom:'0.75rem',
             backdropFilter: 'blur(4px)',
           }}>
-            🎯 {locale === 'ti' ? 'ንመጻኢ ዝተነድፉ መደባት' : 'Strategic Roadmap'}
+            🎯 {locale === 'ti' ? 'ንመጻኢ ዝተነድፉ መደባት' : (locale === 'nl' ? 'Strategisch Actieplan' : 'Strategic Roadmap')}
           </span>
           <h1 style={{fontSize:'2.5rem', margin:'0 0 0.5rem'}}>{t('plans.title')}</h1>
           <p style={{maxWidth:'650px', margin:'0 auto', opacity:0.9, fontSize:'1.05rem'}}>
@@ -41,19 +41,19 @@ export default function Plans() {
             <div style={{padding:'1rem'}}>
               <div style={{fontSize:'2.2rem', fontWeight:800, color:'#1A6B3C', marginBottom:'0.25rem'}}>4</div>
               <div style={{color:'#6B7280', fontSize:'0.9rem', fontWeight:600}}>
-                {locale === 'ti' ? 'ስትራተጂካዊ ዓውድታት' : 'Strategic Pillars'}
+                {locale === 'ti' ? 'ስትራተጂካዊ ዓውድታት' : (locale === 'nl' ? 'Strategische Pijlers' : 'Strategic Pillars')}
               </div>
             </div>
             <div style={{padding:'1rem', borderLeft:'1px solid #F0F0F0', borderRight:'1px solid #F0F0F0'}}>
               <div style={{fontSize:'2.2rem', fontWeight:800, color:'#1E3A5F', marginBottom:'0.25rem'}}>NL</div>
               <div style={{color:'#6B7280', fontSize:'0.9rem', fontWeight:600}}>
-                {locale === 'ti' ? 'ኣብ መላእ ኔዘርላንድስ' : 'Nationwide Reach'}
+                {locale === 'ti' ? 'ኣብ መላእ ኔዘርላንድስ' : (locale === 'nl' ? 'Landelijke Dekking' : 'Nationwide Reach')}
               </div>
             </div>
             <div style={{padding:'1rem'}}>
               <div style={{fontSize:'2.2rem', fontWeight:800, color:'#D4A843', marginBottom:'0.25rem'}}>100%</div>
               <div style={{color:'#6B7280', fontSize:'0.9rem', fontWeight:600}}>
-                {locale === 'ti' ? 'ብማሕበረሰብ ዝምራሕ' : 'Community Driven'}
+                {locale === 'ti' ? 'ብማሕበረሰብ ዝምራሕ' : (locale === 'nl' ? 'Gemeenschapsgestuurd' : 'Community Driven')}
               </div>
             </div>
           </div>

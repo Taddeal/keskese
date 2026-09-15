@@ -21,6 +21,12 @@ const valueDescriptions = {
     accountability: 'ንቃላትና ሓላፍነት ንወስድ ንኣባላትናን ማሕበረሰብናን ተሓታትነት ኣለና።',
     responsibility: 'ንማሕበረሰብና ናይ ምግልጋልን ምሕላውን ግቡኣትና ብምእንቃቕ ብጥንቃቐን ብህርፋንን ንሰርሕ።',
   },
+  nl: {
+    integrity: 'Wij hanteren de hoogste normen van eerlijkheid en morele principes in al onze acties en besluiten.',
+    transparency: 'Wij werken openlijk en delen informatie vrijelijk, wat zorgt voor vertrouwen binnen onze gemeenschap.',
+    accountability: 'Wij nemen verantwoordelijkheid voor onze toezeggingen en leggen verantwoording af aan onze leden en gemeenschap.',
+    responsibility: 'Wij handelen met zorg en toewijding, bewust van onze plicht om onze gemeenschap te dienen en te beschermen.',
+  }
 };
 
 export default function About() {
@@ -158,13 +164,15 @@ export default function About() {
               color:'#1A6B3C', fontWeight:600, fontSize:'0.85rem', letterSpacing:'0.05em',
               textTransform:'uppercase', marginBottom:'1rem',
             }}>
-              {locale === 'ti' ? 'መትከላትና' : 'What We Stand For'}
+              {locale === 'ti' ? 'መትከላትና' : (locale === 'nl' ? 'Waar wij voor staan' : 'What We Stand For')}
             </span>
             <h2 style={{fontSize:'2.25rem', color:'#1A1A2E', marginBottom:'0.75rem'}}>{t('about.valuesTitle')}</h2>
             <p style={{color:'#6B7280', maxWidth:'500px', margin:'0 auto', fontSize:'1.05rem'}}>
               {locale === 'ti'
                 ? 'ኣብ ኩሉ ስራሕና ዝመርሑና መሰረታውያን መትከላት'
-                : 'The foundational principles that guide everything we do'}
+                : (locale === 'nl'
+                  ? 'De fundamentele principes die al onze activiteiten leiden'
+                  : 'The foundational principles that guide everything we do')}
             </p>
           </div>
 
@@ -217,12 +225,14 @@ export default function About() {
       }}>
         <div className="container" style={{maxWidth:'600px'}}>
           <h2 style={{fontSize:'1.75rem', marginBottom:'1rem'}}>
-            {locale === 'ti' ? 'ተጸንብሩና' : 'Be Part of Our Story'}
+            {locale === 'ti' ? 'ተጸንብሩና' : (locale === 'nl' ? 'Word onderdeel van ons verhaal' : 'Be Part of Our Story')}
           </h2>
           <p style={{opacity:0.85, marginBottom:'2rem', fontSize:'1.05rem'}}>
             {locale === 'ti'
               ? 'ኣብዚ ማሕበረሰብ ተጸንቢርኩም ለውጢ ንምምጻእ ሓግዙ።'
-              : 'Join our growing community and help us preserve our heritage and build a brighter future together.'}
+              : (locale === 'nl'
+                ? 'Sluit je aan bij onze groeiende gemeenschap en help ons ons erfgoed te behouden en samen aan een betere toekomst te bouwen.'
+                : 'Join our growing community and help us preserve our heritage and build a brighter future together.')}
           </p>
           <a href="/membership" className="btn" style={{
             background:'#D4A843', color:'#FFFFFF', padding:'0.85rem 2.5rem',
