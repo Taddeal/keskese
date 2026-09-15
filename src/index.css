@@ -267,7 +267,8 @@ img {
 
 .nav-links {
   display: flex;
-  gap: var(--space-lg);
+  gap: 1.15rem;
+  align-items: center;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -278,6 +279,8 @@ img {
   font-weight: 500;
   padding: 0.5rem 0;
   position: relative;
+  white-space: nowrap;
+  font-size: 0.93rem;
 }
 
 .nav-link:hover {

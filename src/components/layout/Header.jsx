@@ -11,13 +11,13 @@ export default function Header() {
 
   return (
     <header className="header">
-      <div className="container flex-between">
-        <NavLink to="/" className="logo nav-link" onClick={closeMobileMenu} style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
+      <div className="container flex-between" style={{maxWidth:'1280px', display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%'}}>
+        <NavLink to="/" className="logo nav-link" onClick={closeMobileMenu} style={{display:'flex',alignItems:'center',gap:'0.5rem',flexShrink:0,marginRight:'1rem'}}>
           <img src="/logo.png" alt="Keskese Milash" style={{height:'40px',width:'40px',borderRadius:'50%',objectFit:'cover'}} />
-          <h2>Keskese Milash</h2>
+          <h2 style={{fontSize:'1.25rem', margin:0, whiteSpace:'nowrap'}}>Keskese Milash</h2>
         </NavLink>
         
-        <nav className={`nav ${mobileMenuOpen ? 'mobile-menu-open' : ''}`}>
+        <nav className={`nav ${mobileMenuOpen ? 'mobile-menu-open' : ''}`} style={{display:'flex', justifyContent:'center'}}>
           <div className="nav-links">
             <NavLink to="/" className="nav-link" onClick={closeMobileMenu}>{t('nav.home')}</NavLink>
             <NavLink to="/about" className="nav-link" onClick={closeMobileMenu}>{t('nav.about')}</NavLink>
@@ -29,7 +29,7 @@ export default function Header() {
           </div>
         </nav>
 
-        <div className="header-actions flex items-center gap-3">
+        <div className="header-actions flex items-center gap-3" style={{flexShrink:0, marginLeft:'auto', paddingLeft:'1.25rem'}}>
           <div className="language-selector" style={{
             display:'flex', gap:'2px', background:'rgba(0,0,0,0.06)', padding:'3px', borderRadius:'8px', border:'1px solid rgba(0,0,0,0.08)'
           }}>
