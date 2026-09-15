@@ -276,11 +276,11 @@ img {
 
 .nav-link {
   color: var(--color-text);
-  font-weight: 500;
+  font-weight: 600;
   padding: 0.5rem 0;
   position: relative;
   white-space: nowrap;
-  font-size: 0.93rem;
+  font-size: 1rem;
 }
 
 .nav-link:hover {
