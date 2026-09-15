@@ -1,0 +1,140 @@
+{
+  "nav": {
+    "home": "Startpagina",
+    "about": "Over ons",
+    "plans": "Programma's",
+    "projects": "Projecten",
+    "news": "Nieuws & Evenementen",
+    "contact": "Contact",
+    "membership": "Lidmaatschap",
+    "admin": "Admin"
+  },
+  "home": {
+    "heroTitle": "Keskese Melash Vereniging",
+    "heroSubtitle": "Het Keskese-hulpverleningsteam in Nederland samenbrengen",
+    "joinUs": "Word lid",
+    "learnMore": "Leer meer",
+    "missionTitle": "Onze missie",
+    "missionText": "Het opbouwen van een ondersteunende en hechte gemeenschap, die sociale rechtvaardigheid, gelijkheid en veiligheid onder onze leden bevordert.",
+    "quickLinksTitle": "Ontdek",
+    "plansDesc": "Ontdek de strategische programma's die zijn ontworpen om onze gemeenschap in Nederland uit te breiden, te ondersteunen en te versterken.",
+    "projectsDesc": "Ontdek meer over onze projecten op het gebied van cultureel erfgoed, maatschappelijke ondersteuning en recreatie.",
+    "membershipDesc": "Word lid van onze groeiende familie en draag bij aan de eenheid van de Keskese Melash-gemeenschap.",
+    "viewPlans": "Bekijk programma's",
+    "viewProjects": "Bekijk projecten"
+  },
+  "about": {
+    "title": "Over ons",
+    "introTitle": "Wie zijn wij?",
+    "introText": "De Nederlandse Vereniging Keskese Melash is opgericht om onze gemeenschap te verenigen, uitdagingen aan te gaan en sociale rechtvaardigheid, gelijkheid en veiligheid te bevorderen. Gebaseerd op integriteit en praktische aanpak, is onze vereniging toegewijd aan de principes van eerlijkheid, transparantie, verantwoording en verantwoordelijkheid.",
+    "heritageTitle": "Ons erfgoed",
+    "heritageText": "Keskese is een oude archeologische vindplaats en de naam van de eerste burgermaatschappij in de geschiedenis. Onze vereniging draagt deze historische naam om onze oorsprong en ons erfgoed van eenheid en maatschappelijke verantwoordelijkheid te eren.",
+    "missionVisionTitle": "Onze missie en visie",
+    "missionVisionText": "Ons doel is een ondersteunende en hechte gemeenschap op te bouwen door sociale rechtvaardigheid, gelijkheid en veiligheid onder onze leden te bevorderen. We dromen van een geweldige Keskese Melash-gemeenschap in Nederland, verenigd door gedeelde waarden, culturele trots en wederzijdse steun.",
+    "valuesTitle": "Onze basiswaarden",
+    "values": {
+      "integrity": "Eerlijkheid",
+      "transparency": "Transparantie",
+      "accountability": "Verantwoording",
+      "responsibility": "Verantwoordelijkheid"
+    }
+  },
+  "plans": {
+    "title": "Onze programma's",
+    "subtitle": "Strategische programma's om de Keskese Melash-gemeenschap in Nederland te versterken"
+  },
+  "projects": {
+    "title": "Onze projecten",
+    "subtitle": "Initiatieven ontworpen om onze gemeenschap in Nederland te ondersteunen"
+  },
+  "news": {
+    "title": "Nieuws & Evenementen",
+    "subtitle": "Blijf op de hoogte van ons laatste nieuws, evenementen en aankondigingen",
+    "noPosts": "Momenteel geen nieuwsberichten beschikbaar. Kom snel terug!",
+    "readMore": "Lees meer",
+    "readLess": "Lees minder",
+    "published": "Gepubliceerd",
+    "draft": "Concept"
+  },
+  "membership": {
+    "title": "Word lid",
+    "subtitle": "Sluit je aan bij onze groeiende community en help mee het verschil te maken."
+  },
+  "contact": {
+    "title": "Neem contact op",
+    "subtitle": "We horen graag van u. Neem gerust contact met ons op als u vragen hebt.",
+    "getInTouch": "Neem contact met ons op",
+    "info": "Contactgegevens",
+    "address": "Adres",
+    "email": "E-mail",
+    "phone": "Telefoon"
+  },
+  "form": {
+    "name": "Volledige naam",
+    "email": "E-mailadres",
+    "phone": "Telefoonnummer",
+    "subject": "Onderwerp",
+    "message": "Bericht",
+    "submit": "Versturen",
+    "submitting": "Verzenden...",
+    "required": "Dit veld is verplicht.",
+    "invalidEmail": "Voer een geldig e-mailadres in.",
+    "submitError": "Er is een fout opgetreden. Probeer het opnieuw.",
+    "successTitle": "Succesvol verzonden!",
+    "successMessage": "Bedankt voor uw bericht. We nemen zo spoedig mogelijk contact met u op.",
+    "submitAnother": "Stuur er nog een"
+  },
+  "footer": {
+    "about": "Wij verenigen de Keskese Melash-gemeenschap in Nederland. De Keskese Melash Vereniging staat voor eenheid, rechtvaardigheid en cultureel erfgoed.",
+    "quickLinks": "Snelle links",
+    "contact": "Neem contact met ons op",
+    "rights": "Alle rechten voorbehouden."
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "manageNews": "Nieuws beheren",
+    "viewMembers": "Leden bekijken",
+    "totalNews": "Totaal nieuwsberichten",
+    "totalMembers": "Totaal leden",
+    "logout": "Uitloggen",
+    "welcome": "Welkom bij het Beheerderspanel",
+    "login": "Beheerdersinlog",
+    "password": "Wachtwoord",
+    "loginBtn": "Inloggen",
+    "loginError": "Ongeldig wachtwoord. Probeer het opnieuw.",
+    "exportData": "Gegevens exporteren",
+    "importData": "Gegevens importeren",
+    "addPost": "Nieuw bericht toevoegen",
+    "editPost": "Bericht bewerken",
+    "deleteConfirm": "Weet u zeker dat u dit wilt verwijderen?",
+    "titleEn": "Titel (Engels)",
+    "titleTi": "Titel (Tigrigna)",
+    "bodyEn": "Inhoud (Engels)",
+    "bodyTi": "Inhoud (Tigrigna)",
+    "date": "Datum",
+    "published": "Gepubliceerd",
+    "actions": "Acties",
+    "exportCsv": "CSV exporteren",
+    "name": "Naam",
+    "email": "E-mail",
+    "phone": "Telefoon",
+    "dateJoined": "Datum van toetreding",
+    "noMembers": "Nog geen ledenregistraties.",
+    "noNews": "Nog geen nieuwsberichten. Maak uw eerste bericht aan!"
+  },
+  "common": {
+    "loading": "Laden...",
+    "error": "Er is een fout opgetreden.",
+    "success": "Bewerking succesvol.",
+    "cancel": "Annuleren",
+    "save": "Opslaan",
+    "delete": "Verwijderen",
+    "edit": "Bewerken",
+    "back": "Terug",
+    "submit": "Versturen"
+  },
+  "language": {
+    "toggle": "NL",
+    "current": "Nederlands"
+  }
+}

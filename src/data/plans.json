@@ -4,16 +4,20 @@
     "icon": "🤝",
     "title_en": "Expanding Membership",
     "title_ti": "ኣባልነት ምስፋሕ",
+    "title_nl": "Breid het lidmaatschap uit",
     "description_en": "Actively recruiting more members to build a stronger and more unified Keskese Milash Community in the Netherlands.",
     "description_ti": "ኣብ ኔዘርላንድስ ዝያዳ ሓያልን ዝተወሃሃደን ማሕበረሰብ ከስከሰ ምላሽ ንምህናጽ ብንጥፈት ሓደስቲ ኣባላት ምምልማል።",
+    "description_nl": "Werf actief nieuwe leden om een sterkere en hechtere Keskese Melash-gemeenschap in Nederland op te bouwen.",
     "items": [
       {
         "en": "Reaching out to Keskese Milash Community members in the Netherlands",
-        "ti": "ኣብ ኔዘርላንድስ ዝርከቡ ኣባላት ማሕበረሰብ ከስከሰ ምላሽ ምብጻሕ"
+        "ti": "ኣብ ኔዘርላንድስ ዝርከቡ ኣባላት ማሕበረሰብ ከስከሰ ምላሽ ምብጻሕ",
+        "nl": "Bezoekende leden van de Keskese Melash-gemeenschap in Nederland"
       },
       {
         "en": "Creating accessible membership programs",
-        "ti": "ተበጻሕነት ዘለዎ መደባት ኣባልነት ምድላው"
+        "ti": "ተበጻሕነት ዘለዎ መደባት ኣባልነት ምድላው",
+        "nl": "Toegankelijke lidmaatschapsprogramma's"
       }
     ]
   },
@@ -22,16 +26,20 @@
     "icon": "🛡️",
     "title_en": "Enhancing Support",
     "title_ti": "ደገፍ ምሕያል",
+    "title_nl": "Versterk de ondersteuning",
     "description_en": "Strengthening the support network to ensure the well-being of all members.",
     "description_ti": "ንድሕነት ኩሎም ኣባላት ንምርግጋጽ መርበብ ደገፍ ምሕያል።",
+    "description_nl": "Versterk het ondersteuningsnetwerk om de veiligheid van alle leden te waarborgen.",
     "items": [
       {
         "en": "Providing assistance to newcomers",
-        "ti": "ንሓደስቲ መጻእቲ ሓገዝ ምቕራብ"
+        "ti": "ንሓደስቲ መጻእቲ ሓገዝ ምቕራብ",
+        "nl": "Bied hulp aan nieuwkomers."
       },
       {
         "en": "Offering guidance on navigating the Dutch system",
-        "ti": "ኣብ ስርዓት ኔዘርላንድስ ንምልማድ መምርሒ ምሃብ"
+        "ti": "ኣብ ስርዓት ኔዘርላንድስ ንምልማድ መምርሒ ምሃብ",
+        "nl": "Geef richtlijnen voor de aanpassing aan het Nederlandse systeem."
       }
     ]
   },
@@ -40,16 +48,20 @@
     "icon": "👨‍👩‍👧‍👦",
     "title_en": "Strengthening Community Ties",
     "title_ti": "ማሕበራዊ ዝምድናታት ምድልዳል",
+    "title_nl": "Het versterken van sociale relaties",
     "description_en": "Organizing events and activities that promote unity and cultural heritage.",
     "description_ti": "ሓድነትን ባህላዊ ውርሻን ዘስፋሕፍሑ ምድላዋትን ንጥፈታትን ምውዳብ።",
+    "description_nl": "Organiseer evenementen en activiteiten die eenheid en cultureel erfgoed bevorderen.",
     "items": [
       {
         "en": "Hosting cultural festivals and gatherings",
-        "ti": "ባህላዊ ፈስቲቫላትን ኣኼባታትን ምክያድ"
+        "ti": "ባህላዊ ፈስቲቫላትን ኣኼባታትን ምክያድ",
+        "nl": "Culturele festivals en bijeenkomsten"
       },
       {
         "en": "Facilitating networking among members",
-        "ti": "ኣብ መንጎ ኣባላት ዝምድናታት ምፍጣር"
+        "ti": "ኣብ መንጎ ኣባላት ዝምድናታት ምፍጣር",
+        "nl": "Relaties tussen leden faciliteren"
       }
     ]
   },
@@ -58,16 +70,20 @@
     "icon": "📚",
     "title_en": "Promoting Education",
     "title_ti": "ትምህርቲ ምድንፋዕ",
+    "title_nl": "Het bevorderen van onderwijs",
     "description_en": "Supporting educational initiatives for the youth and adults alike.",
     "description_ti": "ንመንእሰያትን ዓበይትን ዝጠቅም ትምህርታዊ ተበግሶታት ምድጋፍ።",
+    "description_nl": "Steun educatieve initiatieven ten behoeve van jongeren en volwassenen.",
     "items": [
       {
         "en": "Providing language and integration courses",
-        "ti": "ናይ ቋንቋን ውህደትን ትምህርቲ ምሃብ"
+        "ti": "ናይ ቋንቋን ውህደትን ትምህርቲ ምሃብ",
+        "nl": "Taal- en integratiecursussen"
       },
       {
         "en": "Offering workshops on skill development",
-        "ti": "ምዕባለ ክእለት ዘተባብዑ ዓውደ-ጽናዕትታት ምድላው"
+        "ti": "ምዕባለ ክእለት ዘተባብዑ ዓውደ-ጽናዕትታት ምድላው",
+        "nl": "Workshops die de ontwikkeling van vaardigheden stimuleren"
       }
     ]
   }

@@ -70,8 +70,13 @@ export default function Plans() {
           }}>
             {plans.map((plan, idx) => {
               const color = planColors[idx % planColors.length];
-              const title = locale === 'ti' && plan.title_ti ? plan.title_ti : plan.title_en;
-              const description = locale === 'ti' && plan.description_ti ? plan.description_ti : plan.description_en;
+              let title = plan.title_en;
+              if (locale === 'ti' && plan.title_ti) title = plan.title_ti;
+              if (locale === 'nl' && plan.title_nl) title = plan.title_nl;
+
+              let description = plan.description_en;
+              if (locale === 'ti' && plan.description_ti) description = plan.description_ti;
+              if (locale === 'nl' && plan.description_nl) description = plan.description_nl;
 
               return (
                 <div 
@@ -114,7 +119,7 @@ export default function Plans() {
                         padding: '0.3rem 0.8rem', borderRadius: '50px',
                         fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.04em'
                       }}>
-                        {locale === 'ti' ? `ዓውዲ ${idx + 1}` : `Pillar ${idx + 1}`}
+                        {locale === 'ti' ? `ዓውዲ ${idx + 1}` : (locale === 'nl' ? `Pijler ${idx + 1}` : `Pillar ${idx + 1}`)}
                       </span>
                     </div>
 
@@ -138,11 +143,13 @@ export default function Plans() {
                         fontSize:'0.85rem', color:'#374151', textTransform:'uppercase',
                         letterSpacing:'0.06em', fontWeight:700, marginBottom:'0.75rem'
                       }}>
-                        {locale === 'ti' ? 'ቀንድ ንጥፈታት' : 'Key Action Initiatives'}
+                        {locale === 'ti' ? 'ቀንድ ንጥፈታት' : (locale === 'nl' ? 'Belangrijkste acties' : 'Key Action Initiatives')}
                       </h4>
                       <ul style={{listStyle:'none', padding:0, margin:0, display:'flex', flexDirection:'column', gap:'0.6rem'}}>
                         {plan.items?.map((item, i) => {
-                          const itemText = locale === 'ti' && item.ti ? item.ti : item.en;
+                          let itemText = item.en;
+                          if (locale === 'ti' && item.ti) itemText = item.ti;
+                          if (locale === 'nl' && item.nl) itemText = item.nl;
                           return (
                             <li key={i} style={{
                               display:'flex', alignItems:'flex-start', gap:'0.6rem',
@@ -171,7 +178,7 @@ export default function Plans() {
                     onMouseEnter={e => e.currentTarget.style.background = `${color}25`}
                     onMouseLeave={e => e.currentTarget.style.background = `${color}10`}
                   >
-                    {locale === 'ti' ? 'ተሳተፉ' : 'Get Involved'} →
+                    {locale === 'ti' ? 'ተሳተፉ' : (locale === 'nl' ? 'Doe mee' : 'Get Involved')} →
                   </a>
                 </div>
               );

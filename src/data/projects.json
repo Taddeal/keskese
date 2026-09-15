@@ -4,16 +4,20 @@
     "icon": "🏛️",
     "title_en": "Cultural Heritage",
     "title_ti": "ባህላዊ ውርሻ",
+    "title_nl": "Cultureel erfgoed",
     "description_en": "Preserving and promoting Keskese heritage, culture, and history in the Netherlands.",
-    "description_ti": "ኣብ ኔዘርላንድስ ባህልን ታሪኽን ከስከሰ ምላሽ ምዕቃብን ምልላይን።",
+    "description_ti": "ኣብ ኔዘርላንድስ ባህልን ታሪኽን ከስከሰ ምላሽ ምዕቃብን ምልላይን። ምስ ባህሊ ኔዘርላንድስ ምውህሃድን።",
+    "description_nl": "Het behoud en de bevordering van de cultuur en geschiedenis van Keskese Melash in Nederland. Integratie met de Nederlandse cultuur.",
     "items": [
       {
         "en": "Language classes for youth",
-        "ti": "ንመንእሰያት ዝወሃብ ትምህርቲ ቋንቋ"
+        "ti": "ንመንእሰያት ዝወሃብ ትምህርቲ ቋንቋ",
+        "nl": "Taalcursussen voor jongeren"
       },
       {
         "en": "Traditional music and dance workshops",
-        "ti": "ናይ ባህላዊ ሙዚቃን ሳዕስዒትን ስልጠናታት"
+        "ti": "ናይ ባህላዊ ሙዚቃን ሳዕስዒትን ስልጠናታት",
+        "nl": "Traditionele muziek- en danssessies"
       }
     ]
   },
@@ -22,16 +26,20 @@
     "icon": "🤲",
     "title_en": "Community Support",
     "title_ti": "ደገፍ ማሕበረሰብ",
+    "title_nl": "Gemeenschapssteun",
     "description_en": "Initiatives focused on the immediate needs and long-term success of our members.",
     "description_ti": "ኣብ ህጹጽ ድሌታትን ነዊሕ-እዋናዊ ዓወትን ኣባላትና ዘተኮሩ ተበግሶታት።",
+    "description_nl": "Initiatieven gericht op de directe behoeften en het succes op lange termijn van onze leden.",
     "items": [
       {
         "en": "Mentorship programs for students",
-        "ti": "ንተምሃሮ ዝወሃብ ናይ ምኽርን ደገፍን መደባት"
+        "ti": "ንተምሃሮ ዝወሃብ ናይ ምኽርን ደገፍን መደባት",
+        "nl": "Begeleidings- en ondersteuningsprogramma's voor studenten"
       },
       {
         "en": "Career guidance and networking events",
-        "ti": "ናይ ስራሕ መምርሒን ናይ ዝምድና መድረኻትን"
+        "ti": "ናይ ስራሕ መምርሒን ናይ ዝምድና መድረኻትን",
+        "nl": "Forums voor loopbaanbegeleiding en relaties"
       }
     ]
   },
@@ -40,16 +48,20 @@
     "icon": "⚽",
     "title_en": "Sports & Recreation",
     "title_ti": "ስፖርትን መዘናግዕን",
+    "title_nl": "Sport en recreatie",
     "description_en": "Fostering physical health and teamwork through organized sports.",
     "description_ti": "ብውዱብ ስፖርታዊ ንጥፈታት ኣካላዊ ጥዕናን ናይ ሓባር ስራሕን ምድንፋዕ።",
+    "description_nl": "Bevorder fysieke gezondheid en teamgeest door middel van georganiseerde sportactiviteiten.",
     "items": [
       {
         "en": "Community soccer tournaments",
-        "ti": "ማሕበረሰባዊ ናይ ኩዕሶ እግሪ ውድድራት"
+        "ti": "ማሕበረሰባዊ ናይ ኩዕሶ እግሪ ውድድራት",
+        "nl": "Gemeenschapsvoetbaltoernooien"
       },
       {
         "en": "Family recreation days",
-        "ti": "ናይ ስድራቤት መዘናግዒ መዓልታት"
+        "ti": "ናይ ስድራቤት መዘናግዒ መዓልታት",
+        "nl": "Familiedagen vol plezier"
       }
     ]
   },
@@ -58,16 +70,20 @@
     "icon": "🏢",
     "title_en": "Community Center",
     "title_ti": "ማእከል ማሕበረሰብ",
+    "title_nl": "Gemeenschapscentrum",
     "description_en": "Working towards establishing dedicated community centers in the Netherlands.",
     "description_ti": "ኣብ ኔዘርላንድስ ፍሉይ ማእከል ማሕበረሰብ ንምቛም ምስራሕ።",
+    "description_nl": "We werken aan de oprichting van een gespecialiseerd buurtcentrum in Nederland.",
     "items": [
       {
         "en": "Fundraising campaigns",
-        "ti": "ወፈራታት እቶብ ገንዘብ"
+        "ti": "ወፈራታት እቶት ገንዘብ",
+        "nl": "Fondsenwervingscampagnes"
       },
       {
         "en": "Planning and development committees",
-        "ti": "ናይ መደብን ምዕባለን ኮሚተታት"
+        "ti": "ናይ መደብን ምዕባለን ኮሚተታት",
+        "nl": "Programma- en ontwikkelingscommissies"
       }
     ]
   }

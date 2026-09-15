@@ -6,7 +6,8 @@ const projectColors = ['#1A6B3C', '#1E3A5F', '#D4A843', '#C23B22'];
 
 const categoryBadges = {
   en: ['Cultural & Heritage', 'Community Support', 'Sports & Youth', 'Community Infrastructure'],
-  ti: ['ባህላዊ ውርሻ', 'ደገፍ ማሕበረሰብ', 'ስፖርትን መንእሰያትን', 'መሰረተ-ልማት ማሕበረሰብ']
+  ti: ['ባህላዊ ውርሻ', 'ደገፍ ማሕበረሰብ', 'ስፖርትን መንእሰያትን', 'መሰረተ-ልማት ማሕበረሰብ'],
+  nl: ['Cultureel & Erfgoed', 'Gemeenschapssteun', 'Sport & Jeugd', 'Infrastructuur']
 };
 
 export default function Projects() {
@@ -32,7 +33,7 @@ export default function Projects() {
             fontSize:'0.85rem', letterSpacing:'0.05em', marginBottom:'0.75rem',
             backdropFilter: 'blur(4px)',
           }}>
-            🚀 {locale === 'ti' ? 'ተበግሶታት ማሕበርና' : 'Community Programs'}
+            🚀 {locale === 'ti' ? 'ተበግሶታት ማሕበርና' : (locale === 'nl' ? 'Gemeenschapsprogramma\'s' : 'Community Programs')}
           </span>
           <h1 style={{fontSize:'2.5rem', margin:'0 0 0.5rem'}}>{t('projects.title')}</h1>
           <p style={{maxWidth:'650px', margin:'0 auto', opacity:0.9, fontSize:'1.05rem'}}>
@@ -58,23 +59,28 @@ export default function Projects() {
                 boxShadow: selectedFilter === 'all' ? '0 4px 12px rgba(26,107,60,0.25)' : 'none'
               }}
             >
-              ✨ {locale === 'ti' ? 'ኩሎም' : 'All Projects'}
+              ✨ {locale === 'ti' ? 'ኩሎም' : (locale === 'nl' ? 'Alle projecten' : 'All Projects')}
             </button>
-            {projects.map((p, i) => (
-              <button 
-                key={p.id}
-                onClick={() => setSelectedFilter(p.id)}
-                style={{
-                  padding:'0.5rem 1.25rem', borderRadius:'50px', border:'none',
-                  fontWeight:600, fontSize:'0.9rem', cursor:'pointer', transition:'all 0.2s ease',
-                  background: selectedFilter === p.id ? projectColors[i % projectColors.length] : '#F3F4F6',
-                  color: selectedFilter === p.id ? '#FFFFFF' : '#4B5563',
-                  boxShadow: selectedFilter === p.id ? `0 4px 12px ${projectColors[i % projectColors.length]}40` : 'none'
-                }}
-              >
-                {p.icon} {locale === 'ti' && p.title_ti ? p.title_ti : p.title_en}
-              </button>
-            ))}
+            {projects.map((p, i) => {
+              let pTitle = p.title_en;
+              if (locale === 'ti' && p.title_ti) pTitle = p.title_ti;
+              if (locale === 'nl' && p.title_nl) pTitle = p.title_nl;
+              return (
+                <button 
+                  key={p.id}
+                  onClick={() => setSelectedFilter(p.id)}
+                  style={{
+                    padding:'0.5rem 1.25rem', borderRadius:'50px', border:'none',
+                    fontWeight:600, fontSize:'0.9rem', cursor:'pointer', transition:'all 0.2s ease',
+                    background: selectedFilter === p.id ? projectColors[i % projectColors.length] : '#F3F4F6',
+                    color: selectedFilter === p.id ? '#FFFFFF' : '#4B5563',
+                    boxShadow: selectedFilter === p.id ? `0 4px 12px ${projectColors[i % projectColors.length]}40` : 'none'
+                  }}
+                >
+                  {p.icon} {pTitle}
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -90,11 +96,18 @@ export default function Projects() {
             {filteredProjects.map((project, idx) => {
               const origIndex = projects.findIndex(p => p.id === project.id);
               const color = projectColors[origIndex >= 0 ? origIndex : idx % projectColors.length];
-              const title = locale === 'ti' && project.title_ti ? project.title_ti : project.title_en;
-              const description = locale === 'ti' && project.description_ti ? project.description_ti : project.description_en;
-              const badgeText = locale === 'ti' 
-                ? (categoryBadges.ti[origIndex] || 'ተበግሶ') 
-                : (categoryBadges.en[origIndex] || 'Initiative');
+              
+              let title = project.title_en;
+              if (locale === 'ti' && project.title_ti) title = project.title_ti;
+              if (locale === 'nl' && project.title_nl) title = project.title_nl;
+
+              let description = project.description_en;
+              if (locale === 'ti' && project.description_ti) description = project.description_ti;
+              if (locale === 'nl' && project.description_nl) description = project.description_nl;
+
+              let badgeText = categoryBadges.en[origIndex] || 'Initiative';
+              if (locale === 'ti') badgeText = categoryBadges.ti[origIndex] || 'ተበግሶ';
+              if (locale === 'nl') badgeText = categoryBadges.nl[origIndex] || 'Initiatief';
 
               return (
                 <div 
@@ -137,7 +150,7 @@ export default function Projects() {
                         padding: '0.3rem 0.8rem', borderRadius: '50px',
                         fontSize: '0.78rem', fontWeight: 700, display:'flex', alignItems:'center', gap:'0.3rem'
                       }}>
-                        🟢 {locale === 'ti' ? 'ንጡፍ' : 'Ongoing'}
+                        🟢 {locale === 'ti' ? 'ንጡፍ' : (locale === 'nl' ? 'Lopend' : 'Ongoing')}
                       </span>
                     </div>
 
@@ -170,11 +183,13 @@ export default function Projects() {
                         fontSize:'0.85rem', color:'#374151', textTransform:'uppercase',
                         letterSpacing:'0.06em', fontWeight:700, marginBottom:'0.75rem'
                       }}>
-                        {locale === 'ti' ? 'ተበግሶታት' : 'Key Activities & Focus'}
+                        {locale === 'ti' ? 'ተበግሶታት' : (locale === 'nl' ? 'Kernactiviteiten' : 'Key Activities & Focus')}
                       </h4>
                       <ul style={{listStyle:'none', padding:0, margin:0, display:'flex', flexDirection:'column', gap:'0.6rem'}}>
                         {project.items?.map((item, i) => {
-                          const itemText = locale === 'ti' && item.ti ? item.ti : item.en;
+                          let itemText = item.en;
+                          if (locale === 'ti' && item.ti) itemText = item.ti;
+                          if (locale === 'nl' && item.nl) itemText = item.nl;
                           return (
                             <li key={i} style={{
                               display:'flex', alignItems:'flex-start', gap:'0.6rem',
@@ -203,7 +218,7 @@ export default function Projects() {
                     onMouseEnter={e => e.currentTarget.style.background = `${color}25`}
                     onMouseLeave={e => e.currentTarget.style.background = `${color}10`}
                   >
-                    {locale === 'ti' ? 'ኣብዚ ፕሮጀክት ተሳተፉ' : 'Support This Project'} →
+                    {locale === 'ti' ? 'ኣብዚ ፕሮጀክት ተሳተፉ' : (locale === 'nl' ? 'Steun dit project' : 'Support This Project')} →
                   </a>
                 </div>
               );

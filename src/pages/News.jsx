@@ -67,9 +67,16 @@ export default function News() {
           ) : (
             <div style={{display:'flex', flexDirection:'column', gap:'2rem'}}>
               {newsPosts.map((post, index) => {
-                const title = locale === 'ti' && post.title_ti ? post.title_ti : post.title_en;
-                const body = locale === 'ti' && post.body_ti ? post.body_ti : post.body_en;
-                const date = new Date(post.date || post.createdAt).toLocaleDateString(locale === 'ti' ? 'ti-ER' : 'en-US', {
+                let title = post.title_en;
+                if (locale === 'ti' && post.title_ti) title = post.title_ti;
+                if (locale === 'nl' && post.title_nl) title = post.title_nl;
+
+                let body = post.body_en;
+                if (locale === 'ti' && post.body_ti) body = post.body_ti;
+                if (locale === 'nl' && post.body_nl) body = post.body_nl;
+
+                const localeCode = locale === 'ti' ? 'ti-ER' : (locale === 'nl' ? 'nl-NL' : 'en-US');
+                const date = new Date(post.date || post.createdAt).toLocaleDateString(localeCode, {
                   year: 'numeric', month: 'long', day: 'numeric'
                 });
                 const isExpanded = expandedId === post.id;

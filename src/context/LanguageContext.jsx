@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import enTranslations from '../locales/en.json';
 import tiTranslations from '../locales/ti.json';
+import nlTranslations from '../locales/nl.json';
 
 const LanguageContext = createContext();
 
@@ -16,7 +17,17 @@ export const LanguageProvider = ({ children }) => {
   }, [locale]);
 
   const toggleLanguage = () => {
-    setLocale((prev) => (prev === 'en' ? 'ti' : 'en'));
+    setLocale((prev) => {
+      if (prev === 'en') return 'ti';
+      if (prev === 'ti') return 'nl';
+      return 'en';
+    });
+  };
+
+  const changeLanguage = (newLocale) => {
+    if (['en', 'ti', 'nl'].includes(newLocale)) {
+      setLocale(newLocale);
+    }
   };
 
   const getTranslation = (path, translations) => {
@@ -24,7 +35,10 @@ export const LanguageProvider = ({ children }) => {
   };
 
   const t = (path, params = {}) => {
-    const currentTranslations = locale === 'en' ? enTranslations : tiTranslations;
+    let currentTranslations = enTranslations;
+    if (locale === 'ti') currentTranslations = tiTranslations;
+    if (locale === 'nl') currentTranslations = nlTranslations;
+
     let text = getTranslation(path, currentTranslations);
 
     if (!text) {
@@ -42,7 +56,7 @@ export const LanguageProvider = ({ children }) => {
   };
 
   return (
-    <LanguageContext.Provider value={{ locale, toggleLanguage, t }}>
+    <LanguageContext.Provider value={{ locale, setLocale: changeLanguage, toggleLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );

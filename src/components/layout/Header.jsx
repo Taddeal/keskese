@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useTranslation } from '../../context/LanguageContext';
 
 export default function Header() {
-  const { locale, t, toggleLanguage } = useTranslation();
+  const { locale, setLocale, t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
@@ -29,10 +29,45 @@ export default function Header() {
           </div>
         </nav>
 
-        <div className="header-actions flex items-center gap-4">
-          <button className="language-toggle btn btn-secondary btn-sm" onClick={toggleLanguage}>
-            {locale === 'en' ? 'ትግ' : 'EN'}
-          </button>
+        <div className="header-actions flex items-center gap-3">
+          <div className="language-selector" style={{
+            display:'flex', gap:'2px', background:'rgba(0,0,0,0.06)', padding:'3px', borderRadius:'8px', border:'1px solid rgba(0,0,0,0.08)'
+          }}>
+            <button 
+              type="button"
+              style={{
+                padding:'0.25rem 0.55rem', borderRadius:'6px', border:'none', cursor:'pointer', fontSize:'0.82rem', fontWeight:600,
+                background: locale === 'en' ? '#1A6B3C' : 'transparent', color: locale === 'en' ? '#FFFFFF' : '#4B5563',
+                transition: 'all 0.2s ease'
+              }}
+              onClick={() => setLocale('en')}
+            >
+              EN
+            </button>
+            <button 
+              type="button"
+              style={{
+                padding:'0.25rem 0.55rem', borderRadius:'6px', border:'none', cursor:'pointer', fontSize:'0.82rem', fontWeight:600,
+                background: locale === 'ti' ? '#1A6B3C' : 'transparent', color: locale === 'ti' ? '#FFFFFF' : '#4B5563',
+                transition: 'all 0.2s ease'
+              }}
+              onClick={() => setLocale('ti')}
+            >
+              ትግ
+            </button>
+            <button 
+              type="button"
+              style={{
+                padding:'0.25rem 0.55rem', borderRadius:'6px', border:'none', cursor:'pointer', fontSize:'0.82rem', fontWeight:600,
+                background: locale === 'nl' ? '#1A6B3C' : 'transparent', color: locale === 'nl' ? '#FFFFFF' : '#4B5563',
+                transition: 'all 0.2s ease'
+              }}
+              onClick={() => setLocale('nl')}
+            >
+              NL
+            </button>
+          </div>
+
           <button className="mobile-menu-btn btn" onClick={toggleMobileMenu}>
             {mobileMenuOpen ? '✕' : '☰'}
           </button>
