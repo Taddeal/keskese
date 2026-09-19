@@ -70,86 +70,91 @@ export default function About() {
         </div>
       </header>
 
-      {/* Introduction Section */}
-      <section className="section">
-        <div className="container" style={{maxWidth:'900px'}}>
-          <div
-            ref={addRef}
-            className="about-intro-card reveal-section"
-            style={{
-              background: '#FFFFFF',
-              borderRadius: '16px',
-              padding: '3rem',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
-              borderLeft: '5px solid #1A6B3C',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-          >
-            <div style={{
-              position: 'absolute', top: 0, right: 0, width: '200px', height: '200px',
-              background: 'linear-gradient(135deg, rgba(26,107,60,0.06) 0%, transparent 70%)',
-              borderRadius: '0 16px 0 200px',
-            }} />
-            <div style={{display:'flex', alignItems:'center', gap:'1rem', marginBottom:'1.5rem'}}>
-              <div style={{
-                width:'48px', height:'48px', borderRadius:'12px',
-                background:'linear-gradient(135deg, #1A6B3C, #145A30)',
-                display:'flex', alignItems:'center', justifyContent:'center',
-                fontSize:'1.5rem', flexShrink:0,
-              }}>🏛️</div>
-              <h2 style={{margin:0, color:'#1A6B3C', fontSize:'1.75rem'}}>{t('about.introTitle')}</h2>
+      {/* Introduction Section with Image */}
+      <section className="section" style={{padding: '4rem 0'}}>
+        <div className="container" style={{maxWidth:'1050px'}}>
+          <div style={{
+            display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '2.5rem', alignItems: 'center'
+          }}>
+            <div
+              ref={addRef}
+              className="about-intro-card reveal-section"
+              style={{
+                background: '#FFFFFF',
+                borderRadius: '20px',
+                padding: '2.5rem',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+                borderLeft: '5px solid #1B6B4A',
+              }}
+            >
+              <div style={{display:'flex', alignItems:'center', gap:'1rem', marginBottom:'1.25rem'}}>
+                <div style={{
+                  width:'48px', height:'48px', borderRadius:'12px',
+                  background:'linear-gradient(135deg, #1B6B4A, #14503A)',
+                  display:'flex', alignItems:'center', justifyContent:'center',
+                  fontSize:'1.5rem', flexShrink:0, color: '#FFF'
+                }}>🏛️</div>
+                <h2 style={{margin:0, color:'#1B6B4A', fontSize:'1.75rem', fontWeight: 700}}>{t('about.introTitle')}</h2>
+              </div>
+              <p style={{fontSize:'1.05rem', lineHeight:'1.8', color:'#475569', margin:0}}>
+                {t('about.introText')}
+              </p>
             </div>
-            <p style={{fontSize:'1.1rem', lineHeight:'1.8', color:'#374151', margin:0}}>
-              {t('about.introText')}
-            </p>
+
+            <div className="reveal-section" style={{borderRadius: '20px', overflow: 'hidden', boxShadow: '0 8px 24px rgba(0,0,0,0.1)'}}>
+              <img src="/about1.jpg" alt="Who We Are - Cultural celebration" style={{width: '100%', height: '320px', objectFit: 'cover'}} />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Heritage & Mission Section */}
-      <section className="section" style={{background:'#F0F7F2', paddingTop:'2rem', paddingBottom:'3rem'}}>
-        <div className="container" style={{maxWidth:'900px'}}>
-          <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'2rem'}}>
-            {/* Heritage Card */}
-            <div
-              ref={addRef}
-              className="reveal-section"
-              style={{
-                background: '#FFFFFF',
-                borderRadius: '16px',
-                padding: '2.5rem',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
-                borderTop: '4px solid #D4A843',
-                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.1)'; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.05)'; }}
-            >
-              <div style={{fontSize:'2.5rem', marginBottom:'1rem'}}>🏺</div>
-              <h2 style={{color:'#D4A843', fontSize:'1.5rem', marginBottom:'1rem'}}>{t('about.heritageTitle')}</h2>
-              <p style={{color:'#4B5563', lineHeight:'1.75', margin:0}}>{t('about.heritageText')}</p>
+      {/* Heritage & Mission Section with Image */}
+      <section className="section" style={{background:'#F8FAFC', paddingTop:'3.5rem', paddingBottom:'4rem'}}>
+        <div className="container" style={{maxWidth:'1050px'}}>
+          {/* Heritage Grid */}
+          <div style={{
+            display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '2.5rem', alignItems: 'center', marginBottom: '3.5rem'
+          }}>
+            <div className="reveal-section" style={{borderRadius: '20px', overflow: 'hidden', boxShadow: '0 8px 24px rgba(0,0,0,0.1)'}}>
+              <img src="/about2.jpg" alt="Our Heritage - Cultural Craftsmanship" style={{width: '100%', height: '320px', objectFit: 'cover'}} />
             </div>
 
-            {/* Mission Card */}
             <div
               ref={addRef}
               className="reveal-section"
               style={{
                 background: '#FFFFFF',
-                borderRadius: '16px',
+                borderRadius: '20px',
                 padding: '2.5rem',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
-                borderTop: '4px solid #1E3A5F',
-                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+                borderTop: '5px solid #E8913A',
               }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.1)'; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.05)'; }}
             >
-              <div style={{fontSize:'2.5rem', marginBottom:'1rem'}}>🎯</div>
-              <h2 style={{color:'#1E3A5F', fontSize:'1.5rem', marginBottom:'1rem'}}>{t('about.missionVisionTitle')}</h2>
-              <p style={{color:'#4B5563', lineHeight:'1.75', margin:0}}>{t('about.missionVisionText')}</p>
+              <div style={{fontSize:'2.2rem', marginBottom:'0.75rem'}}>🏺</div>
+              <h2 style={{color:'#E8913A', fontSize:'1.6rem', marginBottom:'1rem', fontWeight: 700}}>{t('about.heritageTitle')}</h2>
+              <p style={{color:'#475569', lineHeight:'1.75', fontSize:'1.02rem', margin:0}}>{t('about.heritageText')}</p>
             </div>
+          </div>
+
+          {/* Mission Card */}
+          <div
+            ref={addRef}
+            className="reveal-section"
+            style={{
+              background: '#FFFFFF',
+              borderRadius: '20px',
+              padding: '2.5rem',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+              borderTop: '5px solid #1E3A5F',
+              textAlign: 'center',
+              maxWidth: '850px',
+              margin: '0 auto'
+            }}
+          >
+            <div style={{fontSize:'2.5rem', marginBottom:'0.75rem'}}>🎯</div>
+            <h2 style={{color:'#1E3A5F', fontSize:'1.75rem', marginBottom:'1rem', fontWeight: 700}}>{t('about.missionVisionTitle')}</h2>
           </div>
         </div>
       </section>

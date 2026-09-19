@@ -25,24 +25,22 @@ export default function Home() {
   return (
     <div className="page home-page">
       
-      {/* ===== HERO SECTION ===== */}
+      {/* ===== HERO SECTION WITH CANVA BANNER IMAGE ===== */}
       <section style={{
         position: 'relative',
-        background: 'linear-gradient(135deg, #152D4A 0%, #1A6B3C 60%, #145A30 100%)',
+        backgroundImage: 'url(/hero-large.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
         color: '#FFFFFF',
-        padding: '5rem 0 6rem',
+        padding: '6rem 0 6rem',
         overflow: 'hidden',
       }}>
-        {/* Background Ambient Glow Circles */}
+        {/* Canva Green Overlay */}
         <div style={{
-          position: 'absolute', top: '-100px', right: '-100px', width: '400px', height: '400px',
-          borderRadius: '50%', background: 'radial-gradient(circle, rgba(212,168,67,0.2) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }} />
-        <div style={{
-          position: 'absolute', bottom: '-80px', left: '-80px', width: '350px', height: '350px',
-          borderRadius: '50%', background: 'radial-gradient(circle, rgba(30,58,95,0.4) 0%, transparent 70%)',
-          pointerEvents: 'none',
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(135deg, rgba(27, 107, 74, 0.88), rgba(20, 80, 58, 0.78))',
+          backdropFilter: 'blur(2px)',
+          zIndex: 1
         }} />
 
         <div className="container text-center animate-slideUp" style={{position: 'relative', zIndex: 2, maxWidth: '900px'}}>
@@ -50,9 +48,9 @@ export default function Home() {
           <div style={{marginBottom: '1.25rem'}}>
             <span style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-              padding: '0.4rem 1.25rem', borderRadius: '50px',
-              background: 'rgba(255, 255, 255, 0.12)', border: '1px solid rgba(255, 255, 255, 0.25)',
-              color: '#FDF6E3', fontSize: '0.88rem', fontWeight: 600, letterSpacing: '0.05em',
+              padding: '0.45rem 1.35rem', borderRadius: '50px',
+              background: 'rgba(255, 255, 255, 0.15)', border: '1px solid rgba(255, 255, 255, 0.3)',
+              color: '#FFFFFF', fontSize: '0.9rem', fontWeight: 600, letterSpacing: '0.05em',
               backdropFilter: 'blur(6px)',
             }}>
               ✨ {locale === 'ti' ? 'ማሕበር ከስከሰ ምላሽ ኔዘርላንድስ' : (locale === 'nl' ? 'VERENIGING KESKESE MELASH NEDERLAND' : 'ASSOCIATION KESKESE MILASH NETHERLANDS')}
@@ -61,17 +59,18 @@ export default function Home() {
 
           {/* Main Title */}
           <h1 style={{
-            fontSize: 'clamp(2.4rem, 5vw, 3.8rem)', fontWeight: 800,
+            fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800,
             lineHeight: 1.15, marginBottom: '1.25rem', letterSpacing: '-0.02em',
-            textShadow: '0 2px 10px rgba(0,0,0,0.15)',
+            textShadow: '0 3px 12px rgba(0,0,0,0.3)',
           }}>
             {t('home.heroTitle')}
           </h1>
 
           {/* Subtitle */}
           <p style={{
-            fontSize: 'clamp(1.1rem, 2.2vw, 1.35rem)', opacity: 0.92,
-            maxWidth: '720px', margin: '0 auto 2.25rem', lineHeight: 1.6, fontWeight: 400
+            fontSize: 'clamp(1.15rem, 2.2vw, 1.35rem)', opacity: 0.95,
+            maxWidth: '740px', margin: '0 auto 2.5rem', lineHeight: 1.6, fontWeight: 400,
+            textShadow: '0 2px 6px rgba(0,0,0,0.2)'
           }}>
             {t('home.heroSubtitle')}
           </p>
@@ -79,13 +78,13 @@ export default function Home() {
           {/* Buttons */}
           <div style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            gap: '1rem', flexWrap: 'wrap', marginBottom: '3.5rem'
+            gap: '1.2rem', flexWrap: 'wrap', marginBottom: '3.5rem'
           }}>
             <Link to="/membership" style={{
-              background: 'linear-gradient(135deg, #D4A843 0%, #B88E30 100%)',
-              color: '#FFFFFF', padding: '0.9rem 2.25rem', borderRadius: '12px',
+              background: '#E8913A',
+              color: '#FFFFFF', padding: '0.9rem 2.5rem', borderRadius: '9999px',
               fontWeight: 700, fontSize: '1.05rem', textDecoration: 'none',
-              boxShadow: '0 6px 20px rgba(212,168,67,0.35)', transition: 'all 0.3s ease',
+              boxShadow: '0 6px 20px rgba(232,145,58,0.4)', transition: 'all 0.3s ease',
               display: 'inline-flex', alignItems: 'center', gap: '0.5rem'
             }}
             onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
@@ -95,14 +94,14 @@ export default function Home() {
             </Link>
 
             <Link to="/about" style={{
-              background: 'rgba(255, 255, 255, 0.1)', color: '#FFFFFF',
-              padding: '0.9rem 2.25rem', borderRadius: '12px', fontWeight: 600,
-              fontSize: '1.05rem', textDecoration: 'none', border: '1.5px solid rgba(255, 255, 255, 0.4)',
-              backdropFilter: 'blur(6px)', transition: 'all 0.3s ease',
+              background: 'transparent', color: '#FFFFFF',
+              padding: '0.85rem 2.25rem', borderRadius: '9999px', fontWeight: 600,
+              fontSize: '1.05rem', textDecoration: 'none', border: '2px solid #FFFFFF',
+              backdropFilter: 'blur(4px)', transition: 'all 0.3s ease',
               display: 'inline-flex', alignItems: 'center', gap: '0.5rem'
             }}
-            onMouseEnter={e => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
-            onMouseLeave={e => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+            onMouseEnter={e => { e.currentTarget.style.background = '#FFFFFF'; e.currentTarget.style.color = '#1B6B4A'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#FFFFFF'; }}
             >
               {t('home.learnMore')} <span>→</span>
             </Link>
@@ -111,29 +110,29 @@ export default function Home() {
           {/* Quick Stat Highlights Bar */}
           <div style={{
             display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            gap: '1.25rem', background: 'rgba(255, 255, 255, 0.08)',
-            padding: '1.25rem 1.5rem', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.15)',
-            backdropFilter: 'blur(8px)', textAlign: 'left'
+            gap: '1.25rem', background: 'rgba(255, 255, 255, 0.12)',
+            padding: '1.25rem 1.5rem', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.25)',
+            backdropFilter: 'blur(10px)', textAlign: 'left'
           }}>
             <div style={{display: 'flex', alignItems: 'center', gap: '0.85rem'}}>
               <div style={{fontSize: '1.8rem'}}>🇳🇱</div>
               <div>
                 <div style={{fontSize: '0.95rem', fontWeight: 700}}>{locale === 'ti' ? 'ኔዘርላንድስ' : (locale === 'nl' ? 'Nederland' : 'Netherlands')}</div>
-                <div style={{fontSize: '0.8rem', opacity: 0.8}}>{locale === 'ti' ? 'ኣብ ኔዘርላንድስ ዝርከብ ማሕበር' : (locale === 'nl' ? 'Landelijke gemeenschap' : 'Serving Nationwide')}</div>
+                <div style={{fontSize: '0.8rem', opacity: 0.9}}>{locale === 'ti' ? 'ኣብ ኔዘርላንድስ ዝርከብ ማሕበር' : (locale === 'nl' ? 'Landelijke gemeenschap' : 'Serving Nationwide')}</div>
               </div>
             </div>
-            <div style={{display: 'flex', alignItems: 'center', gap: '0.85rem', borderLeft: '1px solid rgba(255,255,255,0.15)', paddingLeft: '1rem'}}>
+            <div style={{display: 'flex', alignItems: 'center', gap: '0.85rem', borderLeft: '1px solid rgba(255,255,255,0.2)', paddingLeft: '1rem'}}>
               <div style={{fontSize: '1.8rem'}}>🏛️</div>
               <div>
                 <div style={{fontSize: '0.95rem', fontWeight: 700}}>{locale === 'ti' ? 'ታሪኻዊ ስም' : (locale === 'nl' ? 'Historische wortels' : 'Historic Roots')}</div>
-                <div style={{fontSize: '0.8rem', opacity: 0.8}}>{locale === 'ti' ? 'ታሪኻዊ ስም ከስከሰ' : (locale === 'nl' ? 'Oud erfgoed' : 'Ancient Heritage')}</div>
+                <div style={{fontSize: '0.8rem', opacity: 0.9}}>{locale === 'ti' ? 'ታሪኻዊ ስም ከስከሰ' : (locale === 'nl' ? 'Oud erfgoed' : 'Ancient Heritage')}</div>
               </div>
             </div>
-            <div style={{display: 'flex', alignItems: 'center', gap: '0.85rem', borderLeft: '1px solid rgba(255,255,255,0.15)', paddingLeft: '1rem'}}>
+            <div style={{display: 'flex', alignItems: 'center', gap: '0.85rem', borderLeft: '1px solid rgba(255,255,255,0.2)', paddingLeft: '1rem'}}>
               <div style={{fontSize: '1.8rem'}}>🤝</div>
               <div>
                 <div style={{fontSize: '0.95rem', fontWeight: 700}}>{locale === 'ti' ? 'ማሕበረሰብ ቀዳምነት' : (locale === 'nl' ? 'Gemeenschap eerst' : 'Community First')}</div>
-                <div style={{fontSize: '0.8rem', opacity: 0.8}}>{locale === 'ti' ? 'ማሕበራዊ ፍትሕን ድሕነትን' : (locale === 'nl' ? 'Eenheid & Rechtvaardigheid' : 'Unity & Social Justice')}</div>
+                <div style={{fontSize: '0.8rem', opacity: 0.9}}>{locale === 'ti' ? 'ማሕበራዊ ፍትሕን ድሕነትን' : (locale === 'nl' ? 'Eenheid & Rechtvaardigheid' : 'Unity & Social Justice')}</div>
               </div>
             </div>
           </div>

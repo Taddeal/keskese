@@ -1,22 +1,23 @@
 :root {
-  /* Eritrean flag-inspired, muted & elegant */
-  --color-primary: #1A6B3C;
+  /* Canva Design System Tokens */
+  --color-primary: #1B6B4A;
   --color-primary-light: #E8F5EE;
-  --color-primary-dark: #145A30;
+  --color-primary-dark: #14503A;
   --color-secondary: #1E3A5F;
   --color-secondary-light: #EBF0F7;
-  --color-accent: #D4A843;
-  --color-accent-light: #FDF6E3;
+  --color-accent: #E8913A;
+  --color-accent-light: #FFF8F0;
+  --color-accent-dark: #D07B2A;
   --color-heritage: #C23B22;
   
   /* Surfaces */
-  --color-surface: #FAFAF8;
+  --color-surface: #FDFAF6;
   --color-card: #FFFFFF;
   
   /* Text */
-  --color-text: #1A1A2E;
-  --color-text-muted: #6B7280;
-  --color-border: #E5E7EB;
+  --color-text: #1E293B;
+  --color-text-muted: #64748B;
+  --color-border: #E2E8F0;
   
   /* Typography */
   --font-latin: 'Inter', sans-serif;
