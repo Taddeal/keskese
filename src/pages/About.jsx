@@ -155,6 +155,7 @@ export default function About() {
           >
             <div style={{fontSize:'2.5rem', marginBottom:'0.75rem'}}>🎯</div>
             <h2 style={{color:'#1E3A5F', fontSize:'1.75rem', marginBottom:'1rem', fontWeight: 700}}>{t('about.missionVisionTitle')}</h2>
+            <p style={{color:'#475569', lineHeight:'1.8', fontSize:'1.05rem', margin:0}}>{t('about.missionVisionText')}</p>
           </div>
         </div>
       </section>
