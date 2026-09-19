@@ -405,18 +405,27 @@ export default function Home() {
                 let body = item.body_en;
                 if (locale === 'ti' && item.body_ti) body = item.body_ti;
                 if (locale === 'nl' && item.body_nl) body = item.body_nl;
+                const imageSrc = item.image || item.imageUrl;
                 return (
                   <div key={item.id} style={{
-                    background: '#FFFFFF', borderRadius: '16px', padding: '1.5rem',
-                    boxShadow: '0 4px 14px rgba(0,0,0,0.04)', borderLeft: '4px solid #1A6B3C'
+                    background: '#FFFFFF', borderRadius: '16px', overflow: 'hidden',
+                    boxShadow: '0 4px 14px rgba(0,0,0,0.04)', borderLeft: '4px solid #1A6B3C',
+                    display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
                   }}>
-                    <h3 style={{fontSize: '1.2rem', color: '#1A1A2E', marginBottom: '0.5rem', fontWeight: 700}}>{title}</h3>
-                    <p style={{color: '#6B7280', fontSize: '0.9rem', lineHeight: 1.6, margin: '0 0 1rem'}}>
-                      {body?.substring(0, 110)}...
-                    </p>
-                    <Link to="/news" style={{color: '#1A6B3C', fontWeight: 600, fontSize: '0.88rem'}}>
-                      {t('news.readMore')} &rarr;
-                    </Link>
+                    {imageSrc && (
+                      <div style={{height: '220px', overflow: 'hidden'}}>
+                        <img src={imageSrc} alt={title} style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 80%'}} />
+                      </div>
+                    )}
+                    <div style={{padding: '1.5rem'}}>
+                      <h3 style={{fontSize: '1.2rem', color: '#1A1A2E', marginBottom: '0.5rem', fontWeight: 700}}>{title}</h3>
+                      <p style={{color: '#6B7280', fontSize: '0.9rem', lineHeight: 1.6, margin: '0 0 1rem'}}>
+                        {body?.substring(0, 110)}...
+                      </p>
+                      <Link to="/news" style={{color: '#1A6B3C', fontWeight: 600, fontSize: '0.88rem'}}>
+                        {t('news.readMore')} &rarr;
+                      </Link>
+                    </div>
                   </div>
                 );
               })}

@@ -94,11 +94,11 @@ export default function News() {
                     transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                   }}>
                     {imageSrc && (
-                      <div style={{maxHeight: '280px', overflow: 'hidden'}}>
+                      <div style={{height: '340px', overflow: 'hidden'}}>
                         <img 
                           src={imageSrc} 
                           alt={title} 
-                          style={{width: '100%', height: '100%', objectFit: 'cover'}} 
+                          style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 80%'}} 
                         />
                       </div>
                     )}

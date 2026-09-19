@@ -1,17 +1,5 @@
 [
   {
-    "id": "event-2",
-    "title_en": "Community Cultural & Youth Engagement Workshop",
-    "title_ti": "ናይ ማሕበረሰብ ባህላውን ዘመናውን ኣናባብራ ዓውደ- መጽናዕቲ ከም እውን ብዛዕባ ማሕበርናን",
-    "title_nl": "Gemeenschaps- en culturele workshop voor jongeren",
-    "body_en": "As part of our strategic focus area on education and community ties, we are hosting a cultural workshop and youth soccer tournament next month. All Keskese Milash Community families across the Netherlands are warmly invited.",
-    "body_ti": "ከም ኣካል ናይቲ ኣብ ትምህርትን ማሕበራዊ ዝምድናታትን ዘተኮረ ስትራተጂካዊ መደብና፡ ዝስዕብ ወርሒ ባህላዊ ዓውደ-መጽናዕቲ ናይ መንእሰያት ዝተፋላለዩ ንጥፈታት ከነዳሉ ። ኣብ ኔዘርላንድስ ዝርከባ ስድራቤታት ማሕበረሰብ ከስከሰ ምላሽ ብኽብሪ ዝዓበየን ዝናኣስን ተሳትፎኡ ንምዕባይ ተዳሊና ኣለና።",
-    "body_nl": "Als onderdeel van ons strategisch programma gericht op onderwijs en sociale relaties, organiseren we volgende maand een culturele workshop en een jeugdvoetbaltoernooi. Families van de Keskese Melash-gemeenschap in Nederland zijn van harte uitgenodigd.",
-    "image": "/width_1600.webp",
-    "date": "2026-09-10",
-    "published": true
-  },
-  {
     "id": "event-1",
     "title_en": "Official Launch of Keskese Milash Association in the Netherlands",
     "title_ti": "ብወገብራዊ ኣገባብ ዝተገብረ ምምስራት ማሕበር ከስከሰ ምላሽ ኣብ ኔዘርላንድስ",
@@ -20,6 +8,18 @@
     "body_ti": "ማሕበር ከስከሰ ምላሽ ኣብ ኔዘርላንድስ ብወገብራዊ ኣገባብ ከም ዝተመሰረተ ንምብሳር ንሕበን! ማሕበርና ንማሕበረሰብ ከስከሰ ምላሽ ብሓባር ንምጥርናፍ፡ ማሕበራዊ ፍትሒ፡ ማዕርነትን ድሕነትን ኣብ መንጎ ኩሎም ኣባላት ንምስፋሕ ይዓዪ። ኣብቲ ዝስዕብ ናይ ማሕበረሰብ ኣኼባና ተጸንበሩ።",
     "body_nl": "Met trots kondigen we de officiële oprichting van de Keskese Melash Vereniging in Nederland aan! Onze vereniging zet zich in om de Keskese Melash gemeenschap te verenigen en sociale rechtvaardigheid, gelijkheid en veiligheid voor alle leden te bevorderen. Kom naar onze volgende bijeenkomst.",
     "image": "/hero-large.jpg",
+    "date": "2026-09-10",
+    "published": true
+  },
+  {
+    "id": "event-2",
+    "title_en": "Community Cultural & Youth Engagement Workshop",
+    "title_ti": "ናይ ማሕበረሰብ ባህላውን ዘመናውን ኣናባብራ ዓውደ- መጽናዕቲ ከም እውን ብዛዕባ ማሕበርናን",
+    "title_nl": "Gemeenschaps- en culturele workshop voor jongeren",
+    "body_en": "As part of our strategic focus area on education and community ties, we are hosting a cultural workshop and youth soccer tournament next month. All Keskese Milash Community families across the Netherlands are warmly invited.",
+    "body_ti": "ከም ኣካል ናይቲ ኣብ ትምህርትን ማሕበራዊ ዝምድናታትን ዘተኮረ ስትራተጂካዊ መደብና፡ ዝስዕብ ወርሒ ባህላዊ ዓውደ-መጽናዕቲ ናይ መንእሰያት ዝተፋላለዩ ንጥፈታት ከነዳሉ ። ኣብ ኔዘርላንድስ ዝርከባ ስድራቤታት ማሕበረሰብ ከስከሰ ምላሽ ብኽብሪ ዝዓበየን ዝናኣስን ተሳትፎኡ ንምዕባይ ተዳሊና ኣለና።",
+    "body_nl": "Als onderdeel van ons strategisch programma gericht op onderwijs en sociale relaties, organiseren we volgende maand een culturele workshop en een jeugdvoetbaltoernooi. Families van de Keskese Melash-gemeenschap in Nederland zijn van harte uitgenodigd.",
+    "image": "/width_1600.webp",
     "date": "2026-09-01",
     "published": true
   }
