@@ -414,7 +414,7 @@ export default function Home() {
                   }}>
                     {imageSrc && (
                       <div style={{height: '220px', overflow: 'hidden'}}>
-                        <img src={imageSrc} alt={title} style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 80%'}} />
+                        <img src={imageSrc} alt={title} style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: item.imagePosition || 'center top'}} />
                       </div>
                     )}
                     <div style={{padding: '1.5rem'}}>

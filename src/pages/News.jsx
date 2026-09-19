@@ -98,7 +98,10 @@ export default function News() {
                         <img 
                           src={imageSrc} 
                           alt={title} 
-                          style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 80%'}} 
+                          style={{
+                            width: '100%', height: '100%', objectFit: 'cover',
+                            objectPosition: post.imagePosition || 'center top'
+                          }} 
                         />
                       </div>
                     )}
