@@ -1,8 +1,18 @@
 import initialNews from '../data/news.json';
 
+// =========================================================================
+// CONFIGURATION TOGGLE:
+// Set ENABLE_DYNAMIC_NEWS to false (default) to display static Canva news.
+// Set ENABLE_DYNAMIC_NEWS to true to reactivate dynamic Google Sheets fetching.
+// =========================================================================
+export const ENABLE_DYNAMIC_NEWS = false;
+
 export const generateId = () => Math.random().toString(36).substr(2, 9);
 
 export const getNews = () => {
+  if (!ENABLE_DYNAMIC_NEWS) {
+    return initialNews;
+  }
   const news = localStorage.getItem('keskese_news');
   if (news) {
     return JSON.parse(news);
@@ -12,6 +22,10 @@ export const getNews = () => {
 };
 
 export const fetchNewsRemote = async () => {
+  if (!ENABLE_DYNAMIC_NEWS) {
+    return initialNews;
+  }
+
   const googleScriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbyQmang9Kkq9Rj0hvNv94_ptejo0NJ0Mov4lcJor6bge5pSu46ArIawLCyPZCxoubY1eA/exec';
   if (googleScriptUrl) {
     try {
