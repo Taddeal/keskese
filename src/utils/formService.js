@@ -4,21 +4,26 @@ export const submitForm = async (data, formType) => {
 
   // 1. Submit to Google Sheets via Google Apps Script Webhook (Non-blocking background fire)
   if (googleScriptUrl) {
-    const params = new URLSearchParams();
-    params.append('formType', formType || 'Membership');
-    params.append('name', data.name || '');
-    params.append('email', data.email || '');
-    params.append('phone', data.phone || '');
-    params.append('message', data.message || data.subject || '');
-    params.append('timestamp', new Date().toLocaleDateString());
+    const payload = {
+      formType: formType || 'Membership',
+      name: data.name || '',
+      email: data.email || '',
+      phone: data.phone || '',
+      message: data.message || data.subject || '',
+      timestamp: new Date().toLocaleDateString()
+    };
 
-    fetch(googleScriptUrl, {
+    const queryParams = new URLSearchParams(payload).toString();
+    const targetUrl = `${googleScriptUrl}${googleScriptUrl.includes('?') ? '&' : '?'}${queryParams}`;
+
+    fetch(targetUrl, {
       method: 'POST',
       mode: 'no-cors',
+      cache: 'no-cache',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'text/plain',
       },
-      body: params.toString()
+      body: JSON.stringify(payload)
     }).catch(err => console.error('Google Sheets submission background error:', err));
   }
 
