@@ -101,21 +101,8 @@ export const fetchMembersRemote = async () => {
       if (response.ok) {
         const remoteMembers = await response.json();
         if (Array.isArray(remoteMembers)) {
-          const localMembers = getMembers();
-          // Combine remote members with local members, avoiding duplicates by email/name
-          const combined = [...remoteMembers];
-          localMembers.forEach(localM => {
-            const exists = combined.some(remoteM => 
-              (remoteM.email && localM.email && remoteM.email.toLowerCase() === localM.email.toLowerCase()) ||
-              (remoteM.name && localM.name && remoteM.name.toLowerCase() === localM.name.toLowerCase())
-            );
-            if (!exists) {
-              combined.push(localM);
-            }
-          });
-
-          localStorage.setItem('keskese_members', JSON.stringify(combined));
-          return combined;
+          localStorage.setItem('keskese_members', JSON.stringify(remoteMembers));
+          return remoteMembers;
         }
       }
     } catch (err) {

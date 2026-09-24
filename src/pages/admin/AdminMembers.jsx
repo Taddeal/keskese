@@ -33,8 +33,10 @@ export default function AdminMembers() {
     }
 
     const allMembers = await fetchMembersRemote();
-    allMembers.sort((a, b) => parseDate(b.dateJoined) - parseDate(a.dateJoined));
-    setMembers(allMembers);
+    const sorted = Array.isArray(allMembers)
+      ? [...allMembers].sort((a, b) => parseDate(b.dateJoined) - parseDate(a.dateJoined))
+      : [];
+    setMembers(sorted);
     setLoading(false);
     setSyncing(false);
   };
