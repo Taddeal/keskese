@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { getMembers, fetchMembersRemote, deleteMember } from '../../utils/storage';
 
+const parseDate = (dStr) => {
+  if (!dStr) return 0;
+  const d = new Date(dStr);
+  return isNaN(d.getTime()) ? 0 : d.getTime();
+};
+
+const safeFormatDate = (dStr) => {
+  if (!dStr) return 'N/A';
+  const d = new Date(dStr);
+  return isNaN(d.getTime()) ? String(dStr) : d.toLocaleDateString();
+};
+
 export default function AdminMembers() {
   // 1. Initialize immediately with cached members (0ms latency)
   const [members, setMembers] = useState(() => {
     const cached = getMembers();
-    return cached.sort((a, b) => new Date(b.dateJoined) - new Date(a.dateJoined));
+    return cached.sort((a, b) => parseDate(b.dateJoined) - parseDate(a.dateJoined));
   });
   const [loading, setLoading] = useState(members.length === 0);
   const [syncing, setSyncing] = useState(false);
@@ -21,7 +33,7 @@ export default function AdminMembers() {
     }
 
     const allMembers = await fetchMembersRemote();
-    allMembers.sort((a, b) => new Date(b.dateJoined) - new Date(a.dateJoined));
+    allMembers.sort((a, b) => parseDate(b.dateJoined) - parseDate(a.dateJoined));
     setMembers(allMembers);
     setLoading(false);
     setSyncing(false);
@@ -48,7 +60,7 @@ export default function AdminMembers() {
       `"${String(m.name || '').replace(/"/g, '""')}"`,
       `"${String(m.email || '').replace(/"/g, '""')}"`,
       `"${String(m.phone || '').replace(/"/g, '""')}"`,
-      `"${new Date(m.dateJoined || Date.now()).toLocaleDateString()}"`,
+      `"${safeFormatDate(m.dateJoined || Date.now())}"`,
       `"${String(m.message || '').replace(/"/g, '""')}"`
     ]);
     const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
@@ -204,7 +216,7 @@ export default function AdminMembers() {
                     </td>
 
                     <td style={{padding: '1rem 1.25rem', color: '#6B7280', fontSize: '0.85rem'}}>
-                      📅 {new Date(m.dateJoined).toLocaleDateString()}
+                      📅 {safeFormatDate(m.dateJoined)}
                     </td>
 
                     <td style={{padding: '1rem 1.25rem', color: '#6B7280', maxWidth: '240px'}}>
