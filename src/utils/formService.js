@@ -1,8 +1,8 @@
-import { addMember } from './storage';
+import { addMember, getGoogleScriptUrl } from './storage';
 
 export const submitForm = async (data, formType) => {
   const web3ApiKey = import.meta.env.VITE_WEB3FORMS_KEY || 'b9480a92-2b3d-44a6-a665-4d197d9f88b1';
-  const googleScriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycby6UF14quFcku_Wp8FTJboAG10-Mskmdl1fs6Jdiozn8Y7k_xGHGP5mR1ITlmO4GseyLA/exec';
+  const googleScriptUrl = getGoogleScriptUrl();
 
   // 0. Save locally for instant admin panel visibility
   try {

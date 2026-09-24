@@ -21,12 +21,22 @@ export const getNews = () => {
   return initialNews;
 };
 
+export const ACTIVE_GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6UF14quFcku_Wp8FTJboAG10-Mskmdl1fs6Jdiozn8Y7k_xGHGP5mR1ITlmO4GseyLA/exec';
+
+export const getGoogleScriptUrl = () => {
+  const envUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
+  if (envUrl && typeof envUrl === 'string' && envUrl.trim().length > 0 && !envUrl.includes('AKfycbyQmang')) {
+    return envUrl.trim();
+  }
+  return ACTIVE_GOOGLE_SCRIPT_URL;
+};
+
 export const fetchNewsRemote = async () => {
   if (!ENABLE_DYNAMIC_NEWS) {
     return initialNews;
   }
 
-  const googleScriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycby6UF14quFcku_Wp8FTJboAG10-Mskmdl1fs6Jdiozn8Y7k_xGHGP5mR1ITlmO4GseyLA/exec';
+  const googleScriptUrl = getGoogleScriptUrl();
   if (googleScriptUrl) {
     try {
       const controller = new AbortController();
@@ -79,7 +89,7 @@ export const getMembers = () => {
 };
 
 export const fetchMembersRemote = async () => {
-  const googleScriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycby6UF14quFcku_Wp8FTJboAG10-Mskmdl1fs6Jdiozn8Y7k_xGHGP5mR1ITlmO4GseyLA/exec';
+  const googleScriptUrl = getGoogleScriptUrl();
   if (googleScriptUrl) {
     try {
       const controller = new AbortController();
