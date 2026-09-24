@@ -1,6 +1,23 @@
+import { addMember } from './storage';
+
 export const submitForm = async (data, formType) => {
-  const web3ApiKey = import.meta.env.VITE_WEB3FORMS_KEY;
-  const googleScriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbyQmang9Kkq9Rj0hvNv94_ptejo0NJ0Mov4lcJor6bge5pSu46ArIawLCyPZCxoubY1eA/exec';
+  const web3ApiKey = import.meta.env.VITE_WEB3FORMS_KEY || 'b9480a92-2b3d-44a6-a665-4d197d9f88b1';
+  const googleScriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycby6UF14quFcku_Wp8FTJboAG10-Mskmdl1fs6Jdiozn8Y7k_xGHGP5mR1ITlmO4GseyLA/exec';
+
+  // 0. Save locally for instant admin panel visibility
+  try {
+    if (formType === 'Membership' || formType === 'Contact') {
+      addMember({
+        name: data.name || '',
+        email: data.email || '',
+        phone: data.phone || '',
+        message: data.message || data.subject || '',
+        dateJoined: new Date().toISOString()
+      });
+    }
+  } catch (err) {
+    console.error('Local storage backup error:', err);
+  }
 
   // 1. Submit to Google Sheets via Google Apps Script Webhook (Non-blocking background fire)
   if (googleScriptUrl) {

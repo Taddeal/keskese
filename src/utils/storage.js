@@ -26,7 +26,7 @@ export const fetchNewsRemote = async () => {
     return initialNews;
   }
 
-  const googleScriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbyQmang9Kkq9Rj0hvNv94_ptejo0NJ0Mov4lcJor6bge5pSu46ArIawLCyPZCxoubY1eA/exec';
+  const googleScriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycby6UF14quFcku_Wp8FTJboAG10-Mskmdl1fs6Jdiozn8Y7k_xGHGP5mR1ITlmO4GseyLA/exec';
   if (googleScriptUrl) {
     try {
       const controller = new AbortController();
@@ -79,7 +79,7 @@ export const getMembers = () => {
 };
 
 export const fetchMembersRemote = async () => {
-  const googleScriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbyQmang9Kkq9Rj0hvNv94_ptejo0NJ0Mov4lcJor6bge5pSu46ArIawLCyPZCxoubY1eA/exec';
+  const googleScriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycby6UF14quFcku_Wp8FTJboAG10-Mskmdl1fs6Jdiozn8Y7k_xGHGP5mR1ITlmO4GseyLA/exec';
   if (googleScriptUrl) {
     try {
       const controller = new AbortController();
