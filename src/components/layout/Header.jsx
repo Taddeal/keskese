@@ -27,6 +27,7 @@ export default function Header() {
             <NavLink to="/projects" className="nav-link" onClick={closeMobileMenu}>{t('nav.projects')}</NavLink>
             <NavLink to="/news" className="nav-link" onClick={closeMobileMenu}>{t('nav.news')}</NavLink>
             <NavLink to="/membership" className="nav-link" onClick={closeMobileMenu}>{t('nav.membership')}</NavLink>
+            <NavLink to="/dues" className="nav-link" onClick={closeMobileMenu}>{locale === 'ti' ? 'ርእይቶ ኣባል' : (locale === 'nl' ? 'Ledenoverzicht' : 'Member View')}</NavLink>
             <NavLink to="/contact" className="nav-link" onClick={closeMobileMenu}>{t('nav.contact')}</NavLink>
           </div>
         </nav>

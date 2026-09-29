@@ -148,6 +148,33 @@ export default function AdminDashboard() {
           </Link>
         </div>
 
+        {/* Financials & Dues Stat Card */}
+        <div style={{
+          background: '#FFFFFF', borderRadius: '18px', padding: '1.75rem',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.05)', borderLeft: '5px solid #0D9488',
+          border: '1px solid #E5E7EB', borderLeftWidth: '5px'
+        }}>
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem'}}>
+            <span style={{fontSize: '0.85rem', fontWeight: 700, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.05em'}}>
+              Finances & Dues
+            </span>
+            <span style={{fontSize: '1.5rem'}}>💳</span>
+          </div>
+          <div style={{fontSize: '1.8rem', fontWeight: 800, color: '#0D9488', marginBottom: '0.25rem'}}>
+            Dues & Expenses
+          </div>
+          <p style={{fontSize: '0.85rem', color: '#6B7280', marginBottom: '1.25rem'}}>
+            Member dues statements & outflows
+          </p>
+          <Link to="/admin/finances" style={{
+            display: 'block', textAlign: 'center', width: '100%', padding: '0.6rem',
+            borderRadius: '8px', background: '#CCFBF1', color: '#0F766E', fontWeight: 700,
+            fontSize: '0.88rem', textDecoration: 'none'
+          }}>
+            Manage Financials →
+          </Link>
+        </div>
+
         {/* System Health Card */}
         <div style={{
           background: '#FFFFFF', borderRadius: '18px', padding: '1.75rem',
