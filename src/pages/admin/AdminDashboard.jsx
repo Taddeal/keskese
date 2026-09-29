@@ -175,6 +175,33 @@ export default function AdminDashboard() {
           </Link>
         </div>
 
+        {/* Member View (ርእይቶ ኣባል) Card */}
+        <div style={{
+          background: '#FFFFFF', borderRadius: '18px', padding: '1.75rem',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.05)', borderLeft: '5px solid #F59E0B',
+          border: '1px solid #E5E7EB', borderLeftWidth: '5px'
+        }}>
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem'}}>
+            <span style={{fontSize: '0.85rem', fontWeight: 700, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.05em'}}>
+              ርእይቶ ኣባል
+            </span>
+            <span style={{fontSize: '1.5rem'}}>🔍</span>
+          </div>
+          <div style={{fontSize: '1.8rem', fontWeight: 800, color: '#F59E0B', marginBottom: '0.25rem'}}>
+            Member Statements
+          </div>
+          <p style={{fontSize: '0.85rem', color: '#6B7280', marginBottom: '1.25rem'}}>
+            Lookup dues & payments by Member ID & year
+          </p>
+          <Link to="/admin/member-view" style={{
+            display: 'block', textAlign: 'center', width: '100%', padding: '0.6rem',
+            borderRadius: '8px', background: '#FEF3C7', color: '#92400E', fontWeight: 700,
+            fontSize: '0.88rem', textDecoration: 'none'
+          }}>
+            Open Member View →
+          </Link>
+        </div>
+
         {/* System Health Card */}
         <div style={{
           background: '#FFFFFF', borderRadius: '18px', padding: '1.75rem',

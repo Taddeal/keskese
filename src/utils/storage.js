@@ -88,28 +88,42 @@ export const getMembers = () => {
   return members ? JSON.parse(members) : [];
 };
 
-export const fetchMembersRemote = async () => {
+export const fetchMembersRemote = async (page = 1, limit = 10, search = '') => {
+  const isLocal = window.location.origin.includes('localhost');
+  const baseUrl = isLocal ? 'http://localhost/keskese/api/members.php' : '/api/members.php';
+
+  try {
+    const queryParams = new URLSearchParams({ page, limit, search }).toString();
+    const response = await fetch(`${baseUrl}?${queryParams}`);
+    const json = await response.json();
+
+    if (json.status === 'success') {
+      localStorage.setItem('keskese_members', JSON.stringify(json.records));
+      return json;
+    } else if (Array.isArray(json)) {
+      localStorage.setItem('keskese_members', JSON.stringify(json));
+      return { records: json, total_records: json.length, total_pages: 1, current_page: 1 };
+    }
+  } catch (err) {
+    console.warn('PHP MySQL members fetch error, falling back to Google Sheets / localStorage:', err);
+  }
+
   const googleScriptUrl = getGoogleScriptUrl();
   if (googleScriptUrl) {
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout cap for Google Apps Script cold starts
-
-      const response = await fetch(`${googleScriptUrl}?type=members`, { signal: controller.signal });
-      clearTimeout(timeoutId);
-
+      const response = await fetch(`${googleScriptUrl}?type=members`);
       if (response.ok) {
         const remoteMembers = await response.json();
         if (Array.isArray(remoteMembers)) {
           localStorage.setItem('keskese_members', JSON.stringify(remoteMembers));
-          return remoteMembers;
+          return { records: remoteMembers, total_records: remoteMembers.length, total_pages: 1, current_page: 1 };
         }
       }
-    } catch (err) {
-      console.warn('Google Sheets members fetch timed out or returned error, using cached fallback:', err);
-    }
+    } catch (e) {}
   }
-  return getMembers();
+
+  const cached = getMembers();
+  return { records: cached, total_records: cached.length, total_pages: 1, current_page: 1 };
 };
 
 export const addMember = (member) => {

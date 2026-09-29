@@ -20,13 +20,14 @@ CREATE TABLE IF NOT EXISTS members (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 2. Member Dues & Statements Table (Canva Design Dues Tracker)
+-- 2. Member Dues & Statements Table (Canva Design Dues Tracker + Payment Categories)
 CREATE TABLE IF NOT EXISTS member_dues (
     id INT AUTO_INCREMENT PRIMARY KEY,
     member_id VARCHAR(50) NOT NULL,
     member_name VARCHAR(150) NOT NULL,
     year INT NOT NULL,
     month VARCHAR(50) DEFAULT 'Annual',
+    payment_type VARCHAR(100) DEFAULT 'Membership Dues',
     billed_amount DECIMAL(10, 2) DEFAULT 0.00,
     paid_amount DECIMAL(10, 2) DEFAULT 0.00,
     remaining_amount DECIMAL(10, 2) DEFAULT 0.00,
@@ -37,6 +38,9 @@ CREATE TABLE IF NOT EXISTS member_dues (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_member_year (member_id, year)
 );
+
+-- Add column if table already exists
+ALTER TABLE member_dues ADD COLUMN IF NOT EXISTS payment_type VARCHAR(100) DEFAULT 'Membership Dues' AFTER month;
 
 -- 3. Expenses & Financial Outflows Table
 CREATE TABLE IF NOT EXISTS expenses (
@@ -63,9 +67,9 @@ CREATE TABLE IF NOT EXISTS news (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Insert Sample Member Dues (for testing Canva design Member ID: 1 or KM-001)
-INSERT INTO member_dues (member_id, member_name, year, month, billed_amount, paid_amount, remaining_amount, payment_date, receipt_number, payer_name, status)
+-- Insert Sample Member Dues with Categories
+INSERT INTO member_dues (member_id, member_name, year, month, payment_type, billed_amount, paid_amount, remaining_amount, payment_date, receipt_number, payer_name, status)
 VALUES 
-('1', 'Test Member', 2026, 'January', 100.00, 100.00, 0.00, '2026-01-15', 'REC-2026-001', 'Test Member', 'Paid'),
-('1', 'Test Member', 2026, 'February', 100.00, 50.00, 50.00, '2026-02-10', 'REC-2026-042', 'Test Member', 'Partial')
+('1', 'Test Member', 2026, 'January', 'Membership Dues', 100.00, 100.00, 0.00, '2026-01-15', 'REC-2026-001', 'Test Member', 'Paid'),
+('1', 'Test Member', 2026, 'February', 'Sport Event', 100.00, 50.00, 50.00, '2026-02-10', 'REC-2026-042', 'Test Member', 'Partial')
 ON DUPLICATE KEY UPDATE id=id;

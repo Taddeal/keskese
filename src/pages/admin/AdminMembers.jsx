@@ -22,6 +22,8 @@ export default function AdminMembers() {
   const [loading, setLoading] = useState(members.length === 0);
   const [syncing, setSyncing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [paginationInfo, setPaginationInfo] = useState({ total_records: 0, total_pages: 1 });
   const [selectedMember, setSelectedMember] = useState(null);
   const [feedback, setFeedback] = useState(null);
 
@@ -32,18 +34,24 @@ export default function AdminMembers() {
       setSyncing(true);
     }
 
-    const allMembers = await fetchMembersRemote();
-    const sorted = Array.isArray(allMembers)
-      ? [...allMembers].sort((a, b) => parseDate(b.dateJoined) - parseDate(a.dateJoined))
+    const result = await fetchMembersRemote(page, 10, searchQuery);
+    const records = result.records || (Array.isArray(result) ? result : []);
+    const sorted = Array.isArray(records)
+      ? [...records].sort((a, b) => parseDate(b.dateJoined) - parseDate(a.dateJoined))
       : [];
+    
     setMembers(sorted);
+    setPaginationInfo({
+      total_records: result.total_records || sorted.length,
+      total_pages: result.total_pages || 1
+    });
     setLoading(false);
     setSyncing(false);
   };
 
   useEffect(() => {
     loadMembers();
-  }, []);
+  }, [page, searchQuery]);
 
   const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this member registration? This action cannot be undone.')) {
@@ -278,6 +286,29 @@ export default function AdminMembers() {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Pagination Bar */}
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem 1.5rem', background: '#F8FAFC', borderTop: '1px solid #E5E7EB', fontSize: '0.88rem'}}>
+          <div style={{color: '#6B7280', fontWeight: 600}}>
+            Showing Page {page} of {paginationInfo.total_pages || 1} ({paginationInfo.total_records || members.length} total members)
+          </div>
+          <div style={{display: 'flex', gap: '0.5rem'}}>
+            <button 
+              disabled={page <= 1}
+              onClick={() => setPage(page - 1)}
+              style={{padding: '0.4rem 0.85rem', borderRadius: '6px', border: '1px solid #D1D5DB', background: page <= 1 ? '#F3F4F6' : '#FFF', cursor: page <= 1 ? 'not-allowed' : 'pointer', fontWeight: 600}}
+            >
+              ◀ Previous
+            </button>
+            <button 
+              disabled={page >= (paginationInfo.total_pages || 1)}
+              onClick={() => setPage(page + 1)}
+              style={{padding: '0.4rem 0.85rem', borderRadius: '6px', border: '1px solid #D1D5DB', background: page >= (paginationInfo.total_pages || 1) ? '#F3F4F6' : '#FFF', cursor: page >= (paginationInfo.total_pages || 1) ? 'not-allowed' : 'pointer', fontWeight: 600}}
+            >
+              Next ▶
+            </button>
+          </div>
         </div>
       </div>
 

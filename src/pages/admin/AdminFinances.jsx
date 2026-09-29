@@ -9,6 +9,7 @@ export default function AdminFinances() {
     member_name: '',
     year: '2026',
     month: 'January',
+    payment_type: 'Membership Dues',
     billed_amount: '100',
     paid_amount: '100',
     payment_date: new Date().toISOString().split('T')[0],
@@ -26,7 +27,12 @@ export default function AdminFinances() {
     receipt_reference: ''
   });
 
-  const [duesList, setDuesList] = useState([]);
+  // Dues List & Pagination
+  const [duesData, setDuesData] = useState({ records: [], total_records: 0, total_pages: 1, current_page: 1 });
+  const [duesPage, setDuesPage] = useState(1);
+  const [duesSearch, setDuesSearch] = useState('');
+  const [duesCategoryFilter, setDuesCategoryFilter] = useState('all');
+
   const [expenseData, setExpenseData] = useState({ total_expenses: '0.00', records: [] });
   const [status, setStatus] = useState({ loading: false, message: null, error: null });
 
@@ -36,15 +42,25 @@ export default function AdminFinances() {
 
   useEffect(() => {
     loadFinances();
-  }, [activeTab]);
+  }, [activeTab, duesPage, duesCategoryFilter]);
 
   const loadFinances = async () => {
     setStatus({ loading: true, message: null, error: null });
     try {
       if (activeTab === 'dues') {
-        const res = await fetch(`${baseUrl}/dues.php`);
+        const queryParams = new URLSearchParams({
+          page: duesPage,
+          limit: 10,
+          search: duesSearch,
+          payment_type: duesCategoryFilter
+        });
+        const res = await fetch(`${baseUrl}/dues.php?${queryParams.toString()}`);
         const json = await res.json();
-        if (Array.isArray(json)) setDuesList(json);
+        if (json.status === 'success') {
+          setDuesData(json);
+        } else if (Array.isArray(json)) {
+          setDuesData({ records: json, total_records: json.length, total_pages: 1, current_page: 1 });
+        }
       } else {
         const res = await fetch(`${baseUrl}/expenses.php`);
         const json = await res.json();
@@ -55,6 +71,12 @@ export default function AdminFinances() {
     } finally {
       setStatus({ loading: false, message: null, error: null });
     }
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setDuesPage(1);
+    loadFinances();
   };
 
   const handleDuesSubmit = async (e) => {
@@ -73,12 +95,13 @@ export default function AdminFinances() {
       });
       const json = await res.json();
       if (json.status === 'success') {
-        setStatus({ loading: false, message: `Dues record saved! Generated Receipt: ${json.receipt_number}`, error: null });
+        setStatus({ loading: false, message: `Payment saved! Generated Receipt: ${json.receipt_number}`, error: null });
         setDuesForm({
           member_id: '',
           member_name: '',
           year: '2026',
           month: 'January',
+          payment_type: 'Membership Dues',
           billed_amount: '100',
           paid_amount: '100',
           payment_date: new Date().toISOString().split('T')[0],
@@ -87,7 +110,7 @@ export default function AdminFinances() {
         });
         loadFinances();
       } else {
-        setStatus({ loading: false, message: null, error: json.message || 'Failed to save dues.' });
+        setStatus({ loading: false, message: null, error: json.message || 'Failed to save payment.' });
       }
     } catch (err) {
       setStatus({ loading: false, message: null, error: err.message });
@@ -134,10 +157,10 @@ export default function AdminFinances() {
       {/* Top Header */}
       <div style={{marginBottom: '2rem'}}>
         <h1 style={{fontSize: '2rem', fontWeight: 800, color: '#111827', margin: 0}}>
-          💳 Financial Management & Dues Tracker
+          💳 Financial Management & Payment Tracker
         </h1>
         <p style={{color: '#6B7280', margin: '0.25rem 0 0', fontSize: '0.95rem'}}>
-          Record member dues payments, generate digital receipts, and track operating expenses.
+          Record member dues, event ticket payments, generate digital receipts, and track operating expenses.
         </p>
       </div>
 
@@ -152,7 +175,7 @@ export default function AdminFinances() {
             fontSize: '1rem', cursor: 'pointer'
           }}
         >
-          👥 Member Dues & Statements
+          👥 Member Dues & Event Payments
         </button>
 
         <button 
@@ -180,14 +203,14 @@ export default function AdminFinances() {
         </div>
       )}
 
-      {/* TAB 1: Member Dues */}
+      {/* TAB 1: Member Dues & Event Payments */}
       {activeTab === 'dues' && (
         <div style={{display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem'}}>
           
-          {/* Add Dues Form */}
+          {/* Add Dues/Payment Form */}
           <div style={{background: '#FFFFFF', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid #E5E7EB'}}>
             <h3 style={{margin: '0 0 1.25rem', fontSize: '1.2rem', color: '#1E3A5F', fontWeight: 700}}>
-              ➕ Log Dues Payment
+              ➕ Log Payment / Dues
             </h3>
 
             <form onSubmit={handleDuesSubmit} style={{display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '0.9rem'}}>
@@ -211,6 +234,22 @@ export default function AdminFinances() {
                   onChange={e => setDuesForm({...duesForm, member_name: e.target.value})}
                   style={{width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #D1D5DB'}}
                 />
+              </div>
+
+              {/* Payment Type / Category */}
+              <div>
+                <label style={{fontWeight: 600, color: '#374151', display: 'block', marginBottom: '0.3rem'}}>Payment Category (ዓይነት ክፍሊ) *</label>
+                <select 
+                  value={duesForm.payment_type}
+                  onChange={e => setDuesForm({...duesForm, payment_type: e.target.value})}
+                  style={{width: '100%', padding: '0.65rem 0.5rem', borderRadius: '8px', border: '1px solid #D1D5DB', background: '#FFF'}}
+                >
+                  <option value="Membership Dues">Membership Dues (ናይ ኣባልነት ክፍሊ)</option>
+                  <option value="Sport Event">Sport Event (ናይ ስፖርት መደብ)</option>
+                  <option value="Cultural Event">Cultural Event (ናይ ባህሊ መደብ)</option>
+                  <option value="Launch Event">Launch Event (ናይ መእተዊ መደብ)</option>
+                  <option value="General Donation">General Donation (ወፈያ)</option>
+                </select>
               </div>
 
               <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem'}}>
@@ -291,22 +330,40 @@ export default function AdminFinances() {
                   cursor: status.loading ? 'not-allowed' : 'pointer', marginTop: '0.5rem'
                 }}
               >
-                {status.loading ? 'Saving...' : '💾 Save Dues Record'}
+                {status.loading ? 'Saving...' : '💾 Save Payment Record'}
               </button>
             </form>
           </div>
 
-          {/* Dues List Table */}
+          {/* Dues List & Search / Pagination Table */}
           <div style={{background: '#FFFFFF', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid #E5E7EB', overflowX: 'auto'}}>
-            <h3 style={{margin: '0 0 1.25rem', fontSize: '1.2rem', color: '#1E3A5F', fontWeight: 700}}>
-              📜 Recent Dues Records
-            </h3>
+            
+            {/* Table Search & Category Filter Header */}
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem'}}>
+              <h3 style={{margin: 0, fontSize: '1.2rem', color: '#1E3A5F', fontWeight: 700}}>
+                📜 Payment & Dues Records
+              </h3>
+
+              <form onSubmit={handleSearchSubmit} style={{display: 'flex', gap: '0.5rem', flex: 1, maxWidth: '400px'}}>
+                <input 
+                  type="text"
+                  placeholder="Search ID, name, receipt..."
+                  value={duesSearch}
+                  onChange={e => setDuesSearch(e.target.value)}
+                  style={{flex: 1, padding: '0.45rem 0.75rem', borderRadius: '8px', border: '1px solid #D1D5DB', fontSize: '0.88rem'}}
+                />
+                <button type="submit" style={{padding: '0.45rem 0.85rem', background: '#0D9488', color: '#FFF', border: 'none', borderRadius: '8px', fontWeight: 700, cursor: 'pointer'}}>
+                  🔍
+                </button>
+              </form>
+            </div>
 
             <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
               <thead>
                 <tr style={{background: '#F8FAFC', borderBottom: '2px solid #E2E8F0', color: '#475569'}}>
                   <th style={{padding: '0.6rem 0.75rem'}}>ID</th>
                   <th style={{padding: '0.6rem 0.75rem'}}>Name</th>
+                  <th style={{padding: '0.6rem 0.75rem'}}>Category</th>
                   <th style={{padding: '0.6rem 0.75rem'}}>Month/Year</th>
                   <th style={{padding: '0.6rem 0.75rem'}}>Billed</th>
                   <th style={{padding: '0.6rem 0.75rem'}}>Paid</th>
@@ -316,10 +373,15 @@ export default function AdminFinances() {
                 </tr>
               </thead>
               <tbody>
-                {duesList.map((d, idx) => (
+                {duesData.records && duesData.records.map((d, idx) => (
                   <tr key={d.id || idx} style={{borderBottom: '1px solid #F1F5F9'}}>
                     <td style={{padding: '0.65rem 0.75rem', fontWeight: 700}}>{d.member_id}</td>
                     <td style={{padding: '0.65rem 0.75rem'}}>{d.member_name}</td>
+                    <td style={{padding: '0.65rem 0.75rem'}}>
+                      <span style={{padding: '0.2rem 0.5rem', borderRadius: '4px', background: '#F1F5F9', fontWeight: 600, color: '#1E3A5F', fontSize: '0.78rem'}}>
+                        {d.payment_type || 'Membership Dues'}
+                      </span>
+                    </td>
                     <td style={{padding: '0.65rem 0.75rem'}}>{d.month} {d.year}</td>
                     <td style={{padding: '0.65rem 0.75rem'}}>€{d.billed_amount}</td>
                     <td style={{padding: '0.65rem 0.75rem', color: '#0D9488', fontWeight: 700}}>€{d.paid_amount}</td>
@@ -338,6 +400,31 @@ export default function AdminFinances() {
                 ))}
               </tbody>
             </table>
+
+            {/* Pagination Controls */}
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid #E5E7EB', fontSize: '0.85rem'}}>
+              <div style={{color: '#6B7280'}}>
+                Showing Page {duesData.current_page || 1} of {duesData.total_pages || 1} ({duesData.total_records || 0} total records)
+              </div>
+              
+              <div style={{display: 'flex', gap: '0.5rem'}}>
+                <button 
+                  disabled={duesPage <= 1}
+                  onClick={() => setDuesPage(duesPage - 1)}
+                  style={{padding: '0.35rem 0.75rem', borderRadius: '6px', border: '1px solid #D1D5DB', background: duesPage <= 1 ? '#F3F4F6' : '#FFF', cursor: duesPage <= 1 ? 'not-allowed' : 'pointer'}}
+                >
+                  ◀ Previous
+                </button>
+                <button 
+                  disabled={duesPage >= (duesData.total_pages || 1)}
+                  onClick={() => setDuesPage(duesPage + 1)}
+                  style={{padding: '0.35rem 0.75rem', borderRadius: '6px', border: '1px solid #D1D5DB', background: duesPage >= (duesData.total_pages || 1) ? '#F3F4F6' : '#FFF', cursor: duesPage >= (duesData.total_pages || 1) ? 'not-allowed' : 'pointer'}}
+                >
+                  Next ▶
+                </button>
+              </div>
+            </div>
+
           </div>
 
         </div>
