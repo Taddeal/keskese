@@ -48,7 +48,7 @@ const benefits = [
 
 export default function Membership() {
   const { t, locale } = useTranslation();
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', originVillage: '', address: '', message: '' });
   const [status, setStatus] = useState({ loading: false, success: false, error: null });
   const [errors, setErrors] = useState({});
 
@@ -86,7 +86,7 @@ export default function Membership() {
       addMember(formData);
       await submitForm(formData, 'Membership');
       setStatus({ loading: false, success: true, error: null });
-      setFormData({ name: '', email: '', phone: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', originVillage: '', address: '', message: '' });
     } catch (err) {
       setStatus({ loading: false, success: false, error: t('form.submitError') });
     }
@@ -318,6 +318,46 @@ export default function Membership() {
                         onChange={handleChange} 
                       />
                       {errors.phone && <span style={{color:'#C23B22', fontSize:'0.85rem', marginTop:'0.3rem', display:'block'}}>⚠️ {errors.phone}</span>}
+                    </div>
+
+                    {/* Origin Village (ስም መቦቆል ዓዲ) */}
+                    <div className="form-group">
+                      <label className="form-label" style={{fontWeight:600, color:'#374151', marginBottom:'0.4rem', display:'flex', alignItems:'center', gap:'0.4rem'}}>
+                        <span>🏡</span> {t('form.originVillage')}
+                      </label>
+                      <input 
+                        className="form-input"
+                        style={{
+                          width:'100%', padding:'0.85rem 1rem', borderRadius:'10px',
+                          border: '1.5px solid #E5E7EB',
+                          fontSize:'0.95rem', transition:'all 0.2s ease', outline:'none'
+                        }} 
+                        placeholder={locale === 'ti' ? 'ስም መቦቆል ዓዲ ኣእትዉ' : (locale === 'nl' ? 'Bijv. Keskese / ዓዲ...' : 'e.g. Village / Town name...')}
+                        type="text" 
+                        name="originVillage" 
+                        value={formData.originVillage} 
+                        onChange={handleChange} 
+                      />
+                    </div>
+
+                    {/* Address in Netherlands (ኣድራሻ ኣብ ኔዘርላንድስ) */}
+                    <div className="form-group">
+                      <label className="form-label" style={{fontWeight:600, color:'#374151', marginBottom:'0.4rem', display:'flex', alignItems:'center', gap:'0.4rem'}}>
+                        <span>📍</span> {t('form.addressNL')}
+                      </label>
+                      <input 
+                        className="form-input"
+                        style={{
+                          width:'100%', padding:'0.85rem 1rem', borderRadius:'10px',
+                          border: '1.5px solid #E5E7EB',
+                          fontSize:'0.95rem', transition:'all 0.2s ease', outline:'none'
+                        }} 
+                        placeholder={locale === 'ti' ? 'ከተማ / ኣድራሻ ኣብ ኔዘርላንድስ' : (locale === 'nl' ? 'Straat, Postcode, Stad' : 'City, Street, Postal Code...')}
+                        type="text" 
+                        name="address" 
+                        value={formData.address} 
+                        onChange={handleChange} 
+                      />
                     </div>
 
                     {/* Message / Areas of Interest */}

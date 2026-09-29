@@ -57,11 +57,13 @@ export default function AdminMembers() {
 
   const handleExportCSV = () => {
     if (members.length === 0) return;
-    const headers = ['Name', 'Email', 'Phone', 'Date Joined', 'Message'];
+    const headers = ['Name', 'Email', 'Phone', 'Origin Village (ስም መቦቆል ዓዲ)', 'Address (NL)', 'Date Joined', 'Message'];
     const rows = members.map(m => [
       `"${String(m.name || '').replace(/"/g, '""')}"`,
       `"${String(m.email || '').replace(/"/g, '""')}"`,
       `"${String(m.phone || '').replace(/"/g, '""')}"`,
+      `"${String(m.originVillage || '').replace(/"/g, '""')}"`,
+      `"${String(m.address || '').replace(/"/g, '""')}"`,
       `"${safeFormatDate(m.dateJoined || Date.now())}"`,
       `"${String(m.message || '').replace(/"/g, '""')}"`
     ]);
@@ -79,7 +81,9 @@ export default function AdminMembers() {
     const nameStr = String(m.name || '').toLowerCase();
     const emailStr = String(m.email || '').toLowerCase();
     const phoneStr = String(m.phone || '').toLowerCase();
-    return nameStr.includes(query) || emailStr.includes(query) || phoneStr.includes(query);
+    const villageStr = String(m.originVillage || '').toLowerCase();
+    const addressStr = String(m.address || '').toLowerCase();
+    return nameStr.includes(query) || emailStr.includes(query) || phoneStr.includes(query) || villageStr.includes(query) || addressStr.includes(query);
   });
 
   return (
@@ -171,6 +175,8 @@ export default function AdminMembers() {
                 <th style={{padding: '1rem 1.25rem', fontWeight: 700}}>Full Name</th>
                 <th style={{padding: '1rem 1.25rem', fontWeight: 700}}>Email</th>
                 <th style={{padding: '1rem 1.25rem', fontWeight: 700}}>Phone</th>
+                <th style={{padding: '1rem 1.25rem', fontWeight: 700}}>Origin Village (ስም መቦቆል ዓዲ)</th>
+                <th style={{padding: '1rem 1.25rem', fontWeight: 700}}>Address (NL)</th>
                 <th style={{padding: '1rem 1.25rem', fontWeight: 700}}>Date Submitted</th>
                 <th style={{padding: '1rem 1.25rem', fontWeight: 700}}>Message / Notes</th>
                 <th style={{padding: '1rem 1.25rem', fontWeight: 700, textAlign: 'right'}}>Action</th>
@@ -179,7 +185,7 @@ export default function AdminMembers() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="6" style={{textAlign: 'center', padding: '4rem 1rem', color: '#1E3A5F'}}>
+                  <td colSpan="8" style={{textAlign: 'center', padding: '4rem 1rem', color: '#1E3A5F'}}>
                     <div style={{fontSize: '2.5rem', marginBottom: '0.75rem', animation: 'spin 1.5s linear infinite'}}>⌛</div>
                     <div style={{fontSize: '1.1rem', fontWeight: 700, color: '#1E3A5F'}}>Fetching members live from Google Sheets...</div>
                     <p style={{color: '#6B7280', fontSize: '0.88rem', margin: '0.3rem 0 0'}}>Connecting to Google Apps Script endpoint</p>
@@ -215,6 +221,14 @@ export default function AdminMembers() {
                       <a href={`tel:${m.phone}`} style={{color: '#374151', textDecoration: 'none'}}>
                         {m.phone}
                       </a>
+                    </td>
+
+                    <td style={{padding: '1rem 1.25rem', color: '#374151', fontWeight: 600}}>
+                      🏡 {m.originVillage || '-'}
+                    </td>
+
+                    <td style={{padding: '1rem 1.25rem', color: '#4B5563'}}>
+                      📍 {m.address || '-'}
                     </td>
 
                     <td style={{padding: '1rem 1.25rem', color: '#6B7280', fontSize: '0.85rem'}}>
@@ -256,7 +270,7 @@ export default function AdminMembers() {
 
               {!loading && filteredMembers.length === 0 && (
                 <tr>
-                  <td colSpan="6" style={{textAlign: 'center', padding: '3.5rem 1rem', color: '#9CA3AF'}}>
+                  <td colSpan="8" style={{textAlign: 'center', padding: '3.5rem 1rem', color: '#9CA3AF'}}>
                     <div style={{fontSize: '3rem', marginBottom: '0.5rem'}}>📂</div>
                     <p style={{margin: 0, fontSize: '1rem', fontWeight: 600}}>No member submissions found.</p>
                   </td>
@@ -301,7 +315,13 @@ export default function AdminMembers() {
                 <strong>Phone:</strong> {selectedMember.phone}
               </div>
               <div>
-                <strong>Date Registered:</strong> {new Date(selectedMember.dateJoined).toLocaleString()}
+                <strong>Origin Village (ስም መቦቆል ዓዲ):</strong> {selectedMember.originVillage || 'N/A'}
+              </div>
+              <div>
+                <strong>Address in Netherlands:</strong> {selectedMember.address || 'N/A'}
+              </div>
+              <div>
+                <strong>Date Registered:</strong> {safeFormatDate(selectedMember.dateJoined)}
               </div>
               <div style={{background: '#FAFAF8', padding: '1rem', borderRadius: '10px', border: '1px solid #E5E7EB'}}>
                 <strong style={{display: 'block', marginBottom: '0.4rem', color: '#374151'}}>Applicant Note / Message:</strong>

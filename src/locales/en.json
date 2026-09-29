@@ -73,6 +73,8 @@
     "name": "Full Name",
     "email": "Email Address",
     "phone": "Phone Number",
+    "originVillage": "Village of Origin",
+    "addressNL": "Address in Netherlands",
     "subject": "Subject",
     "message": "Message",
     "submit": "Submit",

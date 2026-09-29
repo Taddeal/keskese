@@ -11,6 +11,8 @@ export const submitForm = async (data, formType) => {
         name: data.name || '',
         email: data.email || '',
         phone: data.phone || '',
+        originVillage: data.originVillage || '',
+        address: data.address || '',
         message: data.message || data.subject || '',
         dateJoined: new Date().toISOString()
       });
@@ -26,6 +28,8 @@ export const submitForm = async (data, formType) => {
       name: data.name || '',
       email: data.email || '',
       phone: data.phone || '',
+      originVillage: data.originVillage || '',
+      address: data.address || '',
       message: data.message || data.subject || '',
       timestamp: new Date().toLocaleDateString()
     };
