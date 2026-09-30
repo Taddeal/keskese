@@ -14,7 +14,7 @@ export default function AdminLogin() {
     setError('');
 
     setTimeout(() => {
-      const correctPassword = import.meta.env.VITE_ADMIN_PASSWORD || 'password@123';
+      const correctPassword = import.meta.env.VITE_ADMIN_PASSWORD_NEW || 'password@123';
       
       if (password === correctPassword) {
         sessionStorage.setItem('keskese_admin', 'true');
