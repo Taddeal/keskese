@@ -14,7 +14,7 @@ export default function AdminLogin() {
     setError('');
 
     setTimeout(() => {
-      const correctPassword = import.meta.env.VITE_ADMIN_PASSWORD || 'admin123';
+      const correctPassword = import.meta.env.VITE_ADMIN_PASSWORD || 'password@123';
       
       if (password === correctPassword) {
         sessionStorage.setItem('keskese_admin', 'true');
@@ -137,7 +137,7 @@ export default function AdminLogin() {
           {/* Helper hint & back link */}
           <div style={{marginTop: '1.75rem', paddingTop: '1.25rem', borderTop: '1px solid #F3F4F6', textAlign: 'center'}}>
             <p style={{margin: '0 0 0.75rem', fontSize: '0.8rem', color: '#9CA3AF'}}>
-              🔑 Password hint: <code style={{background: '#F3F4F6', padding: '0.15rem 0.4rem', borderRadius: '4px', color: '#1F2937'}}>admin123</code>
+              🔑 Password hint: <code style={{background: '#F3F4F6', padding: '0.15rem 0.4rem', borderRadius: '4px', color: '#1F2937'}}>enter password</code>
             </p>
             <Link to="/" style={{color: '#1A6B3C', fontSize: '0.85rem', textDecoration: 'none', fontWeight: 600}}>
               ← Back to Main Website
