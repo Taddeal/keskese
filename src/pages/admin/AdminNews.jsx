@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getNews, fetchNewsRemote, addNewsPost, updateNewsPost, deleteNewsPost } from '../../utils/storage';
-import { submitForm } from '../../utils/formService';
+
 
 export default function AdminNews() {
   const [posts, setPosts] = useState([]);
