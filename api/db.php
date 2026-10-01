@@ -18,10 +18,10 @@ if (file_exists(__DIR__ . '/config.php')) {
     require_once __DIR__ . '/config.php';
 }
 
-$db_host = defined('DB_HOST') ? DB_HOST : (getenv('DB_HOST') ?: 'localhost');
-$db_name = defined('DB_NAME') ? DB_NAME : (getenv('DB_NAME') ?: 'keskese_db');
-$db_user = defined('DB_USER') ? DB_USER : (getenv('DB_USER') ?: 'root');
-$db_pass = defined('DB_PASS') ? DB_PASS : (getenv('DB_PASS') ?: '');
+$db_host = (defined('DB_HOST') && DB_HOST !== '') ? DB_HOST : (getenv('DB_HOST') ?: 'localhost');
+$db_name = (defined('DB_NAME') && DB_NAME !== '') ? DB_NAME : (getenv('DB_NAME') ?: 'keskesem_keskese');
+$db_user = (defined('DB_USER') && DB_USER !== '') ? DB_USER : (getenv('DB_USER') ?: 'keskesem_keskese');
+$db_pass = (defined('DB_PASS') && DB_PASS !== '') ? DB_PASS : (getenv('DB_PASS') ?: 'Passw0rd@123');
 
 
 try {
