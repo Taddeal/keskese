@@ -18,6 +18,7 @@ import AdminNews from './pages/admin/AdminNews';
 import AdminMembers from './pages/admin/AdminMembers';
 import AdminFinances from './pages/admin/AdminFinances';
 import AdminMemberView from './pages/admin/AdminMemberView';
+import AdminContacts from './pages/admin/AdminContacts';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="news" element={<AdminNews />} />
             <Route path="members" element={<AdminMembers />} />
+            <Route path="contacts" element={<AdminContacts />} />
             <Route path="finances" element={<AdminFinances />} />
             <Route path="member-view" element={<AdminMemberView />} />
           </Route>

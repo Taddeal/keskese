@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from '../context/LanguageContext';
-import { getNews } from '../utils/storage';
+import { getNews, fetchNewsRemote } from '../utils/storage';
 
 const valuesList = [
   { key: 'integrity', icon: '🛡️', color: '#1A6B3C' },
@@ -20,6 +20,12 @@ export default function Home() {
     const published = news.filter(n => n.published);
     published.sort((a, b) => new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt));
     setLatestNews(published.slice(0, 2));
+
+    fetchNewsRemote().then(allPosts => {
+      const pub = allPosts.filter(n => n.published);
+      pub.sort((a, b) => new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt));
+      setLatestNews(pub.slice(0, 2));
+    }).catch(() => {});
   }, []);
 
   return (

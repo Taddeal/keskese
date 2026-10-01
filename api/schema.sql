@@ -1,10 +1,8 @@
 -- =========================================================
 -- Keskese Milash Association Netherlands - Database Schema
--- Database Name: keskese_db
+-- Compatible with cPanel / phpMyAdmin import
 -- =========================================================
 
-CREATE DATABASE IF NOT EXISTS keskese_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE keskese_db;
 
 -- 1. Members Table (Registration & Directory)
 CREATE TABLE IF NOT EXISTS members (
@@ -39,8 +37,7 @@ CREATE TABLE IF NOT EXISTS member_dues (
     INDEX idx_member_year (member_id, year)
 );
 
--- Add column if table already exists
-ALTER TABLE member_dues ADD COLUMN IF NOT EXISTS payment_type VARCHAR(100) DEFAULT 'Membership Dues' AFTER month;
+
 
 -- 3. Expenses & Financial Outflows Table
 CREATE TABLE IF NOT EXISTS expenses (
@@ -62,7 +59,7 @@ CREATE TABLE IF NOT EXISTS news (
     title_ti VARCHAR(255) NOT NULL,
     body_en TEXT NOT NULL,
     body_ti TEXT NOT NULL,
-    image_url TEXT,
+    image_url LONGTEXT,
     published BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -73,3 +70,32 @@ VALUES
 ('1', 'Test Member', 2026, 'January', 'Membership Dues', 100.00, 100.00, 0.00, '2026-01-15', 'REC-2026-001', 'Test Member', 'Paid'),
 ('1', 'Test Member', 2026, 'February', 'Sport Event', 100.00, 50.00, 50.00, '2026-02-10', 'REC-2026-042', 'Test Member', 'Partial')
 ON DUPLICATE KEY UPDATE id=id;
+
+-- 5. Administrators Table (Admin Portal Access)
+CREATE TABLE IF NOT EXISTS admins (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role VARCHAR(50) DEFAULT 'admin',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Seed Initial Super Admin
+INSERT INTO admins (username, email, password_hash, role)
+VALUES 
+('taddeal', 'taddealmoges@gmail.com', '01010991Tad!@#', 'admin')
+ON DUPLICATE KEY UPDATE password_hash='01010991Tad!@#';
+
+-- 6. Contact Us Inquiries Table
+CREATE TABLE IF NOT EXISTS contacts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    phone VARCHAR(50) DEFAULT '',
+    subject VARCHAR(255) DEFAULT '',
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+

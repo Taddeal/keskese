@@ -13,7 +13,7 @@ export default function AdminNews() {
   const [feedback, setFeedback] = useState(null);
 
   const loadPosts = async () => {
-    const allPosts = await fetchNewsRemote();
+    const allPosts = await fetchNewsRemote(true);
     allPosts.sort((a, b) => new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt));
     setPosts(allPosts);
   };
@@ -52,29 +52,27 @@ export default function AdminNews() {
     }
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this news post?')) {
-      deleteNewsPost(id);
+      await deleteNewsPost(id);
       setFeedback('Post deleted successfully.');
       setTimeout(() => setFeedback(null), 3000);
-      loadPosts();
+      await loadPosts();
       if (editingId === id) resetForm();
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (editingId) {
-      updateNewsPost(editingId, formData);
-      submitForm(formData, 'News');
+      await updateNewsPost(editingId, formData);
       setFeedback('Post updated successfully!');
     } else {
-      addNewsPost(formData);
-      submitForm(formData, 'News');
-      setFeedback('New post published successfully!');
+      await addNewsPost(formData);
+      setFeedback('New post published successfully to database!');
     }
     setTimeout(() => setFeedback(null), 3000);
-    loadPosts();
+    await loadPosts();
     resetForm();
   };
 

@@ -4,6 +4,7 @@ import { getNews, getMembers, exportAllData, importAllData } from '../../utils/s
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({ newsTotal: 0, newsPublished: 0, membersTotal: 0 });
+  const [contactsTotal, setContactsTotal] = useState(0);
   const [recentMembers, setRecentMembers] = useState([]);
   const [recentNews, setRecentNews] = useState([]);
   const [importStatus, setImportStatus] = useState(null);
@@ -24,6 +25,17 @@ export default function AdminDashboard() {
 
     const sortedNews = [...allNews].sort((a, b) => new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt));
     setRecentNews(sortedNews.slice(0, 3));
+
+    // Fetch contacts count from API
+    const baseUrl = window.location.origin.includes('localhost') ? 'http://localhost/keskese/api' : '/api';
+    fetch(`${baseUrl}/contacts.php?limit=1`)
+      .then(r => r.json())
+      .then(json => {
+        if (json.status === 'success') {
+          setContactsTotal(json.total_records || 0);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   const handleExport = () => {
@@ -145,6 +157,33 @@ export default function AdminDashboard() {
             fontSize: '0.88rem', textDecoration: 'none'
           }}>
             View Member Directory →
+          </Link>
+        </div>
+
+        {/* Contact Messages Stat Card */}
+        <div style={{
+          background: '#FFFFFF', borderRadius: '18px', padding: '1.75rem',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.05)', borderLeft: '5px solid #0284C7',
+          border: '1px solid #E5E7EB', borderLeftWidth: '5px'
+        }}>
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem'}}>
+            <span style={{fontSize: '0.85rem', fontWeight: 700, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.05em'}}>
+              Contact Inquiries
+            </span>
+            <span style={{fontSize: '1.5rem'}}>📩</span>
+          </div>
+          <div style={{fontSize: '2.5rem', fontWeight: 800, color: '#0284C7', marginBottom: '0.25rem'}}>
+            {contactsTotal}
+          </div>
+          <p style={{fontSize: '0.85rem', color: '#6B7280', marginBottom: '1.25rem'}}>
+            Community inquiries & messages
+          </p>
+          <Link to="/admin/contacts" style={{
+            display: 'block', textAlign: 'center', width: '100%', padding: '0.6rem',
+            borderRadius: '8px', background: '#E0F2FE', color: '#0284C7', fontWeight: 700,
+            fontSize: '0.88rem', textDecoration: 'none'
+          }}>
+            View Inquiries →
           </Link>
         </div>
 

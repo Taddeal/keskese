@@ -13,6 +13,8 @@ dist-ssr
 *.local
 .env
 .env.*
+api/config.php
+*.zip
 
 # Editor directories and files
 .vscode/*

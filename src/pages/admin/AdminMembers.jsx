@@ -53,9 +53,9 @@ export default function AdminMembers() {
     loadMembers();
   }, [page, searchQuery]);
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this member registration? This action cannot be undone.')) {
-      deleteMember(id);
+      await deleteMember(id);
       setFeedback('Member record deleted.');
       setTimeout(() => setFeedback(null), 3000);
       loadMembers();

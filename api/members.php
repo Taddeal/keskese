@@ -45,11 +45,16 @@ if ($method === 'GET') {
     exit();
 }
 
-if ($method === 'DELETE' || ($method === 'POST' && isset($_GET['action']) && $_GET['action'] === 'delete')) {
-    $input = json_decode(file_get_contents('php://input'), true) ?: $_POST ?: $_GET;
-    $id = isset($input['id']) ? $input['id'] : null;
+if ($method === 'DELETE' || (isset($_GET['action']) && $_GET['action'] === 'delete') || (isset($_POST['action']) && $_POST['action'] === 'delete') || (is_array($input) && isset($input['action']) && $input['action'] === 'delete')) {
+    $id = null;
+    if (is_array($input) && !empty($input['id'])) $id = $input['id'];
+    elseif (is_array($input) && !empty($input['memberId'])) $id = $input['memberId'];
+    elseif (!empty($_POST['id'])) $id = $_POST['id'];
+    elseif (!empty($_GET['id'])) $id = $_GET['id'];
+    elseif (!empty($_GET['member_id'])) $id = $_GET['member_id'];
 
     if (!$id) {
+        http_response_code(400);
         echo json_encode(["status" => "error", "message" => "Member ID is required for deletion."]);
         exit();
     }
@@ -59,6 +64,7 @@ if ($method === 'DELETE' || ($method === 'POST' && isset($_GET['action']) && $_G
         $stmt->execute([$id, $id]);
         echo json_encode(["status" => "success", "message" => "Member deleted successfully."]);
     } catch (PDOException $e) {
+        http_response_code(500);
         echo json_encode(["status" => "error", "message" => $e->getMessage()]);
     }
     exit();

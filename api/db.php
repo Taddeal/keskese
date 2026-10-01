@@ -14,10 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-$db_host = getenv('DB_HOST') ?: 'localhost';
-$db_name = getenv('DB_NAME') ?: 'keskese_db';
-$db_user = getenv('DB_USER') ?: 'root';
-$db_pass = getenv('DB_PASS') ?: '';
+if (file_exists(__DIR__ . '/config.php')) {
+    require_once __DIR__ . '/config.php';
+}
+
+$db_host = defined('DB_HOST') ? DB_HOST : (getenv('DB_HOST') ?: 'localhost');
+$db_name = defined('DB_NAME') ? DB_NAME : (getenv('DB_NAME') ?: 'keskese_db');
+$db_user = defined('DB_USER') ? DB_USER : (getenv('DB_USER') ?: 'root');
+$db_pass = defined('DB_PASS') ? DB_PASS : (getenv('DB_PASS') ?: '');
+
 
 try {
     $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass, [
