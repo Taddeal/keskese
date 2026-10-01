@@ -39,8 +39,9 @@ export const getNews = () => {
 
 export const fetchNewsRemote = async (isAdmin = false) => {
   try {
-    const url = `${getApiUrl('news.php')}${isAdmin ? '?admin=true' : ''}`;
-    const response = await fetch(url);
+    const timestamp = Date.now();
+    const url = `${getApiUrl('news.php')}?_t=${timestamp}${isAdmin ? '&admin=true' : ''}`;
+    const response = await fetch(url, { cache: 'no-store' });
     const contentType = response.headers.get('content-type') || '';
 
     if (contentType.includes('application/json')) {
@@ -49,15 +50,24 @@ export const fetchNewsRemote = async (isAdmin = false) => {
 
       if (Array.isArray(records)) {
         localStorage.setItem('keskese_news_db', JSON.stringify(records));
-        // Combine static initial events with DB posts
-        const merged = [...initialNews, ...records];
-        return merged.sort((a, b) => new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt));
+        if (isAdmin) {
+          // For Admin portal: return database records directly so editing/deleting dynamic posts works seamlessly
+          return records.sort((a, b) => new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt));
+        } else {
+          // For Public site: combine the 2 static initial events with DB posts for fast loading
+          const merged = [...initialNews, ...records];
+          return merged.sort((a, b) => new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt));
+        }
       }
     }
   } catch (err) {
     console.warn('MySQL news fetch error, using static & cached events:', err);
   }
 
+  if (isAdmin) {
+    const cachedDb = localStorage.getItem('keskese_news_db');
+    return cachedDb ? JSON.parse(cachedDb) : [];
+  }
   return getNews();
 };
 
@@ -131,8 +141,9 @@ export const fetchMembersRemote = async (page = 1, limit = 10, search = '') => {
   const baseUrl = isLocal ? 'http://localhost/keskese/api/members.php' : '/api/members.php';
 
   try {
-    const queryParams = new URLSearchParams({ page, limit, search }).toString();
-    const response = await fetch(`${baseUrl}?${queryParams}`);
+    const timestamp = Date.now();
+    const queryParams = new URLSearchParams({ page, limit, search, _t: timestamp }).toString();
+    const response = await fetch(`${baseUrl}?${queryParams}`, { cache: 'no-store' });
     const contentType = response.headers.get('content-type') || '';
     
     if (contentType.includes('application/json')) {

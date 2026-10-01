@@ -25,10 +25,11 @@ export default function AdminContacts() {
       const queryParams = new URLSearchParams({
         page,
         limit: 10,
-        search: searchQuery
+        search: searchQuery,
+        _t: Date.now()
       }).toString();
 
-      const res = await fetch(`${baseUrl}/contacts.php?${queryParams}`);
+      const res = await fetch(`${baseUrl}/contacts.php?${queryParams}`, { cache: 'no-store' });
       const json = await res.json();
 
       if (json.status === 'success') {

@@ -102,6 +102,18 @@ export default function AdminNews() {
         </div>
       </div>
 
+      {/* Fast performance notice */}
+      <div style={{
+        background: '#EFF6FF', border: '1px solid #BFDBFE', borderRadius: '12px',
+        padding: '0.85rem 1.25rem', marginBottom: '1.5rem', color: '#1E40AF', fontSize: '0.88rem',
+        display: 'flex', alignItems: 'center', gap: '0.75rem'
+      }}>
+        <span style={{fontSize: '1.25rem'}}>⚡</span>
+        <div>
+          <strong>Fast-Load Architecture:</strong> The 2 founding launch events on the website load instantly from static cache. Any new announcements published or edited here are saved directly to your MySQL database and updated live on the website.
+        </div>
+      </div>
+
       {feedback && (
         <div style={{
           background: '#E8F5EE', color: '#1A6B3C', padding: '0.85rem 1.25rem',
