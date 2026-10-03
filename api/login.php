@@ -39,10 +39,10 @@ try {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
 
-    // 2. Check if admin exists; if table is empty, auto-seed default admin
+    // 2. Check if admin exists; if table is empty, auto-seed default superadmin
     $countStmt = $pdo->query("SELECT COUNT(*) FROM admins");
     if ($countStmt->fetchColumn() == 0) {
-        $seedStmt = $pdo->prepare("INSERT INTO admins (username, email, password_hash, role) VALUES (?, ?, ?, 'admin')");
+        $seedStmt = $pdo->prepare("INSERT INTO admins (username, email, password_hash, role) VALUES (?, ?, ?, 'superadmin')");
         $seedStmt->execute(['taddeal', 'taddealmoges@gmail.com', '01010991Tad!@#']);
     }
 
@@ -69,6 +69,15 @@ try {
         exit();
     }
 
+    // Ensure primary admin account is marked as superadmin
+    $role = $admin['role'] ?: 'admin';
+    if (strtolower($admin['username']) === 'taddeal' || strtolower($admin['email']) === 'taddealmoges@gmail.com') {
+        $role = 'superadmin';
+        try {
+            $pdo->prepare("UPDATE admins SET role = 'superadmin' WHERE id = ?")->execute([$admin['id']]);
+        } catch (Exception $e) {}
+    }
+
     // 5. Generate secure session token
     $token = bin2hex(random_bytes(32));
 
@@ -80,7 +89,7 @@ try {
             "id" => $admin['id'],
             "username" => $admin['username'],
             "email" => $admin['email'],
-            "role" => $admin['role']
+            "role" => $role
         ]
     ]);
 

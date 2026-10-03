@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /admin/*
+Disallow: /api/
 
-Sitemap: https://keskese.vercel.app/sitemap.xml
+Sitemap: https://keskesemlashinnetherlands.net/sitemap.xml

@@ -84,8 +84,8 @@ CREATE TABLE IF NOT EXISTS admins (
 -- Seed Initial Super Admin
 INSERT INTO admins (username, email, password_hash, role)
 VALUES 
-('taddeal', 'taddealmoges@gmail.com', '01010991Tad!@#', 'admin')
-ON DUPLICATE KEY UPDATE password_hash='01010991Tad!@#';
+('taddeal', 'taddealmoges@gmail.com', '01010991Tad!@#', 'superadmin')
+ON DUPLICATE KEY UPDATE password_hash='01010991Tad!@#', role='superadmin';
 
 -- 6. Contact Us Inquiries Table
 CREATE TABLE IF NOT EXISTS contacts (
