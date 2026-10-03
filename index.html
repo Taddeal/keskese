@@ -5,6 +5,12 @@
     <link rel="icon" type="image/png" href="/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
+    <!-- Immediate Redirect if accessed via old Vercel URL -->
+    <script>
+      if (window.location.hostname.includes('vercel.app')) {
+        window.location.replace('https://keskesemlashinnetherlands.net' + window.location.pathname + window.location.search);
+      }
+    </script>
     <!-- Primary Meta Tags -->
     <title>Keskese Milash Association | Vereniging Keskese Melash Nederland</title>
     <meta name="title" content="Keskese Milash Association | Vereniging Keskese Melash Nederland" />
