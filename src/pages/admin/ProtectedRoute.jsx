@@ -13,9 +13,9 @@ export default function ProtectedRoute() {
 
   // Modal State for adding admins
   const [showAdminModal, setShowAdminModal] = useState(false);
+  const [adminModalTab, setAdminModalTab] = useState('add');
   const [newAdmin, setNewAdmin] = useState({ username: '', email: '', password: '', role: 'admin' });
   const [adminList, setAdminList] = useState([]);
-  const [showExistingAdmins, setShowExistingAdmins] = useState(false);
   const [adminLoading, setAdminLoading] = useState(false);
   const [adminFeedback, setAdminFeedback] = useState(null);
   const [adminError, setAdminError] = useState(null);
@@ -158,6 +158,10 @@ export default function ProtectedRoute() {
               👥 Members
             </NavLink>
 
+            <NavLink to="/admin/governance" style={navLinkStyle}>
+              🏛️ Org & Meetings
+            </NavLink>
+
             <NavLink to="/admin/contacts" style={navLinkStyle}>
               📩 Inquiries
             </NavLink>
@@ -199,12 +203,13 @@ export default function ProtectedRoute() {
               </button>
             )}
 
-            {adminUser?.email && (
+            {(adminUser?.username || adminUser?.email) && (
               <span style={{
-                fontSize: '0.8rem', color: '#D1D5DB', background: '#1F2937',
-                padding: '0.3rem 0.65rem', borderRadius: '6px', border: '1px solid #374151'
+                fontSize: '0.82rem', color: '#F3F4F6', background: '#1F2937',
+                padding: '0.35rem 0.75rem', borderRadius: '6px', border: '1px solid #374151',
+                fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.35rem'
               }} className="hidden-mobile">
-                👤 {adminUser.email}
+                👤 {adminUser.username || adminUser.email}
               </span>
             )}
 
@@ -242,12 +247,12 @@ export default function ProtectedRoute() {
         <Outlet />
       </main>
 
-      {/* Super Admin Modal Popup (Disappears after adding) */}
+      {/* Super Admin Modal Popup (Tabbed: Add Admin & View Admins) */}
       {showAdminModal && (
         <div style={{
           position: 'fixed', inset: 0,
-          background: 'rgba(0, 0, 0, 0.7)',
-          backdropFilter: 'blur(4px)',
+          background: 'rgba(0, 0, 0, 0.75)',
+          backdropFilter: 'blur(5px)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           zIndex: 9999, padding: '1rem'
         }}>
@@ -255,7 +260,10 @@ export default function ProtectedRoute() {
             background: '#FFFFFF',
             borderRadius: '16px',
             width: '100%',
-            maxWidth: '460px',
+            maxWidth: '520px',
+            maxHeight: '90vh',
+            display: 'flex',
+            flexDirection: 'column',
             boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
             overflow: 'hidden',
             border: '1px solid #E5E7EB',
@@ -265,27 +273,61 @@ export default function ProtectedRoute() {
             <div style={{
               background: '#111827',
               color: '#FFFFFF',
-              padding: '1.1rem 1.4rem',
+              padding: '1rem 1.25rem',
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               borderBottom: '3px solid #D4A843'
             }}>
               <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
                 <span style={{fontSize: '1.2rem'}}>👑</span>
-                <span style={{fontWeight: 700, fontSize: '1rem'}}>Super Admin: Add Admin</span>
+                <span style={{fontWeight: 700, fontSize: '1rem'}}>Super Admin Portal</span>
               </div>
               <button 
                 onClick={() => setShowAdminModal(false)}
                 style={{
                   background: 'transparent', border: 'none', color: '#9CA3AF',
-                  fontSize: '1.2rem', cursor: 'pointer', padding: '0.2rem'
+                  fontSize: '1.25rem', cursor: 'pointer', padding: '0.2rem'
                 }}
               >
                 ✕
               </button>
             </div>
 
-            {/* Modal Body Form */}
-            <div style={{padding: '1.5rem'}}>
+            {/* Modal Tabs Bar */}
+            <div style={{
+              display: 'flex', background: '#F8FAFC', borderBottom: '1px solid #E2E8F0', padding: '0.35rem 0.5rem', gap: '0.5rem'
+            }}>
+              <button
+                type="button"
+                onClick={() => setAdminModalTab('add')}
+                style={{
+                  flex: 1, padding: '0.55rem', borderRadius: '8px', border: 'none', cursor: 'pointer',
+                  fontWeight: 700, fontSize: '0.85rem', transition: 'all 0.15s ease',
+                  background: adminModalTab === 'add' ? '#1A6B3C' : 'transparent',
+                  color: adminModalTab === 'add' ? '#FFFFFF' : '#64748B'
+                }}
+              >
+                ➕ Add Admin User
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setAdminModalTab('list');
+                  loadAdmins();
+                }}
+                style={{
+                  flex: 1, padding: '0.55rem', borderRadius: '8px', border: 'none', cursor: 'pointer',
+                  fontWeight: 700, fontSize: '0.85rem', transition: 'all 0.15s ease',
+                  background: adminModalTab === 'list' ? '#1A6B3C' : 'transparent',
+                  color: adminModalTab === 'list' ? '#FFFFFF' : '#64748B'
+                }}
+              >
+                👥 View Admins ({adminList.length})
+              </button>
+            </div>
+
+            {/* Modal Body Content (Scrollable) */}
+            <div style={{padding: '1.4rem', overflowY: 'auto', flex: 1}}>
               
               {adminFeedback && (
                 <div style={{
@@ -307,157 +349,170 @@ export default function ProtectedRoute() {
                 </div>
               )}
 
-              <form onSubmit={handleAddAdmin} style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-                {/* Username */}
-                <div>
-                  <label style={{display: 'block', fontWeight: 600, fontSize: '0.84rem', color: '#374151', marginBottom: '0.35rem'}}>
-                    Username <span style={{color: '#C23B22'}}>*</span>
-                  </label>
-                  <input 
-                    type="text"
-                    required
-                    placeholder="e.g. michael"
-                    value={newAdmin.username}
-                    onChange={e => setNewAdmin({...newAdmin, username: e.target.value})}
-                    style={{
-                      width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px',
-                      border: '1.5px solid #D1D5DB', fontSize: '0.9rem', outline: 'none'
-                    }}
-                  />
-                </div>
-
-                {/* Email */}
-                <div>
-                  <label style={{display: 'block', fontWeight: 600, fontSize: '0.84rem', color: '#374151', marginBottom: '0.35rem'}}>
-                    Email Address <span style={{color: '#C23B22'}}>*</span>
-                  </label>
-                  <input 
-                    type="email"
-                    required
-                    placeholder="e.g. admin@example.com"
-                    value={newAdmin.email}
-                    onChange={e => setNewAdmin({...newAdmin, email: e.target.value})}
-                    style={{
-                      width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px',
-                      border: '1.5px solid #D1D5DB', fontSize: '0.9rem', outline: 'none'
-                    }}
-                  />
-                </div>
-
-                {/* Password */}
-                <div>
-                  <label style={{display: 'block', fontWeight: 600, fontSize: '0.84rem', color: '#374151', marginBottom: '0.35rem'}}>
-                    Password <span style={{color: '#C23B22'}}>*</span>
-                  </label>
-                  <div style={{position: 'relative'}}>
+              {/* TAB 1: ADD ADMIN FORM */}
+              {adminModalTab === 'add' && (
+                <form onSubmit={handleAddAdmin} style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+                  {/* Username */}
+                  <div>
+                    <label style={{display: 'block', fontWeight: 600, fontSize: '0.84rem', color: '#374151', marginBottom: '0.35rem'}}>
+                      Username <span style={{color: '#C23B22'}}>*</span>
+                    </label>
                     <input 
-                      type={showPassword ? 'text' : 'password'}
+                      type="text"
                       required
-                      placeholder="Enter secure password"
-                      value={newAdmin.password}
-                      onChange={e => setNewAdmin({...newAdmin, password: e.target.value})}
+                      placeholder="e.g. michael"
+                      value={newAdmin.username}
+                      onChange={e => setNewAdmin({...newAdmin, username: e.target.value})}
                       style={{
-                        width: '100%', padding: '0.65rem 2.4rem 0.65rem 0.85rem', borderRadius: '8px',
+                        width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px',
                         border: '1.5px solid #D1D5DB', fontSize: '0.9rem', outline: 'none'
                       }}
                     />
-                    <button 
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
+                  </div>
+
+                  {/* Email */}
+                  <div>
+                    <label style={{display: 'block', fontWeight: 600, fontSize: '0.84rem', color: '#374151', marginBottom: '0.35rem'}}>
+                      Email Address <span style={{color: '#C23B22'}}>*</span>
+                    </label>
+                    <input 
+                      type="email"
+                      required
+                      placeholder="e.g. admin@example.com"
+                      value={newAdmin.email}
+                      onChange={e => setNewAdmin({...newAdmin, email: e.target.value})}
                       style={{
-                        position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)',
-                        background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', color: '#6B7280'
+                        width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px',
+                        border: '1.5px solid #D1D5DB', fontSize: '0.9rem', outline: 'none'
+                      }}
+                    />
+                  </div>
+
+                  {/* Password */}
+                  <div>
+                    <label style={{display: 'block', fontWeight: 600, fontSize: '0.84rem', color: '#374151', marginBottom: '0.35rem'}}>
+                      Password <span style={{color: '#C23B22'}}>*</span>
+                    </label>
+                    <div style={{position: 'relative'}}>
+                      <input 
+                        type={showPassword ? 'text' : 'password'}
+                        required
+                        placeholder="Enter password"
+                        value={newAdmin.password}
+                        onChange={e => setNewAdmin({...newAdmin, password: e.target.value})}
+                        style={{
+                          width: '100%', padding: '0.65rem 2.4rem 0.65rem 0.85rem', borderRadius: '8px',
+                          border: '1.5px solid #D1D5DB', fontSize: '0.9rem', outline: 'none'
+                        }}
+                      />
+                      <button 
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{
+                          position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)',
+                          background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', color: '#6B7280'
+                        }}
+                      >
+                        {showPassword ? '🙈' : '👁️'}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Role */}
+                  <div>
+                    <label style={{display: 'block', fontWeight: 600, fontSize: '0.84rem', color: '#374151', marginBottom: '0.35rem'}}>
+                      Role <span style={{color: '#C23B22'}}>*</span>
+                    </label>
+                    <select 
+                      value={newAdmin.role}
+                      onChange={e => setNewAdmin({...newAdmin, role: e.target.value})}
+                      style={{
+                        width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px',
+                        border: '1.5px solid #D1D5DB', fontSize: '0.9rem', outline: 'none', background: '#FFFFFF'
                       }}
                     >
-                      {showPassword ? '🙈' : '👁️'}
+                      <option value="admin">Standard Admin (admin)</option>
+                      <option value="superadmin">Super Admin (full privileges)</option>
+                    </select>
+                  </div>
+
+                  {/* Actions */}
+                  <div style={{display: 'flex', gap: '0.75rem', marginTop: '0.5rem'}}>
+                    <button 
+                      type="button"
+                      onClick={() => setShowAdminModal(false)}
+                      style={{
+                        flex: 1, padding: '0.65rem', borderRadius: '8px',
+                        background: '#F3F4F6', color: '#4B5563', border: '1px solid #D1D5DB',
+                        fontSize: '0.88rem', fontWeight: 600, cursor: 'pointer'
+                      }}
+                    >
+                      Cancel
+                    </button>
+
+                    <button 
+                      type="submit"
+                      disabled={adminLoading}
+                      style={{
+                        flex: 2, padding: '0.65rem', borderRadius: '8px',
+                        background: '#1A6B3C', color: '#FFFFFF', border: 'none',
+                        fontSize: '0.88rem', fontWeight: 700, cursor: adminLoading ? 'not-allowed' : 'pointer',
+                        opacity: adminLoading ? 0.7 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem'
+                      }}
+                    >
+                      {adminLoading ? 'Saving...' : '💾 Save Admin'}
                     </button>
                   </div>
-                </div>
 
-                {/* Role */}
-                <div>
-                  <label style={{display: 'block', fontWeight: 600, fontSize: '0.84rem', color: '#374151', marginBottom: '0.35rem'}}>
-                    Role <span style={{color: '#C23B22'}}>*</span>
-                  </label>
-                  <select 
-                    value={newAdmin.role}
-                    onChange={e => setNewAdmin({...newAdmin, role: e.target.value})}
-                    style={{
-                      width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px',
-                      border: '1.5px solid #D1D5DB', fontSize: '0.9rem', outline: 'none', background: '#FFFFFF'
-                    }}
-                  >
-                    <option value="admin">Standard Admin (admin)</option>
-                    <option value="superadmin">Super Admin (full privileges)</option>
-                  </select>
-                </div>
+                </form>
+              )}
 
-                {/* Actions */}
-                <div style={{display: 'flex', gap: '0.75rem', marginTop: '0.5rem'}}>
-                  <button 
-                    type="button"
-                    onClick={() => setShowAdminModal(false)}
-                    style={{
-                      flex: 1, padding: '0.65rem', borderRadius: '8px',
-                      background: '#F3F4F6', color: '#4B5563', border: '1px solid #D1D5DB',
-                      fontSize: '0.88rem', fontWeight: 600, cursor: 'pointer'
-                    }}
-                  >
-                    Cancel
-                  </button>
+              {/* TAB 2: VIEW ADMINISTRATORS LIST */}
+              {adminModalTab === 'list' && (
+                <div style={{display: 'flex', flexDirection: 'column', gap: '0.75rem'}}>
+                  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.25rem'}}>
+                    <span style={{fontSize: '0.85rem', fontWeight: 700, color: '#374151'}}>
+                      Registered Admins ({adminList.length})
+                    </span>
+                    <button
+                      type="button"
+                      onClick={loadAdmins}
+                      style={{
+                        background: '#EBF0F7', color: '#1E3A5F', border: 'none', padding: '0.25rem 0.55rem',
+                        borderRadius: '6px', fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer'
+                      }}
+                    >
+                      🔄 Refresh
+                    </button>
+                  </div>
 
-                  <button 
-                    type="submit"
-                    disabled={adminLoading}
-                    style={{
-                      flex: 2, padding: '0.65rem', borderRadius: '8px',
-                      background: '#1A6B3C', color: '#FFFFFF', border: 'none',
-                      fontSize: '0.88rem', fontWeight: 700, cursor: adminLoading ? 'not-allowed' : 'pointer',
-                      opacity: adminLoading ? 0.7 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem'
-                    }}
-                  >
-                    {adminLoading ? 'Saving...' : '💾 Save Admin'}
-                  </button>
-                </div>
-
-              </form>
-
-              {/* View Existing Admins Accordion */}
-              <div style={{marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid #E5E7EB'}}>
-                <button 
-                  type="button"
-                  onClick={() => setShowExistingAdmins(!showExistingAdmins)}
-                  style={{
-                    background: 'none', border: 'none', color: '#1E3A5F', fontSize: '0.82rem',
-                    fontWeight: 600, cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: '0.35rem'
-                  }}
-                >
-                  <span>{showExistingAdmins ? '▼' : '▶'}</span>
-                  <span>View Existing Administrators ({adminList.length})</span>
-                </button>
-
-                {showExistingAdmins && (
-                  <div style={{marginTop: '0.75rem', maxHeight: '160px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
+                  <div style={{display: 'flex', flexDirection: 'column', gap: '0.65rem'}}>
                     {adminList.map(a => (
                       <div 
                         key={a.id}
                         style={{
                           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                          padding: '0.5rem 0.75rem', borderRadius: '6px', background: '#F9FAFB',
-                          border: '1px solid #E5E7EB', fontSize: '0.82rem'
+                          padding: '0.75rem 0.9rem', borderRadius: '10px', background: '#F8FAFC',
+                          border: '1px solid #E2E8F0', fontSize: '0.85rem'
                         }}
                       >
                         <div>
-                          <span style={{fontWeight: 700, color: '#111827'}}>{a.username}</span>
-                          <span style={{color: '#6B7280', marginLeft: '0.4rem'}}>({a.email})</span>
-                          <span style={{
-                            marginLeft: '0.5rem', padding: '0.1rem 0.4rem', borderRadius: '4px',
-                            background: a.role === 'superadmin' ? '#FEF3C7' : '#E5E7EB',
-                            color: a.role === 'superadmin' ? '#92400E' : '#374151',
-                            fontWeight: 600, fontSize: '0.72rem'
-                          }}>
-                            {a.role}
-                          </span>
+                          <div style={{display: 'flex', alignItems: 'center', gap: '0.45rem', marginBottom: '0.2rem'}}>
+                            <span style={{fontWeight: 700, color: '#0F172A', fontSize: '0.92rem'}}>
+                              {a.username}
+                            </span>
+                            <span style={{
+                              padding: '0.15rem 0.5rem', borderRadius: '50px',
+                              background: a.role === 'superadmin' ? '#FEF3C7' : '#E0E7FF',
+                              color: a.role === 'superadmin' ? '#92400E' : '#3730A3',
+                              fontWeight: 700, fontSize: '0.72rem'
+                            }}>
+                              {a.role === 'superadmin' ? '👑 superadmin' : '🛡️ admin'}
+                            </span>
+                          </div>
+                          <div style={{color: '#64748B', fontSize: '0.8rem'}}>
+                            ✉️ {a.email}
+                          </div>
                         </div>
 
                         {a.username !== 'taddeal' && (
@@ -465,19 +520,25 @@ export default function ProtectedRoute() {
                             type="button"
                             onClick={() => handleDeleteAdmin(a.id, a.username)}
                             style={{
-                              background: '#FDE8E8', color: '#C23B22', border: 'none',
-                              padding: '0.2rem 0.45rem', borderRadius: '4px', fontSize: '0.75rem',
-                              fontWeight: 600, cursor: 'pointer'
+                              background: '#FEE2E2', color: '#991B1B', border: '1px solid #FCA5A5',
+                              padding: '0.35rem 0.65rem', borderRadius: '6px', fontSize: '0.78rem',
+                              fontWeight: 700, cursor: 'pointer', transition: 'background 0.15s ease'
                             }}
                           >
-                            Delete
+                            🗑️ Delete
                           </button>
                         )}
                       </div>
                     ))}
+
+                    {adminList.length === 0 && (
+                      <div style={{textAlign: 'center', padding: '2rem 1rem', color: '#94A3B8'}}>
+                        No administrators found.
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
 
             </div>
 

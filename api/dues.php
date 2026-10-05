@@ -90,6 +90,11 @@ if ($method === 'GET') {
     exit();
 }
 
+// Auto-migrate accepted_by column if not exists
+try {
+    $pdo->exec("ALTER TABLE member_dues ADD COLUMN accepted_by VARCHAR(100) DEFAULT '' AFTER payer_name");
+} catch (Exception $e) {}
+
 // Add / Update Dues Record (Admin)
 if ($method === 'POST') {
     $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
@@ -107,6 +112,7 @@ if ($method === 'POST') {
     $paymentDate = isset($input['payment_date']) ? $input['payment_date'] : date('Y-m-d');
     $receiptNo = isset($input['receipt_number']) ? trim($input['receipt_number']) : 'REC-' . date('Y') . '-' . rand(100, 999);
     $payerName = isset($input['payer_name']) ? trim($input['payer_name']) : $memberName;
+    $acceptedBy = isset($input['accepted_by']) ? trim($input['accepted_by']) : '';
 
     $status = 'Pending';
     if ($paid >= $billed && $billed > 0) {
@@ -116,10 +122,10 @@ if ($method === 'POST') {
     }
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO member_dues (member_id, member_name, year, month, payment_type, billed_amount, paid_amount, remaining_amount, payment_date, receipt_number, payer_name, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$memberId, $memberName, $year, $month, $paymentType, $billed, $paid, $remaining, $paymentDate, $receiptNo, $payerName, $status]);
+        $stmt = $pdo->prepare("INSERT INTO member_dues (member_id, member_name, year, month, payment_type, billed_amount, paid_amount, remaining_amount, payment_date, receipt_number, payer_name, accepted_by, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$memberId, $memberName, $year, $month, $paymentType, $billed, $paid, $remaining, $paymentDate, $receiptNo, $payerName, $acceptedBy, $status]);
 
-        echo json_encode(["status" => "success", "message" => "Dues record saved successfully.", "receipt_number" => $receiptNo]);
+        echo json_encode(["status" => "success", "message" => "Dues record saved successfully.", "receipt_number" => $receiptNo, "accepted_by" => $acceptedBy]);
     } catch (PDOException $e) {
         echo json_encode(["status" => "error", "message" => $e->getMessage()]);
     }

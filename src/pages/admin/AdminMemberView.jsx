@@ -226,6 +226,7 @@ export default function AdminMemberView() {
                 <th style={{padding: '0.85rem 1rem'}}>ዝተረፈ</th>
                 <th style={{padding: '0.85rem 1rem'}}>Date</th>
                 <th style={{padding: '0.85rem 1rem'}}>ደረሰኝ</th>
+                <th style={{padding: '0.85rem 1rem'}}>Accepted By</th>
                 <th style={{padding: '0.85rem 1rem'}}>Status</th>
               </tr>
             </thead>
@@ -246,6 +247,9 @@ export default function AdminMemberView() {
                     <td style={{padding: '0.85rem 1rem', color: '#D97706', fontWeight: 700}}>€ {r.remaining_amount}</td>
                     <td style={{padding: '0.85rem 1rem', color: '#64748B'}}>{r.payment_date || '-'}</td>
                     <td style={{padding: '0.85rem 1rem', color: '#2563EB', fontWeight: 600}}>{r.receipt_number || '-'}</td>
+                    <td style={{padding: '0.85rem 1rem', color: '#475569', fontWeight: 600}}>
+                      {r.accepted_by ? `👤 ${r.accepted_by}` : '—'}
+                    </td>
                     <td style={{padding: '0.85rem 1rem'}}>
                       <span style={{
                         padding: '0.25rem 0.65rem', borderRadius: '50px', fontSize: '0.78rem', fontWeight: 700,

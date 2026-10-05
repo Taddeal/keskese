@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS member_dues (
     payment_date DATE,
     receipt_number VARCHAR(100),
     payer_name VARCHAR(150),
+    accepted_by VARCHAR(100) DEFAULT '',
     status ENUM('Paid', 'Pending', 'Partial') DEFAULT 'Pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_member_year (member_id, year)
@@ -95,6 +96,42 @@ CREATE TABLE IF NOT EXISTS contacts (
     phone VARCHAR(50) DEFAULT '',
     subject VARCHAR(255) DEFAULT '',
     message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 7. Organization Structure & Leadership Directory
+CREATE TABLE IF NOT EXISTS leadership (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    term VARCHAR(50) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    name VARCHAR(150) NOT NULL,
+    role_title VARCHAR(150) DEFAULT '',
+    phone VARCHAR(50) DEFAULT '',
+    email VARCHAR(150) DEFAULT '',
+    display_order INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Seed Sample Leaders
+INSERT INTO leadership (term, category, name, role_title)
+VALUES 
+('2026-2028', 'Parliament Leaders', 'Sened Luul', 'Parliament Leader'),
+('2026-2028', 'Executive Leaders', 'Dawit Luu', 'Executive Leader')
+ON DUPLICATE KEY UPDATE name=name;
+
+-- 8. Meetings Planning & Reports Table
+CREATE TABLE IF NOT EXISTS meetings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    meeting_date DATE NOT NULL,
+    start_time VARCHAR(20) DEFAULT '12:00',
+    end_time VARCHAR(20) DEFAULT '13:00',
+    meeting_type VARCHAR(100) DEFAULT 'Leadership Meeting',
+    location VARCHAR(255) DEFAULT 'Community Hall',
+    attendees TEXT,
+    issues_discussed TEXT,
+    status VARCHAR(50) DEFAULT 'Scheduled',
+    created_by VARCHAR(100) DEFAULT '',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
