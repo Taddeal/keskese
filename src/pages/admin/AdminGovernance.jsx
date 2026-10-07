@@ -547,7 +547,7 @@ export default function AdminGovernance() {
                           display: 'flex', alignItems: 'center', justifyContent: 'space-between'
                         }}>
                           <div>
-                            <div style={{fontWeight: 700, color: '#0F172A', fontSize: '0.95rem'}}>{leader.name}</div>
+                            <div className="notranslate" translate="no" style={{fontWeight: 700, color: '#0F172A', fontSize: '0.95rem'}}>{leader.name}</div>
                             {leader.role_title && (
                               <div style={{fontSize: '0.8rem', color: '#1A6B3C', fontWeight: 600}}>{leader.role_title}</div>
                             )}
@@ -601,7 +601,7 @@ export default function AdminGovernance() {
                           display: 'flex', alignItems: 'center', justifyContent: 'space-between'
                         }}>
                           <div>
-                            <div style={{fontWeight: 700, color: '#0F172A', fontSize: '0.95rem'}}>{leader.name}</div>
+                            <div className="notranslate" translate="no" style={{fontWeight: 700, color: '#0F172A', fontSize: '0.95rem'}}>{leader.name}</div>
                             {leader.role_title && (
                               <div style={{fontSize: '0.8rem', color: '#1A6B3C', fontWeight: 600}}>{leader.role_title}</div>
                             )}
@@ -930,7 +930,7 @@ export default function AdminGovernance() {
                   {m.attendees && (
                     <div style={{marginBottom: '0.75rem', fontSize: '0.85rem'}}>
                       <span style={{fontWeight: 700, color: '#334155'}}>👥 Available People (Attendees): </span>
-                      <span style={{color: '#475569'}}>{m.attendees}</span>
+                      <span className="notranslate" translate="no" style={{color: '#475569'}}>{m.attendees}</span>
                     </div>
                   )}
 

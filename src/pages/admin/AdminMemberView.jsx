@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from '../../context/LanguageContext';
 
 export default function AdminMemberView() {
+  const { locale } = useTranslation();
   const [memberId, setMemberId] = useState('1');
   const [year, setYear] = useState('2026');
   const [monthFilter, setMonthFilter] = useState('all');
@@ -226,7 +228,9 @@ export default function AdminMemberView() {
                 <th style={{padding: '0.85rem 1rem'}}>ዝተረፈ</th>
                 <th style={{padding: '0.85rem 1rem'}}>Date</th>
                 <th style={{padding: '0.85rem 1rem'}}>ደረሰኝ</th>
-                <th style={{padding: '0.85rem 1rem'}}>ስም ክፍሊት ፈጻሚ</th>
+                <th style={{padding: '0.85rem 1rem'}}>
+                  {locale === 'ti' ? 'ስም ክፍሊት ፈጻሚ' : <span className="notranslate" translate="no">Accepted By</span>}
+                </th>
                 <th style={{padding: '0.85rem 1rem'}}>Status</th>
               </tr>
             </thead>
@@ -234,8 +238,8 @@ export default function AdminMemberView() {
               {filteredRecords.length > 0 ? (
                 filteredRecords.map((r, idx) => (
                   <tr key={r.id || idx} style={{borderBottom: '1px solid #F1F5F9', background: idx % 2 === 0 ? '#FFFFFF' : '#FAFAF8'}}>
-                    <td style={{padding: '0.85rem 1rem', fontWeight: 700, color: '#0F172A'}}>{r.member_name || 'Member'}</td>
-                    <td style={{padding: '0.85rem 1rem', color: '#475569'}}>{r.member_id}</td>
+                    <td className="notranslate" translate="no" style={{padding: '0.85rem 1rem', fontWeight: 700, color: '#0F172A'}}>{r.member_name || 'Member'}</td>
+                    <td className="notranslate" translate="no" style={{padding: '0.85rem 1rem', color: '#475569'}}>{r.member_id}</td>
                     <td style={{padding: '0.85rem 1rem', fontWeight: 600, color: '#1E3A5F'}}>
                       <span style={{padding: '0.2rem 0.55rem', borderRadius: '6px', background: '#F1F5F9', fontSize: '0.8rem'}}>
                         {r.payment_type || 'Membership Dues'}
@@ -246,8 +250,8 @@ export default function AdminMemberView() {
                     <td style={{padding: '0.85rem 1rem', color: '#0D9488', fontWeight: 700}}>€ {r.paid_amount}</td>
                     <td style={{padding: '0.85rem 1rem', color: '#D97706', fontWeight: 700}}>€ {r.remaining_amount}</td>
                     <td style={{padding: '0.85rem 1rem', color: '#64748B'}}>{r.payment_date || '-'}</td>
-                    <td style={{padding: '0.85rem 1rem', color: '#2563EB', fontWeight: 600}}>{r.receipt_number || '-'}</td>
-                    <td style={{padding: '0.85rem 1rem', color: '#475569', fontWeight: 600}}>
+                    <td className="notranslate" translate="no" style={{padding: '0.85rem 1rem', color: '#2563EB', fontWeight: 600}}>{r.receipt_number || '-'}</td>
+                    <td className="notranslate" translate="no" style={{padding: '0.85rem 1rem', color: '#475569', fontWeight: 600}}>
                       {r.accepted_by ? `👤 ${r.accepted_by}` : '—'}
                     </td>
                     <td style={{padding: '0.85rem 1rem'}}>

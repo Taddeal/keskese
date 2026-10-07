@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Navigate, Outlet, NavLink, Link } from 'react-router-dom';
+import { useTranslation } from '../../context/LanguageContext';
 
 export default function ProtectedRoute() {
+  const { locale, setLocale } = useTranslation();
   const isAuthenticated = sessionStorage.getItem('keskese_admin') === 'true';
   const adminUser = JSON.parse(sessionStorage.getItem('keskese_admin_user') || '{}');
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -147,37 +149,72 @@ export default function ProtectedRoute() {
           {/* Desktop Nav Links */}
           <nav style={{display: 'flex', alignItems: 'center', gap: '0.4rem'}} className="hidden-mobile">
             <NavLink to="/admin/dashboard" style={navLinkStyle}>
-              📊 Dashboard
+              📊 {locale === 'ti' ? 'ዳሽቦርድ' : 'Dashboard'}
             </NavLink>
 
             <NavLink to="/admin/news" style={navLinkStyle}>
-              📰 News & Events
+              📰 {locale === 'ti' ? 'ዜናን ፍጻመታትን' : 'News & Events'}
             </NavLink>
 
             <NavLink to="/admin/members" style={navLinkStyle}>
-              👥 Members
+              👥 {locale === 'ti' ? 'ኣባላት' : 'Members'}
             </NavLink>
 
             <NavLink to="/admin/governance" style={navLinkStyle}>
-              🏛️ Org & Meetings
+              🏛️ {locale === 'ti' ? 'መሪሕነትን ኣኼባታትን' : 'Org & Meetings'}
             </NavLink>
 
             <NavLink to="/admin/contacts" style={navLinkStyle}>
-              📩 Inquiries
+              📩 {locale === 'ti' ? 'ርክባት' : 'Inquiries'}
             </NavLink>
 
             <NavLink to="/admin/finances" style={navLinkStyle}>
-              💳 Finances
+              💳 {locale === 'ti' ? 'ፋይናንስ' : 'Finances'}
             </NavLink>
 
             <NavLink to="/admin/member-view" style={navLinkStyle}>
-              🔍 Statements
+              🔍 {locale === 'ti' ? 'ርእይቶ ኣባል' : 'Statements'}
             </NavLink>
           </nav>
 
           {/* Right Action Buttons & User Info */}
           <div style={{display: 'flex', alignItems: 'center', gap: '0.65rem'}}>
             
+            {/* Language Switcher */}
+            <div style={{
+              display: 'flex', alignItems: 'center', background: '#1F2937',
+              borderRadius: '8px', padding: '2px', border: '1px solid #374151'
+            }}>
+              <button 
+                type="button"
+                onClick={() => setLocale('en')}
+                style={{
+                  padding: '0.25rem 0.55rem', borderRadius: '6px', border: 'none', cursor: 'pointer',
+                  fontSize: '0.78rem', fontWeight: 700,
+                  background: locale === 'en' ? '#1A6B3C' : 'transparent',
+                  color: locale === 'en' ? '#FFFFFF' : '#9CA3AF',
+                  transition: 'all 0.15s ease'
+                }}
+                title="Switch Admin to English"
+              >
+                EN
+              </button>
+              <button 
+                type="button"
+                onClick={() => setLocale('ti')}
+                style={{
+                  padding: '0.25rem 0.55rem', borderRadius: '6px', border: 'none', cursor: 'pointer',
+                  fontSize: '0.78rem', fontWeight: 700,
+                  background: locale === 'ti' ? '#1A6B3C' : 'transparent',
+                  color: locale === 'ti' ? '#FFFFFF' : '#9CA3AF',
+                  transition: 'all 0.15s ease'
+                }}
+                title="Admin ናብ ትግርኛ ቀይር"
+              >
+                ትግ
+              </button>
+            </div>
+
             {/* Super Admin Add Button */}
             {isSuperAdmin && (
               <button 
@@ -199,16 +236,20 @@ export default function ProtectedRoute() {
                 }}
                 title="Super Admin: Manage Administrators"
               >
-                👑 Add Admin
+                👑 {locale === 'ti' ? 'ኣመሓዳሪ ወስኽ' : 'Add Admin'}
               </button>
             )}
 
             {(adminUser?.username || adminUser?.email) && (
-              <span style={{
-                fontSize: '0.82rem', color: '#F3F4F6', background: '#1F2937',
-                padding: '0.35rem 0.75rem', borderRadius: '6px', border: '1px solid #374151',
-                fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.35rem'
-              }} className="hidden-mobile">
+              <span 
+                className="hidden-mobile notranslate" 
+                translate="no"
+                style={{
+                  fontSize: '0.82rem', color: '#F3F4F6', background: '#1F2937',
+                  padding: '0.35rem 0.75rem', borderRadius: '6px', border: '1px solid #374151',
+                  fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.35rem'
+                }}
+              >
                 👤 {adminUser.username || adminUser.email}
               </span>
             )}
@@ -235,7 +276,7 @@ export default function ProtectedRoute() {
               onMouseEnter={e => e.target.style.background = '#C23B22'}
               onMouseLeave={e => e.target.style.background = '#374151'}
             >
-              Logout 🚪
+              {locale === 'ti' ? 'ውጻእ 🚪' : 'Logout 🚪'}
             </button>
           </div>
 
@@ -279,7 +320,9 @@ export default function ProtectedRoute() {
             }}>
               <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
                 <span style={{fontSize: '1.2rem'}}>👑</span>
-                <span style={{fontWeight: 700, fontSize: '1rem'}}>Super Admin Portal</span>
+                <span style={{fontWeight: 700, fontSize: '1rem'}}>
+                  {locale === 'ti' ? 'ሱፐር ኣመሓዳሪ ፖርታል' : 'Super Admin Portal'}
+                </span>
               </div>
               <button 
                 onClick={() => setShowAdminModal(false)}
@@ -306,7 +349,7 @@ export default function ProtectedRoute() {
                   color: adminModalTab === 'add' ? '#FFFFFF' : '#64748B'
                 }}
               >
-                ➕ Add Admin User
+                ➕ {locale === 'ti' ? 'ሓድሽ ኣመሓዳሪ ወስኽ' : 'Add Admin User'}
               </button>
 
               <button
@@ -322,7 +365,7 @@ export default function ProtectedRoute() {
                   color: adminModalTab === 'list' ? '#FFFFFF' : '#64748B'
                 }}
               >
-                👥 View Admins ({adminList.length})
+                👥 {locale === 'ti' ? `ኣመሓደርቲ ርኣይ (${adminList.length})` : `View Admins (${adminList.length})`}
               </button>
             </div>
 
@@ -472,7 +515,7 @@ export default function ProtectedRoute() {
                 <div style={{display: 'flex', flexDirection: 'column', gap: '0.75rem'}}>
                   <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.25rem'}}>
                     <span style={{fontSize: '0.85rem', fontWeight: 700, color: '#374151'}}>
-                      Registered Admins ({adminList.length})
+                      {locale === 'ti' ? `እተመዝገቡ ኣመሓደርቲ (${adminList.length})` : `Registered Admins (${adminList.length})`}
                     </span>
                     <button
                       type="button"
@@ -482,7 +525,7 @@ export default function ProtectedRoute() {
                         borderRadius: '6px', fontSize: '0.75rem', fontWeight: 600, cursor: 'pointer'
                       }}
                     >
-                      🔄 Refresh
+                      🔄 {locale === 'ti' ? 'ምሕዳስ' : 'Refresh'}
                     </button>
                   </div>
 
@@ -498,19 +541,31 @@ export default function ProtectedRoute() {
                       >
                         <div>
                           <div style={{display: 'flex', alignItems: 'center', gap: '0.45rem', marginBottom: '0.2rem'}}>
-                            <span style={{fontWeight: 700, color: '#0F172A', fontSize: '0.92rem'}}>
+                            <span 
+                              className="notranslate" 
+                              translate="no"
+                              style={{fontWeight: 700, color: '#0F172A', fontSize: '0.92rem'}}
+                            >
                               {a.username}
                             </span>
-                            <span style={{
-                              padding: '0.15rem 0.5rem', borderRadius: '50px',
-                              background: a.role === 'superadmin' ? '#FEF3C7' : '#E0E7FF',
-                              color: a.role === 'superadmin' ? '#92400E' : '#3730A3',
-                              fontWeight: 700, fontSize: '0.72rem'
-                            }}>
+                            <span 
+                              className="notranslate" 
+                              translate="no"
+                              style={{
+                                padding: '0.15rem 0.5rem', borderRadius: '50px',
+                                background: a.role === 'superadmin' ? '#FEF3C7' : '#E0E7FF',
+                                color: a.role === 'superadmin' ? '#92400E' : '#3730A3',
+                                fontWeight: 700, fontSize: '0.72rem'
+                              }}
+                            >
                               {a.role === 'superadmin' ? '👑 superadmin' : '🛡️ admin'}
                             </span>
                           </div>
-                          <div style={{color: '#64748B', fontSize: '0.8rem'}}>
+                          <div 
+                            className="notranslate" 
+                            translate="no"
+                            style={{color: '#64748B', fontSize: '0.8rem'}}
+                          >
                             ✉️ {a.email}
                           </div>
                         </div>
@@ -525,7 +580,7 @@ export default function ProtectedRoute() {
                               fontWeight: 700, cursor: 'pointer', transition: 'background 0.15s ease'
                             }}
                           >
-                            🗑️ Delete
+                            🗑️ {locale === 'ti' ? 'ደምስስ' : 'Delete'}
                           </button>
                         )}
                       </div>

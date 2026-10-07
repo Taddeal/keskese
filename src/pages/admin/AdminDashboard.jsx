@@ -321,8 +321,8 @@ export default function AdminDashboard() {
                   border: '1px solid #F0F0F0', display: 'flex', alignItems: 'center', justifyContent: 'space-between'
                 }}>
                   <div>
-                    <div style={{fontWeight: 700, color: '#1A1A2E', fontSize: '0.92rem'}}>{m.name}</div>
-                    <div style={{color: '#6B7280', fontSize: '0.82rem'}}>{m.email}</div>
+                    <div className="notranslate" translate="no" style={{fontWeight: 700, color: '#1A1A2E', fontSize: '0.92rem'}}>{m.name}</div>
+                    <div className="notranslate" translate="no" style={{color: '#6B7280', fontSize: '0.82rem'}}>{m.email}</div>
                   </div>
                   <span style={{fontSize: '0.78rem', color: '#9CA3AF', background: '#EBF0F7', padding: '0.2rem 0.5rem', borderRadius: '6px'}}>
                     {new Date(m.dateJoined).toLocaleDateString()}

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from '../../context/LanguageContext';
 
 export default function AdminFinances() {
+  const { locale } = useTranslation();
   const [activeTab, setActiveTab] = useState('dues');
   
   // Dues Form State
@@ -374,15 +376,17 @@ export default function AdminFinances() {
                   <th style={{padding: '0.6rem 0.75rem'}}>Paid</th>
                   <th style={{padding: '0.6rem 0.75rem'}}>Remaining</th>
                   <th style={{padding: '0.6rem 0.75rem'}}>Receipt #</th>
-                  <th style={{padding: '0.6rem 0.75rem'}}>Accepted By (ስም ክፍሊት ፈጻሚ)</th>
+                  <th style={{padding: '0.6rem 0.75rem'}}>
+                    {locale === 'ti' ? 'ስም ክፍሊት ፈጻሚ' : <span className="notranslate" translate="no">Accepted By</span>}
+                  </th>
                   <th style={{padding: '0.6rem 0.75rem'}}>Status</th>
                 </tr>
               </thead>
               <tbody>
                 {duesData.records && duesData.records.map((d, idx) => (
                   <tr key={d.id || idx} style={{borderBottom: '1px solid #F1F5F9'}}>
-                    <td style={{padding: '0.65rem 0.75rem', fontWeight: 700}}>{d.member_id}</td>
-                    <td style={{padding: '0.65rem 0.75rem'}}>{d.member_name}</td>
+                    <td className="notranslate" translate="no" style={{padding: '0.65rem 0.75rem', fontWeight: 700}}>{d.member_id}</td>
+                    <td className="notranslate" translate="no" style={{padding: '0.65rem 0.75rem'}}>{d.member_name}</td>
                     <td style={{padding: '0.65rem 0.75rem'}}>
                       <span style={{padding: '0.2rem 0.5rem', borderRadius: '4px', background: '#F1F5F9', fontWeight: 600, color: '#1E3A5F', fontSize: '0.78rem'}}>
                         {d.payment_type || 'Membership Dues'}
@@ -392,8 +396,8 @@ export default function AdminFinances() {
                     <td style={{padding: '0.65rem 0.75rem'}}>€{d.billed_amount}</td>
                     <td style={{padding: '0.65rem 0.75rem', color: '#0D9488', fontWeight: 700}}>€{d.paid_amount}</td>
                     <td style={{padding: '0.65rem 0.75rem', color: '#D97706', fontWeight: 700}}>€{d.remaining_amount}</td>
-                    <td style={{padding: '0.65rem 0.75rem', color: '#2563EB', fontWeight: 600}}>{d.receipt_number}</td>
-                    <td style={{padding: '0.65rem 0.75rem', color: '#475569', fontWeight: 600}}>
+                    <td className="notranslate" translate="no" style={{padding: '0.65rem 0.75rem', color: '#2563EB', fontWeight: 600}}>{d.receipt_number}</td>
+                    <td className="notranslate" translate="no" style={{padding: '0.65rem 0.75rem', color: '#475569', fontWeight: 600}}>
                       {d.accepted_by ? `👤 ${d.accepted_by}` : '—'}
                     </td>
                     <td style={{padding: '0.65rem 0.75rem'}}>

@@ -215,23 +215,23 @@ export default function AdminMembers() {
                         }}>
                           {m.name ? String(m.name).charAt(0).toUpperCase() : '👤'}
                         </div>
-                        <span>{m.name}</span>
+                        <span className="notranslate" translate="no">{m.name}</span>
                       </div>
                     </td>
 
                     <td style={{padding: '1rem 1.25rem'}}>
-                      <a href={`mailto:${m.email}`} style={{color: '#1A6B3C', textDecoration: 'none', fontWeight: 600}}>
+                      <a className="notranslate" translate="no" href={`mailto:${m.email}`} style={{color: '#1A6B3C', textDecoration: 'none', fontWeight: 600}}>
                         {m.email}
                       </a>
                     </td>
 
                     <td style={{padding: '1rem 1.25rem', color: '#4B5563'}}>
-                      <a href={`tel:${m.phone}`} style={{color: '#374151', textDecoration: 'none'}}>
+                      <a className="notranslate" translate="no" href={`tel:${m.phone}`} style={{color: '#374151', textDecoration: 'none'}}>
                         {m.phone}
                       </a>
                     </td>
 
-                    <td style={{padding: '1rem 1.25rem', color: '#374151', fontWeight: 600}}>
+                    <td className="notranslate" translate="no" style={{padding: '1rem 1.25rem', color: '#374151', fontWeight: 600}}>
                       🏡 {m.originVillage || '-'}
                     </td>
 

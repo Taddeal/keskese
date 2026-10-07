@@ -210,19 +210,19 @@ export default function AdminContacts() {
                         }}>
                           {c.name ? String(c.name).charAt(0).toUpperCase() : '📩'}
                         </div>
-                        <span>{c.name}</span>
+                        <span className="notranslate" translate="no">{c.name}</span>
                       </div>
                     </td>
 
                     <td style={{padding: '1rem 1.25rem'}}>
-                      <a href={`mailto:${c.email}`} style={{color: '#0369A1', textDecoration: 'none', fontWeight: 600}}>
+                      <a className="notranslate" translate="no" href={`mailto:${c.email}`} style={{color: '#0369A1', textDecoration: 'none', fontWeight: 600}}>
                         {c.email}
                       </a>
                     </td>
 
                     <td style={{padding: '1rem 1.25rem', color: '#4B5563'}}>
                       {c.phone ? (
-                        <a href={`tel:${c.phone}`} style={{color: '#374151', textDecoration: 'none'}}>
+                        <a className="notranslate" translate="no" href={`tel:${c.phone}`} style={{color: '#374151', textDecoration: 'none'}}>
                           {c.phone}
                         </a>
                       ) : (
