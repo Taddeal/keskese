@@ -374,7 +374,7 @@ export default function AdminFinances() {
                   <th style={{padding: '0.6rem 0.75rem'}}>Paid</th>
                   <th style={{padding: '0.6rem 0.75rem'}}>Remaining</th>
                   <th style={{padding: '0.6rem 0.75rem'}}>Receipt #</th>
-                  <th style={{padding: '0.6rem 0.75rem'}}>Accepted By</th>
+                  <th style={{padding: '0.6rem 0.75rem'}}>Accepted By (ስም ክፍሊት ፈጻሚ)</th>
                   <th style={{padding: '0.6rem 0.75rem'}}>Status</th>
                 </tr>
               </thead>

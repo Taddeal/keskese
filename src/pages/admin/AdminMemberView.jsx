@@ -226,7 +226,7 @@ export default function AdminMemberView() {
                 <th style={{padding: '0.85rem 1rem'}}>ዝተረፈ</th>
                 <th style={{padding: '0.85rem 1rem'}}>Date</th>
                 <th style={{padding: '0.85rem 1rem'}}>ደረሰኝ</th>
-                <th style={{padding: '0.85rem 1rem'}}>Accepted By</th>
+                <th style={{padding: '0.85rem 1rem'}}>ስም ክፍሊት ፈጻሚ</th>
                 <th style={{padding: '0.85rem 1rem'}}>Status</th>
               </tr>
             </thead>
