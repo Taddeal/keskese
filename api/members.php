@@ -3,6 +3,9 @@ require_once __DIR__ . '/db.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+$rawInput = file_get_contents('php://input');
+$input = json_decode($rawInput, true) ?: $_POST ?: $_GET;
+
 if ($method === 'GET') {
     $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
     $limit = isset($_GET['limit']) ? max(1, intval($_GET['limit'])) : 10;
@@ -45,13 +48,20 @@ if ($method === 'GET') {
     exit();
 }
 
-if ($method === 'DELETE' || (isset($_GET['action']) && $_GET['action'] === 'delete') || (isset($_POST['action']) && $_POST['action'] === 'delete') || (is_array($input) && isset($input['action']) && $input['action'] === 'delete')) {
+// DELETE Member
+if ($method === 'DELETE' || 
+    (isset($_GET['action']) && $_GET['action'] === 'delete') || 
+    (isset($_POST['action']) && $_POST['action'] === 'delete') || 
+    (is_array($input) && isset($input['action']) && $input['action'] === 'delete')) {
+
     $id = null;
     if (is_array($input) && !empty($input['id'])) $id = $input['id'];
     elseif (is_array($input) && !empty($input['memberId'])) $id = $input['memberId'];
     elseif (!empty($_POST['id'])) $id = $_POST['id'];
+    elseif (!empty($_POST['memberId'])) $id = $_POST['memberId'];
     elseif (!empty($_GET['id'])) $id = $_GET['id'];
     elseif (!empty($_GET['member_id'])) $id = $_GET['member_id'];
+    elseif (!empty($_GET['memberId'])) $id = $_GET['memberId'];
 
     if (!$id) {
         http_response_code(400);
@@ -60,8 +70,27 @@ if ($method === 'DELETE' || (isset($_GET['action']) && $_GET['action'] === 'dele
     }
 
     try {
-        $stmt = $pdo->prepare("DELETE FROM members WHERE id = ? OR member_id = ?");
-        $stmt->execute([$id, $id]);
+        // Find member to also remove any associated dues records
+        $findStmt = $pdo->prepare("SELECT id, member_id FROM members WHERE id = ? OR member_id = ? LIMIT 1");
+        $findStmt->execute([$id, $id]);
+        $member = $findStmt->fetch();
+
+        if ($member) {
+            $delStmt = $pdo->prepare("DELETE FROM members WHERE id = ?");
+            $delStmt->execute([$member['id']]);
+
+            if (!empty($member['member_id'])) {
+                try {
+                    $delDuesStmt = $pdo->prepare("DELETE FROM member_dues WHERE member_id = ?");
+                    $delDuesStmt->execute([$member['member_id']]);
+                } catch (Exception $e) {}
+            }
+        } else {
+            // Direct delete fallback
+            $delStmt = $pdo->prepare("DELETE FROM members WHERE id = ? OR member_id = ?");
+            $delStmt->execute([$id, $id]);
+        }
+
         echo json_encode(["status" => "success", "message" => "Member deleted successfully."]);
     } catch (PDOException $e) {
         http_response_code(500);

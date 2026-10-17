@@ -53,13 +53,21 @@ export default function AdminMembers() {
     loadMembers();
   }, [page, searchQuery]);
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this member registration? This action cannot be undone.')) {
-      await deleteMember(id);
-      setFeedback('Member record deleted.');
+  const handleDelete = async (memberOrId) => {
+    const id = typeof memberOrId === 'object' ? (memberOrId.id || memberOrId.memberId) : memberOrId;
+    const name = typeof memberOrId === 'object' && memberOrId.name ? ` for "${memberOrId.name}"` : '';
+    if (window.confirm(`Are you sure you want to delete this member registration${name}? This action cannot be undone.`)) {
+      const res = await deleteMember(id);
+      if (res && res.status === 'error') {
+        alert(res.message || 'Failed to delete member.');
+        return;
+      }
+      setFeedback('Member record deleted successfully.');
       setTimeout(() => setFeedback(null), 3000);
       loadMembers();
-      if (selectedMember?.id === id) setSelectedMember(null);
+      if (selectedMember && (selectedMember.id === id || selectedMember.memberId === id)) {
+        setSelectedMember(null);
+      }
     }
   };
 
@@ -262,7 +270,7 @@ export default function AdminMembers() {
 
                     <td style={{padding: '1rem 1.25rem', textAlign: 'right'}}>
                       <button 
-                        onClick={() => handleDelete(m.id)}
+                        onClick={() => handleDelete(m)}
                         style={{
                           background: '#FDE8E8', color: '#C23B22', border: 'none',
                           padding: '0.4rem 0.85rem', borderRadius: '6px', cursor: 'pointer',

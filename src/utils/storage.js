@@ -185,21 +185,36 @@ export const addMember = (member) => {
 };
 
 export const deleteMember = async (id) => {
+  if (!id) {
+    console.warn('deleteMember called with empty id');
+    return { status: 'error', message: 'Member ID is missing.' };
+  }
+
   const isLocal = window.location.origin.includes('localhost');
   const baseUrl = isLocal ? 'http://localhost/keskese/api/members.php' : '/api/members.php';
 
   try {
-    await fetch(`${baseUrl}?action=delete`, {
+    const res = await fetch(`${baseUrl}?action=delete&id=${encodeURIComponent(id)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id })
+      body: JSON.stringify({ id, memberId: id, action: 'delete' })
     });
+    const json = await res.json().catch(() => ({}));
+    if (res.ok && json.status === 'success') {
+      const members = getMembers();
+      localStorage.setItem('keskese_members', JSON.stringify(members.filter(m => m.id != id && m.memberId != id)));
+      return { status: 'success', message: json.message || 'Member deleted successfully.' };
+    } else if (json.status === 'error') {
+      console.warn('Delete member error from server:', json.message);
+      return json;
+    }
   } catch (err) {
     console.warn('Failed to delete member from MySQL:', err);
   }
 
   const members = getMembers();
-  localStorage.setItem('keskese_members', JSON.stringify(members.filter(m => m.id !== id && m.memberId !== id)));
+  localStorage.setItem('keskese_members', JSON.stringify(members.filter(m => m.id != id && m.memberId != id)));
+  return { status: 'success' };
 };
 
 export const exportAllData = () => {
