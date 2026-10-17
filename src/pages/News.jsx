@@ -150,38 +150,68 @@ export default function News() {
                         )}
 
                         {post.pdf_url && (
-                          <a 
-                            href={post.pdf_url} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            download={post.pdf_name || true}
-                            style={{
-                              background: 'linear-gradient(135deg, #1E3A5F 0%, #152D4A 100%)',
-                              color: '#FFFFFF',
-                              padding: '0.5rem 1.15rem',
-                              borderRadius: '8px',
-                              fontWeight: 700,
-                              fontSize: '0.88rem',
-                              textDecoration: 'none',
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '0.45rem',
-                              boxShadow: '0 2px 8px rgba(30,58,95,0.2)',
-                              transition: 'transform 0.15s ease'
-                            }}
-                          >
-                            <span>📥</span>
-                            <span>
-                              {locale === 'ti' 
-                                ? (post.pdf_name ? `${post.pdf_name} (PDF ርኣይ/ኣውርድ)` : 'ሰነድ ርኣይ / ኣውርድ (PDF)')
-                                : (locale === 'nl'
-                                    ? (post.pdf_name ? `${post.pdf_name} (PDF bekijken)` : 'Document bekijken (PDF)')
-                                    : (post.pdf_name ? `${post.pdf_name} (View PDF)` : 'View / Download Attachment (PDF)')
-                                  )
-                              }
-                            </span>
-                            <span>↗</span>
-                          </a>
+                          <div style={{display: 'inline-flex', alignItems: 'center', gap: '0.45rem', flexWrap: 'wrap'}}>
+                            {/* 1. View PDF in new browser tab */}
+                            <a 
+                              href={post.pdf_url} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              style={{
+                                background: 'linear-gradient(135deg, #1E3A5F 0%, #152D4A 100%)',
+                                color: '#FFFFFF',
+                                padding: '0.5rem 1rem',
+                                borderRadius: '8px',
+                                fontWeight: 700,
+                                fontSize: '0.85rem',
+                                textDecoration: 'none',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '0.4rem',
+                                boxShadow: '0 2px 6px rgba(30,58,95,0.2)',
+                                transition: 'all 0.15s ease'
+                              }}
+                              title="Open and view PDF in a new browser tab"
+                            >
+                              <span>👁️</span>
+                              <span>
+                                {locale === 'ti' 
+                                  ? 'ሰነድ ርኣይ (PDF)' 
+                                  : (locale === 'nl' ? 'Bekijken (PDF)' : 'View PDF')
+                                }
+                              </span>
+                              <span style={{fontSize: '0.75rem'}}>↗</span>
+                            </a>
+
+                            {/* 2. Download PDF directly to device */}
+                            <a 
+                              href={post.pdf_url} 
+                              download={post.pdf_name || 'document.pdf'}
+                              style={{
+                                background: '#E8F5EE',
+                                color: '#1A6B3C',
+                                border: '1.5px solid #A7F3D0',
+                                padding: '0.45rem 0.95rem',
+                                borderRadius: '8px',
+                                fontWeight: 700,
+                                fontSize: '0.85rem',
+                                textDecoration: 'none',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '0.35rem',
+                                boxShadow: '0 1px 4px rgba(26,107,60,0.1)',
+                                transition: 'all 0.15s ease'
+                              }}
+                              title="Download PDF directly to your device"
+                            >
+                              <span>⬇️</span>
+                              <span>
+                                {locale === 'ti' 
+                                  ? 'ኣውርድ' 
+                                  : (locale === 'nl' ? 'Downloaden' : 'Download')
+                                }
+                              </span>
+                            </a>
+                          </div>
                         )}
                       </div>
                     </div>

@@ -32,6 +32,13 @@ Options -Indexes
   AddType application/pdf .pdf
 </IfModule>
 
+# Ensure PDFs open inline in browser viewers
+<IfModule mod_headers.c>
+  <FilesMatch "\.pdf$">
+    Header set Content-Disposition "inline"
+  </FilesMatch>
+</IfModule>
+
 # Browser Caching
 <IfModule mod_expires.c>
   ExpiresActive On
