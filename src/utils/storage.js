@@ -7,9 +7,34 @@ import initialNews from '../data/news.json';
 // =========================================================================
 export const ENABLE_DYNAMIC_NEWS = false;
 
-const getApiUrl = (endpoint) => {
+export const getApiUrl = (endpoint) => {
   const isLocal = window.location.origin.includes('localhost');
   return isLocal ? `http://localhost/keskese/api/${endpoint}` : `/api/${endpoint}`;
+};
+
+export const uploadNewsFile = async (file, type = 'document') => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('type', type);
+
+  const res = await fetch(`${getApiUrl('news.php')}?action=upload`, {
+    method: 'POST',
+    body: formData
+  });
+
+  const text = await res.text();
+  let json;
+  try {
+    json = JSON.parse(text);
+  } catch (e) {
+    throw new Error(`Upload server error: ${text.substring(0, 120)}`);
+  }
+
+  if (!res.ok || json.status === 'error') {
+    throw new Error(json.message || 'File upload failed');
+  }
+
+  return json;
 };
 
 export const generateId = () => Math.random().toString(36).substr(2, 9);
@@ -49,7 +74,9 @@ export const fetchNewsRemote = async (isAdmin = false) => {
       const records = json.records || (Array.isArray(json) ? json : []);
 
       if (Array.isArray(records)) {
-        localStorage.setItem('keskese_news_db', JSON.stringify(records));
+        try {
+          localStorage.setItem('keskese_news_db', JSON.stringify(records));
+        } catch (e) {}
         if (isAdmin) {
           // For Admin portal: return database records directly so editing/deleting dynamic posts works seamlessly
           return records.sort((a, b) => new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt));
@@ -73,36 +100,54 @@ export const fetchNewsRemote = async (isAdmin = false) => {
 
 export const addNewsPost = async (post) => {
   let createdId = generateId();
+  const res = await fetch(getApiUrl('news.php'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(post)
+  });
+
+  const text = await res.text();
+  let json;
   try {
-    const res = await fetch(getApiUrl('news.php'), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(post)
-    });
-    const json = await res.json();
-    if (json.status === 'success' && json.id) {
-      createdId = json.id;
-    }
-  } catch (err) {
-    console.warn('Failed to publish news post to MySQL:', err);
+    json = JSON.parse(text);
+  } catch (e) {
+    throw new Error(`Server returned unexpected response: ${text.substring(0, 100)}`);
+  }
+
+  if (!res.ok || json.status === 'error') {
+    throw new Error(json.message || 'Failed to publish news post.');
+  }
+
+  if (json.status === 'success' && json.id) {
+    createdId = json.id;
   }
 
   const cachedDb = localStorage.getItem('keskese_news_db');
   const posts = cachedDb ? JSON.parse(cachedDb) : [];
   posts.unshift({ ...post, id: createdId, createdAt: new Date().toISOString() });
-  localStorage.setItem('keskese_news_db', JSON.stringify(posts));
+  try {
+    localStorage.setItem('keskese_news_db', JSON.stringify(posts));
+  } catch (e) {}
   return createdId;
 };
 
 export const updateNewsPost = async (id, data) => {
+  const res = await fetch(getApiUrl('news.php'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id, ...data })
+  });
+
+  const text = await res.text();
+  let json;
   try {
-    await fetch(getApiUrl('news.php'), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, ...data })
-    });
-  } catch (err) {
-    console.warn('Failed to update news post in MySQL:', err);
+    json = JSON.parse(text);
+  } catch (e) {
+    throw new Error(`Server returned unexpected response: ${text.substring(0, 100)}`);
+  }
+
+  if (!res.ok || json.status === 'error') {
+    throw new Error(json.message || 'Failed to update news post.');
   }
 
   const cachedDb = localStorage.getItem('keskese_news_db');
@@ -110,7 +155,9 @@ export const updateNewsPost = async (id, data) => {
   const index = posts.findIndex(p => String(p.id) === String(id));
   if (index !== -1) {
     posts[index] = { ...posts[index], ...data, updatedAt: new Date().toISOString() };
-    localStorage.setItem('keskese_news_db', JSON.stringify(posts));
+    try {
+      localStorage.setItem('keskese_news_db', JSON.stringify(posts));
+    } catch (e) {}
   }
 };
 

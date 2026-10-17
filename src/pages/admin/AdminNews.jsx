@@ -1,6 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { getNews, fetchNewsRemote, addNewsPost, updateNewsPost, deleteNewsPost } from '../../utils/storage';
+import { getNews, fetchNewsRemote, addNewsPost, updateNewsPost, deleteNewsPost, uploadNewsFile } from '../../utils/storage';
 
+const compressImage = (file, maxWidth = 1200, quality = 0.82) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            resolve({ blob: file, dataUrl: e.target.result });
+            return;
+          }
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          resolve({ blob, dataUrl: compressedDataUrl });
+        }, 'image/jpeg', quality);
+      };
+      img.onerror = () => resolve({ blob: file, dataUrl: e.target.result });
+      img.src = e.target.result;
+    };
+    reader.onerror = () => resolve({ blob: file, dataUrl: null });
+    reader.readAsDataURL(file);
+  });
+};
 
 export default function AdminNews() {
   const [posts, setPosts] = useState([]);
@@ -11,6 +44,10 @@ export default function AdminNews() {
     title_en: '', title_ti: '', body_en: '', body_ti: '', date: '', image: '', published: true
   });
   const [feedback, setFeedback] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [uploadingPdf, setUploadingPdf] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const loadPosts = async () => {
     const allPosts = await fetchNewsRemote(true);
@@ -24,6 +61,7 @@ export default function AdminNews() {
 
   const resetForm = () => {
     setEditingId(null);
+    setErrorMessage(null);
     setFormData({
       title_en: '',
       title_ti: '',
@@ -41,6 +79,7 @@ export default function AdminNews() {
 
   const handleEdit = (post) => {
     setEditingId(post.id);
+    setErrorMessage(null);
     setFormData({
       title_en: post.title_en || '',
       title_ti: post.title_ti || '',
@@ -57,28 +96,69 @@ export default function AdminNews() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({ ...formData, image: reader.result });
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    setUploadingImage(true);
+    setErrorMessage(null);
+    try {
+      // 1. Client-side compress large phone/camera images
+      const { blob, dataUrl } = await compressImage(file, 1200, 0.82);
+
+      // 2. Try direct upload to server /uploads/images/
+      try {
+        const compressedFile = new File([blob], file.name.replace(/\.[^.]+$/, '.jpg'), { type: 'image/jpeg' });
+        const res = await uploadNewsFile(compressedFile, 'image');
+        if (res && res.url) {
+          setFormData(prev => ({ ...prev, image: res.url }));
+          setUploadingImage(false);
+          return;
+        }
+      } catch (uploadErr) {
+        console.warn('Direct image upload failed, using compressed base64 fallback:', uploadErr);
+      }
+
+      // Fallback: use compressed data URL (~150KB)
+      setFormData(prev => ({ ...prev, image: dataUrl }));
+    } catch (err) {
+      console.error('Image processing error:', err);
+      setErrorMessage('Failed to process image: ' + err.message);
+    } finally {
+      setUploadingImage(false);
     }
   };
 
-  const handlePdfUpload = (e) => {
+  const handlePdfUpload = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
-        alert('Please select a valid PDF file (.pdf).');
-        return;
+    if (!file) return;
+
+    if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+      alert('Please select a valid PDF file (.pdf).');
+      return;
+    }
+    if (file.size > 25 * 1024 * 1024) {
+      alert('File size exceeds 25 MB limit.');
+      return;
+    }
+
+    setUploadingPdf(true);
+    setErrorMessage(null);
+    try {
+      // Direct upload to server /uploads/documents/
+      const res = await uploadNewsFile(file, 'document');
+      if (res && res.url) {
+        setFormData(prev => ({
+          ...prev,
+          pdf_url: res.url,
+          pdf_name: res.name || file.name,
+          pdf_file: '',
+          remove_pdf: false
+        }));
       }
-      if (file.size > 25 * 1024 * 1024) {
-        alert('File size exceeds 25 MB limit.');
-        return;
-      }
+    } catch (uploadErr) {
+      console.warn('Direct PDF upload failed, falling back to base64 encoding:', uploadErr);
+      // Fallback to base64
       const reader = new FileReader();
       reader.onloadend = () => {
         setFormData(prev => ({
@@ -89,6 +169,8 @@ export default function AdminNews() {
         }));
       };
       reader.readAsDataURL(file);
+    } finally {
+      setUploadingPdf(false);
     }
   };
 
@@ -104,26 +186,46 @@ export default function AdminNews() {
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this news post?')) {
-      await deleteNewsPost(id);
-      setFeedback('Post deleted successfully.');
-      setTimeout(() => setFeedback(null), 3000);
-      await loadPosts();
-      if (editingId === id) resetForm();
+      try {
+        await deleteNewsPost(id);
+        setFeedback('Post deleted successfully.');
+        setTimeout(() => setFeedback(null), 3000);
+        await loadPosts();
+        if (editingId === id) resetForm();
+      } catch (err) {
+        setErrorMessage('Failed to delete post: ' + err.message);
+      }
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (editingId) {
-      await updateNewsPost(editingId, formData);
-      setFeedback('Post updated successfully!');
-    } else {
-      await addNewsPost(formData);
-      setFeedback('New post published successfully to database!');
+    if (uploadingPdf || uploadingImage) {
+      alert('Please wait for file upload to finish before submitting.');
+      return;
     }
-    setTimeout(() => setFeedback(null), 3000);
-    await loadPosts();
-    resetForm();
+
+    setSubmitting(true);
+    setErrorMessage(null);
+    setFeedback(null);
+
+    try {
+      if (editingId) {
+        await updateNewsPost(editingId, formData);
+        setFeedback('Post updated successfully in database!');
+      } else {
+        await addNewsPost(formData);
+        setFeedback('New post published successfully to database!');
+      }
+      setTimeout(() => setFeedback(null), 4000);
+      await loadPosts();
+      resetForm();
+    } catch (err) {
+      console.error('Save news post error:', err);
+      setErrorMessage(err.message || 'Failed to save news post to database.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const filteredPosts = posts.filter(p => {
@@ -167,9 +269,22 @@ export default function AdminNews() {
       {feedback && (
         <div style={{
           background: '#E8F5EE', color: '#1A6B3C', padding: '0.85rem 1.25rem',
-          borderRadius: '12px', marginBottom: '1.5rem', fontWeight: 600, border: '1px solid #C8E6C9'
+          borderRadius: '12px', marginBottom: '1.5rem', fontWeight: 600, border: '1px solid #C8E6C9',
+          display: 'flex', alignItems: 'center', gap: '0.5rem'
         }}>
-          ✅ {feedback}
+          <span>✅</span>
+          <span>{feedback}</span>
+        </div>
+      )}
+
+      {errorMessage && (
+        <div style={{
+          background: '#FEF2F2', color: '#991B1B', padding: '0.85rem 1.25rem',
+          borderRadius: '12px', marginBottom: '1.5rem', fontWeight: 600, border: '1px solid #FCA5A5',
+          display: 'flex', alignItems: 'center', gap: '0.5rem'
+        }}>
+          <span>❌</span>
+          <span>{errorMessage}</span>
         </div>
       )}
 
@@ -248,9 +363,16 @@ export default function AdminNews() {
                     type="file" 
                     accept="image/*"
                     onChange={handleImageUpload}
+                    disabled={uploadingImage}
                     style={{fontSize: '0.82rem'}}
                   />
                 </div>
+                {uploadingImage && (
+                  <div style={{color: '#2563EB', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '0.35rem'}}>
+                    <span>⏳</span>
+                    <span>Optimizing & uploading image...</span>
+                  </div>
+                )}
               </div>
 
               {formData.image && (
@@ -290,11 +412,18 @@ export default function AdminNews() {
                 type="file" 
                 accept="application/pdf"
                 onChange={handlePdfUpload}
+                disabled={uploadingPdf}
                 style={{
                   padding: '0.55rem', borderRadius: '8px', border: '1.5px dashed #CBD5E1',
                   width: '100%', fontSize: '0.82rem', background: '#F8FAFC'
                 }}
               />
+              {uploadingPdf && (
+                <div style={{color: '#2563EB', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: '0.4rem', marginTop: '0.35rem'}}>
+                  <span>⏳</span>
+                  <span>Uploading PDF document to server...</span>
+                </div>
+              )}
               <small style={{display: 'block', color: '#6B7280', fontSize: '0.75rem', marginTop: '0.25rem'}}>
                 Upload program schedules, event brochures, or reports (stored directly in /uploads/documents/).
               </small>
@@ -407,23 +536,41 @@ export default function AdminNews() {
             <div style={{display: 'flex', gap: '0.75rem', marginTop: '0.5rem'}}>
               <button 
                 type="submit" 
+                disabled={submitting || uploadingPdf || uploadingImage}
                 style={{
                   flex: 1, padding: '0.85rem', borderRadius: '10px',
-                  background: editingId ? '#D4A843' : '#1A6B3C', color: '#FFFFFF',
-                  fontWeight: 700, fontSize: '0.95rem', border: 'none', cursor: 'pointer'
+                  background: (submitting || uploadingPdf || uploadingImage) ? '#9CA3AF' : (editingId ? '#D4A843' : '#1A6B3C'),
+                  color: '#FFFFFF',
+                  fontWeight: 700, fontSize: '0.95rem', border: 'none',
+                  cursor: (submitting || uploadingPdf || uploadingImage) ? 'not-allowed' : 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+                  boxShadow: (submitting || uploadingPdf || uploadingImage) ? 'none' : '0 2px 8px rgba(0,0,0,0.1)',
+                  transition: 'background 0.2s ease'
                 }}
               >
-                {editingId ? 'Update Post' : 'Publish Post'}
+                {submitting ? (
+                  <>
+                    <span style={{
+                      display: 'inline-block', width: '16px', height: '16px',
+                      border: '2px solid rgba(255,255,255,0.4)', borderTopColor: '#FFFFFF',
+                      borderRadius: '50%', animation: 'spin 0.8s linear infinite'
+                    }} />
+                    <span>{editingId ? 'Updating...' : 'Publishing...'}</span>
+                  </>
+                ) : (
+                  <span>{editingId ? 'Update Post' : 'Publish Post'}</span>
+                )}
               </button>
 
               {editingId && (
                 <button 
                   type="button" 
+                  disabled={submitting}
                   onClick={resetForm}
                   style={{
                     padding: '0.85rem 1.25rem', borderRadius: '10px',
                     background: '#F3F4F6', color: '#4B5563', fontWeight: 600,
-                    fontSize: '0.95rem', border: 'none', cursor: 'pointer'
+                    fontSize: '0.95rem', border: 'none', cursor: submitting ? 'not-allowed' : 'pointer'
                   }}
                 >
                   Cancel
