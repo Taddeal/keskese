@@ -128,25 +128,62 @@ export default function News() {
                         {isExpanded ? body : `${body?.substring(0, 200) || ''}${body?.length > 200 ? '...' : ''}`}
                       </div>
 
-                      {body?.length > 200 && (
-                        <button 
-                          className="btn" 
-                          style={{
-                            background: index % 2 === 0 ? '#E8F5EE' : '#EBF0F7',
-                            color: index % 2 === 0 ? '#1A6B3C' : '#1E3A5F',
-                            border: 'none', padding: '0.5rem 1.25rem',
-                            borderRadius: '8px', fontWeight: 600, fontSize: '0.9rem',
-                            cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.4rem'
-                          }} 
-                          onClick={() => toggleExpand(post.id)}
-                        >
-                          {isExpanded ? (
-                            <><span>▲</span> {t('news.readLess')}</>
-                          ) : (
-                            <><span>▼</span> {t('news.readMore')}</>
-                          )}
-                        </button>
-                      )}
+                      <div style={{display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap', marginTop: '1rem'}}>
+                        {body?.length > 200 && (
+                          <button 
+                            className="btn" 
+                            style={{
+                              background: index % 2 === 0 ? '#E8F5EE' : '#EBF0F7',
+                              color: index % 2 === 0 ? '#1A6B3C' : '#1E3A5F',
+                              border: 'none', padding: '0.5rem 1.25rem',
+                              borderRadius: '8px', fontWeight: 600, fontSize: '0.9rem',
+                              cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.4rem'
+                            }} 
+                            onClick={() => toggleExpand(post.id)}
+                          >
+                            {isExpanded ? (
+                              <><span>▲</span> {t('news.readLess')}</>
+                            ) : (
+                              <><span>▼</span> {t('news.readMore')}</>
+                            )}
+                          </button>
+                        )}
+
+                        {post.pdf_url && (
+                          <a 
+                            href={post.pdf_url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            download={post.pdf_name || true}
+                            style={{
+                              background: 'linear-gradient(135deg, #1E3A5F 0%, #152D4A 100%)',
+                              color: '#FFFFFF',
+                              padding: '0.5rem 1.15rem',
+                              borderRadius: '8px',
+                              fontWeight: 700,
+                              fontSize: '0.88rem',
+                              textDecoration: 'none',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '0.45rem',
+                              boxShadow: '0 2px 8px rgba(30,58,95,0.2)',
+                              transition: 'transform 0.15s ease'
+                            }}
+                          >
+                            <span>📥</span>
+                            <span>
+                              {locale === 'ti' 
+                                ? (post.pdf_name ? `${post.pdf_name} (PDF ርኣይ/ኣውርድ)` : 'ሰነድ ርኣይ / ኣውርድ (PDF)')
+                                : (locale === 'nl'
+                                    ? (post.pdf_name ? `${post.pdf_name} (PDF bekijken)` : 'Document bekijken (PDF)')
+                                    : (post.pdf_name ? `${post.pdf_name} (View PDF)` : 'View / Download Attachment (PDF)')
+                                  )
+                              }
+                            </span>
+                            <span>↗</span>
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </article>
                 );

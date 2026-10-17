@@ -61,6 +61,8 @@ CREATE TABLE IF NOT EXISTS news (
     body_en TEXT NOT NULL,
     body_ti TEXT NOT NULL,
     image_url LONGTEXT,
+    pdf_url TEXT,
+    pdf_name VARCHAR(255) DEFAULT '',
     published BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

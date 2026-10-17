@@ -24,7 +24,19 @@ export default function AdminNews() {
 
   const resetForm = () => {
     setEditingId(null);
-    setFormData({ title_en: '', title_ti: '', body_en: '', body_ti: '', date: '', image: '', published: true });
+    setFormData({
+      title_en: '',
+      title_ti: '',
+      body_en: '',
+      body_ti: '',
+      date: new Date().toISOString().split('T')[0],
+      image: '',
+      pdf_url: '',
+      pdf_name: '',
+      pdf_file: '',
+      remove_pdf: false,
+      published: true
+    });
   };
 
   const handleEdit = (post) => {
@@ -35,6 +47,10 @@ export default function AdminNews() {
       body_en: post.body_en || '',
       body_ti: post.body_ti || '',
       image: post.image || post.imageUrl || '',
+      pdf_url: post.pdf_url || '',
+      pdf_name: post.pdf_name || '',
+      pdf_file: '',
+      remove_pdf: false,
       date: post.date || post.createdAt?.split('T')[0] || new Date().toISOString().split('T')[0],
       published: post.published ?? true
     });
@@ -50,6 +66,40 @@ export default function AdminNews() {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handlePdfUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+        alert('Please select a valid PDF file (.pdf).');
+        return;
+      }
+      if (file.size > 25 * 1024 * 1024) {
+        alert('File size exceeds 25 MB limit.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({
+          ...prev,
+          pdf_file: reader.result,
+          pdf_name: file.name,
+          remove_pdf: false
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemovePdf = () => {
+    setFormData(prev => ({
+      ...prev,
+      pdf_url: '',
+      pdf_name: '',
+      pdf_file: '',
+      remove_pdf: true
+    }));
   };
 
   const handleDelete = async (id) => {
@@ -224,6 +274,65 @@ export default function AdminNews() {
                     }}
                   >
                     ✕
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Document / Flyer (PDF) Attachment */}
+            <div>
+              <label style={{fontWeight: 600, color: '#374151', fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.35rem'}}>
+                <span>📄</span> Attach Document / Flyer (PDF)
+                <span style={{fontSize: '0.75rem', color: '#6B7280', fontWeight: 'normal'}}>(Optional)</span>
+              </label>
+              
+              <input 
+                type="file" 
+                accept="application/pdf"
+                onChange={handlePdfUpload}
+                style={{
+                  padding: '0.55rem', borderRadius: '8px', border: '1.5px dashed #CBD5E1',
+                  width: '100%', fontSize: '0.82rem', background: '#F8FAFC'
+                }}
+              />
+              <small style={{display: 'block', color: '#6B7280', fontSize: '0.75rem', marginTop: '0.25rem'}}>
+                Upload program schedules, event brochures, or reports (stored directly in /uploads/documents/).
+              </small>
+
+              {(formData.pdf_name || formData.pdf_url) && !formData.remove_pdf && (
+                <div style={{
+                  marginTop: '0.65rem', padding: '0.5rem 0.85rem', borderRadius: '8px',
+                  background: '#FEF3C7', border: '1px solid #FCD34D',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  fontSize: '0.82rem', color: '#92400E'
+                }}>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '0.4rem', overflow: 'hidden'}}>
+                    <span>📑</span>
+                    <span style={{fontWeight: 700, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap'}}>
+                      {formData.pdf_name || 'Attached Document.pdf'}
+                    </span>
+                    {formData.pdf_url && (
+                      <a 
+                        href={formData.pdf_url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        style={{color: '#1D4ED8', textDecoration: 'underline', marginLeft: '0.3rem', fontSize: '0.78rem'}}
+                      >
+                        View ↗
+                      </a>
+                    )}
+                  </div>
+                  <button 
+                    type="button"
+                    onClick={handleRemovePdf}
+                    style={{
+                      background: '#FEE2E2', color: '#991B1B', border: 'none',
+                      padding: '0.2rem 0.5rem', borderRadius: '4px', cursor: 'pointer',
+                      fontSize: '0.75rem', fontWeight: 700
+                    }}
+                    title="Remove attached PDF"
+                  >
+                    ✕ Remove
                   </button>
                 </div>
               )}
@@ -415,6 +524,23 @@ export default function AdminNews() {
                   <p style={{color: '#6B7280', fontSize: '0.88rem', lineHeight: 1.5, margin: 0}}>
                     {post.body_en?.substring(0, 140)}...
                   </p>
+
+                  {post.pdf_url && (
+                    <div style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+                      background: '#EFF6FF', border: '1px solid #BFDBFE', borderRadius: '6px',
+                      padding: '0.3rem 0.6rem', fontSize: '0.78rem', color: '#1E40AF',
+                      width: 'fit-content'
+                    }}>
+                      <span>📄</span>
+                      <span style={{fontWeight: 700, maxWidth: '220px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>
+                        {post.pdf_name || 'Document.pdf'}
+                      </span>
+                      <a href={post.pdf_url} target="_blank" rel="noopener noreferrer" style={{color: '#2563EB', textDecoration: 'underline', fontWeight: 600}}>
+                        View ↗
+                      </a>
+                    </div>
+                  )}
 
                   <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '0.75rem', borderTop: '1px solid #F0F0F0'}}>
                     <span style={{fontSize: '0.8rem', color: '#9CA3AF'}}>
