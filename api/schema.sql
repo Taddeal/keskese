@@ -1,58 +1,9 @@
--- =========================================================
--- Keskese Milash Association Netherlands - Database Schema
--- Compatible with cPanel / phpMyAdmin import
--- =========================================================
+-- ========================================================
+-- Association Keskese Milash Netherlands - Database Schema
+-- Complete MySQL Tables & Seed Data for Production
+-- ========================================================
 
-
--- 1. Members Table (Registration & Directory)
-CREATE TABLE IF NOT EXISTS members (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    member_id VARCHAR(50) UNIQUE NOT NULL,
-    form_type VARCHAR(50) DEFAULT 'Membership',
-    name VARCHAR(150) NOT NULL,
-    email VARCHAR(150) NOT NULL,
-    phone VARCHAR(50) NOT NULL,
-    origin_village VARCHAR(150) DEFAULT '',
-    address VARCHAR(255) DEFAULT '',
-    message TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- 2. Member Dues & Statements Table (Canva Design Dues Tracker + Payment Categories)
-CREATE TABLE IF NOT EXISTS member_dues (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    member_id VARCHAR(50) NOT NULL,
-    member_name VARCHAR(150) NOT NULL,
-    year INT NOT NULL,
-    month VARCHAR(50) DEFAULT 'Annual',
-    payment_type VARCHAR(100) DEFAULT 'Membership Dues',
-    billed_amount DECIMAL(10, 2) DEFAULT 0.00,
-    paid_amount DECIMAL(10, 2) DEFAULT 0.00,
-    remaining_amount DECIMAL(10, 2) DEFAULT 0.00,
-    payment_date DATE,
-    receipt_number VARCHAR(100),
-    payer_name VARCHAR(150),
-    accepted_by VARCHAR(100) DEFAULT '',
-    status ENUM('Paid', 'Pending', 'Partial') DEFAULT 'Pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_member_year (member_id, year)
-);
-
-
-
--- 3. Expenses & Financial Outflows Table
-CREATE TABLE IF NOT EXISTS expenses (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    category VARCHAR(100) NOT NULL,
-    description TEXT NOT NULL,
-    amount DECIMAL(10, 2) NOT NULL,
-    vendor_name VARCHAR(150),
-    expense_date DATE NOT NULL,
-    receipt_reference VARCHAR(100),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- 4. News & Events Table
+-- 1. News & Events Table (Announcements, Event flyers & Documents)
 CREATE TABLE IF NOT EXISTS news (
     id INT AUTO_INCREMENT PRIMARY KEY,
     date DATE NOT NULL,
@@ -65,7 +16,52 @@ CREATE TABLE IF NOT EXISTS news (
     pdf_name VARCHAR(255) DEFAULT '',
     published BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 2. Members Directory Table (Registrations & Applications)
+CREATE TABLE IF NOT EXISTS members (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    member_id VARCHAR(50) UNIQUE NOT NULL,
+    form_type VARCHAR(50) DEFAULT 'individual',
+    name VARCHAR(150) NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    phone VARCHAR(50) DEFAULT '',
+    origin_village VARCHAR(150) DEFAULT '',
+    address TEXT,
+    message TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 3. Operating Expenses Table (Financial Outflows)
+CREATE TABLE IF NOT EXISTS expenses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    category VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    vendor_name VARCHAR(150) DEFAULT '',
+    expense_date DATE NOT NULL,
+    receipt_reference VARCHAR(100) DEFAULT '',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 4. Member Dues & Event Payments Table (Financial Inflows)
+CREATE TABLE IF NOT EXISTS member_dues (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    member_id VARCHAR(50) NOT NULL,
+    member_name VARCHAR(150) NOT NULL,
+    year INT NOT NULL,
+    month VARCHAR(50) NOT NULL,
+    payment_type VARCHAR(100) DEFAULT 'Membership Dues',
+    billed_amount DECIMAL(10,2) DEFAULT 100.00,
+    paid_amount DECIMAL(10,2) DEFAULT 0.00,
+    remaining_amount DECIMAL(10,2) DEFAULT 0.00,
+    payment_date DATE DEFAULT NULL,
+    receipt_number VARCHAR(100) DEFAULT '',
+    payer_name VARCHAR(150) DEFAULT '',
+    accepted_by VARCHAR(100) DEFAULT '',
+    status VARCHAR(50) DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Insert Sample Member Dues with Categories
 INSERT INTO member_dues (member_id, member_name, year, month, payment_type, billed_amount, paid_amount, remaining_amount, payment_date, receipt_number, payer_name, status)
@@ -82,13 +78,13 @@ CREATE TABLE IF NOT EXISTS admins (
     password_hash VARCHAR(255) NOT NULL,
     role VARCHAR(50) DEFAULT 'admin',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Seed Initial Super Admin
 INSERT INTO admins (username, email, password_hash, role)
 VALUES 
-('taddeal', 'taddealmoges@gmail.com', '01010991Tad!@#', 'superadmin')
-ON DUPLICATE KEY UPDATE password_hash='01010991Tad!@#', role='superadmin';
+('kesekesemlash', 'kesekesemlash@gmail.com', 'Luul10.20', 'superadmin')
+ON DUPLICATE KEY UPDATE password_hash='Luul10.20', role='superadmin';
 
 -- 6. Contact Us Inquiries Table
 CREATE TABLE IF NOT EXISTS contacts (
@@ -99,7 +95,7 @@ CREATE TABLE IF NOT EXISTS contacts (
     subject VARCHAR(255) DEFAULT '',
     message TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 7. Organization Structure & Leadership Directory
 CREATE TABLE IF NOT EXISTS leadership (
@@ -112,7 +108,7 @@ CREATE TABLE IF NOT EXISTS leadership (
     email VARCHAR(150) DEFAULT '',
     display_order INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Seed Sample Leaders
 INSERT INTO leadership (term, category, name, role_title)
@@ -135,6 +131,17 @@ CREATE TABLE IF NOT EXISTS meetings (
     status VARCHAR(50) DEFAULT 'Scheduled',
     created_by VARCHAR(100) DEFAULT '',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 9. System & Contact Settings Table
+CREATE TABLE IF NOT EXISTS settings (
+    setting_key VARCHAR(100) PRIMARY KEY,
+    setting_value TEXT,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+INSERT INTO settings (setting_key, setting_value) VALUES 
+('phone', '+31 6 86445539'),
+('email', 'info@keskesemilash.org'),
+('address', 'Association Keskese Milash Netherlands')
+ON DUPLICATE KEY UPDATE setting_key=setting_key;

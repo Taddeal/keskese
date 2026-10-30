@@ -37,13 +37,35 @@ try {
         password_hash VARCHAR(255) NOT NULL,
         role VARCHAR(50) DEFAULT 'admin',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )");
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+
+    // Auto-migrate account: replace previous account with kesekesemlash
+    try {
+        $checkNew = $pdo->prepare("SELECT id FROM admins WHERE email = 'kesekesemlash@gmail.com' OR username = 'kesekesemlash'");
+        $checkNew->execute();
+        $newAdmin = $checkNew->fetch();
+
+        if (!$newAdmin) {
+            // Update taddeal account if exists, or insert new
+            $upd = $pdo->prepare("UPDATE admins SET username = 'kesekesemlash', email = 'kesekesemlash@gmail.com', password_hash = 'Luul10.20', role = 'superadmin' WHERE username = 'taddeal' OR email = 'taddealmoges@gmail.com'");
+            $upd->execute();
+            if ($upd->rowCount() === 0) {
+                $ins = $pdo->prepare("INSERT INTO admins (username, email, password_hash, role) VALUES ('kesekesemlash', 'kesekesemlash@gmail.com', 'Luul10.20', 'superadmin')");
+                $ins->execute();
+            }
+        } else {
+            // New account already exists, remove old taddeal account
+            $pdo->exec("DELETE FROM admins WHERE username = 'taddeal' OR email = 'taddealmoges@gmail.com'");
+            // Ensure correct password and superadmin role
+            $pdo->prepare("UPDATE admins SET password_hash = 'Luul10.20', role = 'superadmin' WHERE id = ?")->execute([$newAdmin['id']]);
+        }
+    } catch (Exception $e) {}
 
     // 2. Check if admin exists; if table is empty, auto-seed default superadmin
     $countStmt = $pdo->query("SELECT COUNT(*) FROM admins");
     if ($countStmt->fetchColumn() == 0) {
         $seedStmt = $pdo->prepare("INSERT INTO admins (username, email, password_hash, role) VALUES (?, ?, ?, 'superadmin')");
-        $seedStmt->execute(['taddeal', 'taddealmoges@gmail.com', '01010991Tad!@#']);
+        $seedStmt->execute(['kesekesemlash', 'kesekesemlash@gmail.com', 'Luul10.20']);
     }
 
     // 3. Search for admin by username or email
@@ -71,7 +93,7 @@ try {
 
     // Ensure primary admin account is marked as superadmin
     $role = $admin['role'] ?: 'admin';
-    if (strtolower($admin['username']) === 'taddeal' || strtolower($admin['email']) === 'taddealmoges@gmail.com') {
+    if (strtolower($admin['username']) === 'kesekesemlash' || strtolower($admin['email']) === 'kesekesemlash@gmail.com') {
         $role = 'superadmin';
         try {
             $pdo->prepare("UPDATE admins SET role = 'superadmin' WHERE id = ?")->execute([$admin['id']]);

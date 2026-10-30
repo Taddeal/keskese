@@ -58,19 +58,19 @@ export default function AdminLogin() {
     } catch (err) {
       console.warn('Backend DB login check failed, evaluating fallback credentials:', err);
 
-      // Offline / Deployment fallback so user is never locked out on Vercel preview or before DB setup
+      // Offline / Deployment fallback so user is never locked out on preview or before DB setup
       const isDefaultUser = (
-        cleanUsername.toLowerCase() === 'taddealmoges@gmail.com' || 
-        cleanUsername.toLowerCase() === 'taddeal'
+        cleanUsername.toLowerCase() === 'kesekesemlash@gmail.com' || 
+        cleanUsername.toLowerCase() === 'kesekesemlash'
       );
-      const isDefaultPass = cleanPassword === '01010991Tad!@#';
+      const isDefaultPass = cleanPassword === 'Luul10.20';
 
       if (isDefaultUser && isDefaultPass) {
         sessionStorage.setItem('keskese_admin', 'true');
         sessionStorage.setItem('keskese_admin_user', JSON.stringify({
-          username: 'taddeal',
-          email: 'taddealmoges@gmail.com',
-          role: 'admin'
+          username: 'kesekesemlash',
+          email: 'kesekesemlash@gmail.com',
+          role: 'superadmin'
         }));
         navigate('/admin/dashboard');
         return;

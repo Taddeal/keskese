@@ -283,3 +283,67 @@ export const importAllData = (jsonString) => {
     return false;
   }
 };
+
+
+export const DEFAULT_SITE_SETTINGS = {
+  phone: '+31 6 86445539',
+  email: 'info@keskesemilash.org',
+  address: 'Association Keskese Milash Netherlands'
+};
+
+export const getSiteSettings = () => {
+  try {
+    const cached = localStorage.getItem('keskese_site_settings');
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      return { ...DEFAULT_SITE_SETTINGS, ...parsed };
+    }
+  } catch (e) {}
+  return DEFAULT_SITE_SETTINGS;
+};
+
+export const fetchSiteSettings = async () => {
+  try {
+    const res = await fetch(`${getApiUrl('settings.php')}?_t=${Date.now()}`, { cache: 'no-store' });
+    if (res.ok) {
+      const json = await res.json();
+      if (json.status === 'success' && json.settings) {
+        const merged = { ...DEFAULT_SITE_SETTINGS, ...json.settings };
+        localStorage.setItem('keskese_site_settings', JSON.stringify(merged));
+        return merged;
+      }
+    }
+  } catch (err) {
+    console.warn('Failed to fetch site settings from API, using cached/default:', err);
+  }
+  return getSiteSettings();
+};
+
+export const updateSiteSettings = async (newSettings) => {
+  const current = getSiteSettings();
+  const updated = { ...current, ...newSettings };
+  try {
+    localStorage.setItem('keskese_site_settings', JSON.stringify(updated));
+  } catch (e) {}
+
+  const res = await fetch(getApiUrl('settings.php'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newSettings)
+  });
+
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok || json.status === 'error') {
+    throw new Error(json.message || 'Failed to update settings on server.');
+  }
+
+  if (json.settings) {
+    const merged = { ...DEFAULT_SITE_SETTINGS, ...json.settings };
+    try {
+      localStorage.setItem('keskese_site_settings', JSON.stringify(merged));
+    } catch (e) {}
+    return merged;
+  }
+
+  return updated;
+};

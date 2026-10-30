@@ -13,13 +13,24 @@ if ($method === 'GET') {
             $totalAmount += floatval($e['amount']);
         }
 
+        // Calculate total income from member dues payments
+        $totalIncome = 0;
+        try {
+            $incStmt = $pdo->query("SELECT COALESCE(SUM(paid_amount), 0) FROM member_dues");
+            $totalIncome = floatval($incStmt->fetchColumn());
+        } catch (Exception $ex) {}
+
+        $totalRemaining = $totalIncome - $totalAmount;
+
         echo json_encode([
             "status" => "success",
             "total_expenses" => number_format($totalAmount, 2, '.', ''),
+            "total_income" => number_format($totalIncome, 2, '.', ''),
+            "total_remaining" => number_format($totalRemaining, 2, '.', ''),
             "records" => $expenses
         ]);
     } catch (PDOException $e) {
-        echo json_encode(["error" => $e->getMessage()]);
+        echo json_encode(["status" => "error", "error" => $e->getMessage()]);
     }
     exit();
 }

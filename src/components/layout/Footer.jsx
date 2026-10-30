@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from '../../context/LanguageContext';
+import { getSiteSettings, fetchSiteSettings } from '../../utils/storage';
 
 export default function Footer() {
   const { t, locale } = useTranslation();
+  const [siteSettings, setSiteSettings] = useState(getSiteSettings);
+
+  useEffect(() => {
+    fetchSiteSettings().then(setSiteSettings);
+  }, []);
+
+  const phone = siteSettings.phone || '+31 6 86445539';
+  const email = siteSettings.email || 'info@keskesemilash.org';
 
   return (
     <footer className="footer" style={{
@@ -161,13 +170,20 @@ export default function Footer() {
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                 <span>✉️</span>
-                <a href="mailto:info@keskesemilash.org" style={{ color: '#D4A843', textDecoration: 'none' }}>
-                  info@keskesemilash.org
+                <a href={`mailto:${email}`} style={{ color: '#D4A843', textDecoration: 'none' }}>
+                  {email}
                 </a>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                 <span>📞</span>
-                <span>+31 6 86445539</span>
+                <a 
+                  href={`tel:${phone.replace(/\s+/g, '')}`} 
+                  style={{ color: '#E5E7EB', textDecoration: 'none', transition: 'color 0.2s' }}
+                  onMouseEnter={e => e.currentTarget.style.color = '#D4A843'}
+                  onMouseLeave={e => e.currentTarget.style.color = '#E5E7EB'}
+                >
+                  {phone}
+                </a>
               </div>
             </div>
           </div>

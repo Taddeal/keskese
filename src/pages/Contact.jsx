@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../context/LanguageContext';
 import { submitForm } from '../utils/formService';
+import { getSiteSettings, fetchSiteSettings } from '../utils/storage';
 
 export default function Contact() {
   const { t, locale } = useTranslation();
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [status, setStatus] = useState({ loading: false, success: false, error: null });
+  const [siteSettings, setSiteSettings] = useState(getSiteSettings);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    fetchSiteSettings().then(setSiteSettings);
   }, []);
 
   const handleChange = (e) => {
@@ -27,6 +30,9 @@ export default function Contact() {
       setStatus({ loading: false, success: false, error: t('form.submitError') });
     }
   };
+
+  const phone = siteSettings.phone || '+31 6 86445539';
+  const email = siteSettings.email || 'info@keskesemilash.org';
 
   return (
     <div className="page contact-page">
@@ -278,12 +284,12 @@ export default function Contact() {
                         {t('contact.email')}
                       </h3>
                       <a 
-                        href="mailto:info@keskesemilash.org" 
+                        href={`mailto:${email}`} 
                         style={{color:'#1A6B3C', textDecoration:'none', fontWeight:600, fontSize:'0.95rem'}}
                         onMouseEnter={e => e.target.style.textDecoration='underline'}
                         onMouseLeave={e => e.target.style.textDecoration='none'}
                       >
-                        info@keskesemilash.org
+                        {email}
                       </a>
                     </div>
                   </div>
@@ -304,10 +310,12 @@ export default function Contact() {
                         {t('contact.phone')}
                       </h3>
                       <a 
-                        href="tel:+31612345678" 
-                        style={{color:'#374151', textDecoration:'none', fontSize:'0.95rem'}}
+                        href={`tel:${phone.replace(/\s+/g, '')}`} 
+                        style={{color:'#374151', textDecoration:'none', fontSize:'0.95rem', transition:'color 0.2s'}}
+                        onMouseEnter={e => e.currentTarget.style.color='#1A6B3C'}
+                        onMouseLeave={e => e.currentTarget.style.color='#374151'}
                       >
-                        +31 6 12345678
+                        {phone}
                       </a>
                     </div>
                   </div>

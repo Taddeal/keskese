@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getSiteSettings, fetchSiteSettings, updateSiteSettings } from '../../utils/storage';
 
 const safeFormatDate = (dStr) => {
   if (!dStr) return 'N/A';
@@ -15,9 +16,48 @@ export default function AdminContacts() {
   const [selectedContact, setSelectedContact] = useState(null);
   const [feedback, setFeedback] = useState(null);
 
+  // Site Contact Settings state
+  const [phoneSetting, setPhoneSetting] = useState('');
+  const [emailSetting, setEmailSetting] = useState('');
+  const [savingSettings, setSavingSettings] = useState(false);
+  const [settingsFeedback, setSettingsFeedback] = useState(null);
+
   const baseUrl = window.location.origin.includes('localhost')
     ? 'http://localhost/keskese/api'
     : '/api';
+
+  useEffect(() => {
+    fetchSiteSettings().then(s => {
+      setPhoneSetting(s.phone || '+31 6 86445539');
+      setEmailSetting(s.email || 'info@keskesemilash.org');
+    });
+  }, []);
+
+  const handleSavePhone = async (e) => {
+    e.preventDefault();
+    if (!phoneSetting.trim()) {
+      alert('Phone number cannot be empty.');
+      return;
+    }
+
+    setSavingSettings(true);
+    setSettingsFeedback(null);
+    try {
+      await updateSiteSettings({ phone: phoneSetting.trim(), email: emailSetting.trim() });
+      setSettingsFeedback({
+        type: 'success',
+        message: `Phone number updated to "${phoneSetting.trim()}"! Changes reflect live on the website (Footer & Contact page).`
+      });
+      setTimeout(() => setSettingsFeedback(null), 5000);
+    } catch (err) {
+      setSettingsFeedback({
+        type: 'error',
+        message: 'Failed to update phone number: ' + err.message
+      });
+    } finally {
+      setSavingSettings(false);
+    }
+  };
 
   const loadContacts = async () => {
     setLoading(true);
@@ -106,7 +146,7 @@ export default function AdminContacts() {
     <div className="container" style={{maxWidth: '1200px'}}>
       
       {/* Top Header & Actions */}
-      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem'}}>
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem'}}>
         <div>
           <h1 style={{fontSize: '2rem', fontWeight: 800, color: '#111827', margin: 0}}>
             📩 Contact Us Inquiries ({paginationInfo.total_records || filteredContacts.length})
@@ -130,6 +170,91 @@ export default function AdminContacts() {
         >
           <span>⬇️</span> Export CSV
         </button>
+      </div>
+
+      {/* Updatable Phone Number & Contact Details Card */}
+      <div style={{
+        background: '#FFFFFF', borderRadius: '16px', padding: '1.5rem 1.75rem',
+        boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid #E5E7EB',
+        borderLeft: '5px solid #D4A843', marginBottom: '2rem'
+      }}>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem'}}>
+          <div style={{display: 'flex', alignItems: 'center', gap: '0.6rem'}}>
+            <span style={{fontSize: '1.4rem'}}>📞</span>
+            <h3 style={{fontSize: '1.15rem', fontWeight: 700, color: '#111827', margin: 0}}>
+              Official Organization Phone Number (ናይ ማሕበር ቴለፎን ቍጽሪ)
+            </h3>
+          </div>
+          <span style={{fontSize: '0.8rem', background: '#FEF3C7', color: '#92400E', padding: '0.25rem 0.65rem', borderRadius: '50px', fontWeight: 600}}>
+            Reflects Live on Website (Footer & Contact Page)
+          </span>
+        </div>
+
+        <p style={{fontSize: '0.88rem', color: '#6B7280', margin: '0 0 1rem'}}>
+          Update the public phone number displayed to the community across the main website.
+        </p>
+
+        {settingsFeedback && (
+          <div style={{
+            background: settingsFeedback.type === 'success' ? '#DCFCE7' : '#FDE8E8',
+            color: settingsFeedback.type === 'success' ? '#15803D' : '#C23B22',
+            padding: '0.75rem 1rem', borderRadius: '10px', marginBottom: '1rem',
+            fontWeight: 600, fontSize: '0.88rem',
+            border: `1px solid ${settingsFeedback.type === 'success' ? '#86EFAC' : '#F8B4B4'}`
+          }}>
+            {settingsFeedback.type === 'success' ? '✅' : '⚠️'} {settingsFeedback.message}
+          </div>
+        )}
+
+        <form onSubmit={handleSavePhone} style={{display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'flex-end'}}>
+          <div style={{flex: '1 1 240px'}}>
+            <label style={{display: 'block', fontSize: '0.85rem', fontWeight: 600, color: '#374151', marginBottom: '0.35rem'}}>
+              Phone Number (ቴለፎን)
+            </label>
+            <input 
+              type="text"
+              value={phoneSetting}
+              onChange={e => setPhoneSetting(e.target.value)}
+              placeholder="+31 6 86445539"
+              style={{
+                width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px',
+                border: '1.5px solid #D1D5DB', fontSize: '0.92rem', outline: 'none'
+              }}
+              required
+            />
+          </div>
+
+          <div style={{flex: '1 1 240px'}}>
+            <label style={{display: 'block', fontSize: '0.85rem', fontWeight: 600, color: '#374151', marginBottom: '0.35rem'}}>
+              Official Email (ኢመይል)
+            </label>
+            <input 
+              type="email"
+              value={emailSetting}
+              onChange={e => setEmailSetting(e.target.value)}
+              placeholder="info@keskesemilash.org"
+              style={{
+                width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px',
+                border: '1.5px solid #D1D5DB', fontSize: '0.92rem', outline: 'none'
+              }}
+              required
+            />
+          </div>
+
+          <button 
+            type="submit"
+            disabled={savingSettings}
+            style={{
+              padding: '0.68rem 1.4rem', borderRadius: '8px', background: '#1A6B3C',
+              color: '#FFFFFF', fontWeight: 700, fontSize: '0.92rem', border: 'none',
+              cursor: savingSettings ? 'not-allowed' : 'pointer',
+              display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+              boxShadow: '0 2px 8px rgba(26,107,60,0.25)'
+            }}
+          >
+            {savingSettings ? '⏳ Saving...' : '💾 Save Contact Info'}
+          </button>
+        </form>
       </div>
 
       {feedback && (

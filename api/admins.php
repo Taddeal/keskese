@@ -19,7 +19,20 @@ try {
         password_hash VARCHAR(255) NOT NULL,
         role VARCHAR(50) DEFAULT 'admin',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )");
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+
+    // Ensure kesekesemlash exists and old account is cleaned up
+    $checkNew = $pdo->prepare("SELECT id FROM admins WHERE email = 'kesekesemlash@gmail.com' OR username = 'kesekesemlash'");
+    $checkNew->execute();
+    if (!$checkNew->fetch()) {
+        $upd = $pdo->prepare("UPDATE admins SET username = 'kesekesemlash', email = 'kesekesemlash@gmail.com', password_hash = 'Luul10.20', role = 'superadmin' WHERE username = 'taddeal' OR email = 'taddealmoges@gmail.com'");
+        $upd->execute();
+        if ($upd->rowCount() === 0) {
+            $pdo->prepare("INSERT INTO admins (username, email, password_hash, role) VALUES ('kesekesemlash', 'kesekesemlash@gmail.com', 'Luul10.20', 'superadmin')")->execute();
+        }
+    } else {
+        $pdo->exec("DELETE FROM admins WHERE username = 'taddeal' OR email = 'taddealmoges@gmail.com'");
+    }
 } catch (Exception $e) {}
 
 // GET: List all administrators (excluding sensitive password hashes)
@@ -57,7 +70,7 @@ if ($method === 'DELETE' || (isset($_GET['action']) && $_GET['action'] === 'dele
         $stmt->execute([$id]);
         $target = $stmt->fetch();
 
-        if ($target && (strtolower($target['username']) === 'taddeal' || strtolower($target['email']) === 'taddealmoges@gmail.com')) {
+        if ($target && (strtolower($target['username']) === 'kesekesemlash' || strtolower($target['email']) === 'kesekesemlash@gmail.com')) {
             http_response_code(403);
             echo json_encode(["status" => "error", "message" => "The primary Super Admin account cannot be deleted."]);
             exit();
@@ -97,7 +110,7 @@ if ($method === 'POST') {
     }
 
     try {
-        // Check if username already exists
+        // Check if username or email already exists
         $checkStmt = $pdo->prepare("SELECT id FROM admins WHERE username = ? OR email = ?");
         $checkStmt->execute([$username, $email]);
         if ($checkStmt->fetch()) {

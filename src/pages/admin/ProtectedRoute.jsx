@@ -10,8 +10,8 @@ export default function ProtectedRoute() {
 
   // Super Admin check
   const isSuperAdmin = adminUser?.role === 'superadmin' || 
-                       adminUser?.username === 'taddeal' || 
-                       adminUser?.email === 'taddealmoges@gmail.com';
+                       adminUser?.username === 'kesekesemlash' || 
+                       adminUser?.email === 'kesekesemlash@gmail.com';
 
   // Modal State for adding admins
   const [showAdminModal, setShowAdminModal] = useState(false);
@@ -570,7 +570,7 @@ export default function ProtectedRoute() {
                           </div>
                         </div>
 
-                        {a.username !== 'taddeal' && (
+                        {a.username !== 'kesekesemlash' && (
                           <button 
                             type="button"
                             onClick={() => handleDeleteAdmin(a.id, a.username)}

@@ -36,6 +36,11 @@ export default function AdminFinances() {
   const [duesCategoryFilter, setDuesCategoryFilter] = useState('all');
 
   const [expenseData, setExpenseData] = useState({ total_expenses: '0.00', records: [] });
+  const [financeSummary, setFinanceSummary] = useState({
+    total_income: '0.00',
+    total_expenses: '0.00',
+    total_remaining: '0.00'
+  });
   const [status, setStatus] = useState({ loading: false, message: null, error: null });
 
   const adminUser = JSON.parse(sessionStorage.getItem('keskese_admin_user') || '{}');
@@ -43,6 +48,24 @@ export default function AdminFinances() {
   const baseUrl = window.location.origin.includes('localhost') 
     ? 'http://localhost/keskese/api' 
     : '/api';
+
+  const loadSummary = async () => {
+    try {
+      const res = await fetch(`${baseUrl}/expenses.php?_t=${Date.now()}`);
+      const json = await res.json();
+      if (json.status === 'success') {
+        setFinanceSummary({
+          total_income: json.total_income || '0.00',
+          total_expenses: json.total_expenses || '0.00',
+          total_remaining: json.total_remaining || '0.00'
+        });
+      }
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    loadSummary();
+  }, []);
 
   useEffect(() => {
     loadFinances();
@@ -56,19 +79,34 @@ export default function AdminFinances() {
           page: duesPage,
           limit: 10,
           search: duesSearch,
-          payment_type: duesCategoryFilter
+          payment_type: duesCategoryFilter,
+          _t: Date.now()
         });
         const res = await fetch(`${baseUrl}/dues.php?${queryParams.toString()}`);
         const json = await res.json();
         if (json.status === 'success') {
           setDuesData(json);
+          if (json.summary) {
+            setFinanceSummary({
+              total_income: json.summary.total_income || '0.00',
+              total_expenses: json.summary.total_expenses || '0.00',
+              total_remaining: json.summary.total_remaining || '0.00'
+            });
+          }
         } else if (Array.isArray(json)) {
           setDuesData({ records: json, total_records: json.length, total_pages: 1, current_page: 1 });
         }
       } else {
-        const res = await fetch(`${baseUrl}/expenses.php`);
+        const res = await fetch(`${baseUrl}/expenses.php?_t=${Date.now()}`);
         const json = await res.json();
-        if (json.status === 'success') setExpenseData(json);
+        if (json.status === 'success') {
+          setExpenseData(json);
+          setFinanceSummary({
+            total_income: json.total_income || '0.00',
+            total_expenses: json.total_expenses || '0.00',
+            total_remaining: json.total_remaining || '0.00'
+          });
+        }
       }
     } catch (err) {
       console.error('Failed to load finances:', err);
@@ -116,6 +154,7 @@ export default function AdminFinances() {
           receipt_number: ''
         });
         loadFinances();
+        loadSummary();
       } else {
         setStatus({ loading: false, message: null, error: json.message || 'Failed to save payment.' });
       }
@@ -150,6 +189,7 @@ export default function AdminFinances() {
           receipt_reference: ''
         });
         loadFinances();
+        loadSummary();
       } else {
         setStatus({ loading: false, message: null, error: json.message || 'Failed to save expense.' });
       }
@@ -162,13 +202,83 @@ export default function AdminFinances() {
     <div className="container" style={{maxWidth: '1150px', padding: '2rem 1rem'}}>
       
       {/* Top Header */}
-      <div style={{marginBottom: '2rem'}}>
+      <div style={{marginBottom: '1.75rem'}}>
         <h1 style={{fontSize: '2rem', fontWeight: 800, color: '#111827', margin: 0}}>
           💳 Financial Management & Payment Tracker
         </h1>
         <p style={{color: '#6B7280', margin: '0.25rem 0 0', fontSize: '0.95rem'}}>
           Record member dues, event ticket payments, generate digital receipts, and track operating expenses.
         </p>
+      </div>
+
+      {/* 3 Prominent Financial Metric Cards: Total Income, Total Outflow, Total Remaining */}
+      <div style={{
+        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+        gap: '1.25rem', marginBottom: '2rem'
+      }}>
+        {/* Total Income */}
+        <div style={{
+          background: '#FFFFFF', borderRadius: '16px', padding: '1.5rem',
+          border: '1px solid #E5E7EB', borderLeft: '5px solid #16A34A',
+          boxShadow: '0 4px 14px rgba(0,0,0,0.04)'
+        }}>
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem'}}>
+            <span style={{fontSize: '0.85rem', fontWeight: 700, color: '#16A34A', textTransform: 'uppercase', letterSpacing: '0.05em'}}>
+              {locale === 'ti' ? 'ዝኣተወ ገንዘብ (ኣታዊ)' : 'Total Income'}
+            </span>
+            <span style={{fontSize: '1.4rem'}}>💰</span>
+          </div>
+          <div style={{fontSize: '2.1rem', fontWeight: 800, color: '#15803D', marginBottom: '0.25rem'}}>
+            € {financeSummary.total_income}
+          </div>
+          <p style={{fontSize: '0.82rem', color: '#6B7280', margin: 0}}>
+            {locale === 'ti' ? 'ካብ ክፍሊት ኣባላትን መደባትን ዝተኣከበ' : 'Total collected from dues & event payments'}
+          </p>
+        </div>
+
+        {/* Total Outflow */}
+        <div style={{
+          background: '#FFFFFF', borderRadius: '16px', padding: '1.5rem',
+          border: '1px solid #E5E7EB', borderLeft: '5px solid #DC2626',
+          boxShadow: '0 4px 14px rgba(0,0,0,0.04)'
+        }}>
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem'}}>
+            <span style={{fontSize: '0.85rem', fontWeight: 700, color: '#DC2626', textTransform: 'uppercase', letterSpacing: '0.05em'}}>
+              {locale === 'ti' ? 'ዝወጸ ገንዘብ (ወጻኢታት)' : 'Total Outflow'}
+            </span>
+            <span style={{fontSize: '1.4rem'}}>💸</span>
+          </div>
+          <div style={{fontSize: '2.1rem', fontWeight: 800, color: '#991B1B', marginBottom: '0.25rem'}}>
+            € {financeSummary.total_expenses}
+          </div>
+          <p style={{fontSize: '0.82rem', color: '#6B7280', margin: 0}}>
+            {locale === 'ti' ? 'ናይ ኣዳራሽ፡ ቀረብን ካልእ ወጻኢታትን' : 'Total recorded operating expenses & costs'}
+          </p>
+        </div>
+
+        {/* Total Remaining */}
+        <div style={{
+          background: '#FFFFFF', borderRadius: '16px', padding: '1.5rem',
+          border: '1px solid #E5E7EB', borderLeft: '5px solid #2563EB',
+          boxShadow: '0 4px 14px rgba(0,0,0,0.04)'
+        }}>
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem'}}>
+            <span style={{fontSize: '0.85rem', fontWeight: 700, color: '#2563EB', textTransform: 'uppercase', letterSpacing: '0.05em'}}>
+              {locale === 'ti' ? 'ዝተረፈ ባላንስ' : 'Total Remaining (Net Balance)'}
+            </span>
+            <span style={{fontSize: '1.4rem'}}>🏦</span>
+          </div>
+          <div style={{
+            fontSize: '2.1rem', fontWeight: 800,
+            color: parseFloat(financeSummary.total_remaining) >= 0 ? '#1E40AF' : '#DC2626',
+            marginBottom: '0.25rem'
+          }}>
+            € {financeSummary.total_remaining}
+          </div>
+          <p style={{fontSize: '0.82rem', color: '#6B7280', margin: 0}}>
+            {locale === 'ti' ? 'ኣብ ሳንዱቕ ዘሎ ዝተረፈ ጽሩይ ገንዘብ' : 'Current net cash remaining in treasury'}
+          </p>
+        </div>
       </div>
 
       {/* Tabs Control */}
@@ -529,12 +639,20 @@ export default function AdminFinances() {
 
           {/* Expenses List & Summary */}
           <div style={{background: '#FFFFFF', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid #E5E7EB'}}>
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem'}}>
               <h3 style={{margin: 0, fontSize: '1.2rem', color: '#1E3A5F', fontWeight: 700}}>
                 📜 Recorded Outflows
               </h3>
-              <div style={{background: '#FEE2E2', color: '#991B1B', padding: '0.5rem 1rem', borderRadius: '10px', fontWeight: 800, fontSize: '0.95rem'}}>
-                Total Outflow: € {expenseData.total_expenses}
+              <div style={{display: 'flex', gap: '0.5rem', flexWrap: 'wrap'}}>
+                <div style={{background: '#DCFCE7', color: '#166534', padding: '0.4rem 0.75rem', borderRadius: '8px', fontWeight: 700, fontSize: '0.85rem'}}>
+                  Income: € {financeSummary.total_income}
+                </div>
+                <div style={{background: '#FEE2E2', color: '#991B1B', padding: '0.4rem 0.75rem', borderRadius: '8px', fontWeight: 800, fontSize: '0.85rem'}}>
+                  Outflow: € {financeSummary.total_expenses}
+                </div>
+                <div style={{background: '#EFF6FF', color: '#1E40AF', padding: '0.4rem 0.75rem', borderRadius: '8px', fontWeight: 800, fontSize: '0.85rem'}}>
+                  Remaining: € {financeSummary.total_remaining}
+                </div>
               </div>
             </div>
 

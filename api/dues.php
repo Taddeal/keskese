@@ -76,12 +76,46 @@ if ($method === 'GET') {
         $stmt->execute($params);
         $records = $stmt->fetchAll();
 
+        // Grand totals across all member dues (all income)
+        $grandPaid = 0;
+        $grandBilled = 0;
+        $grandRemaining = 0;
+        try {
+            $grandStmt = $pdo->query("SELECT 
+                COALESCE(SUM(paid_amount), 0) AS total_paid,
+                COALESCE(SUM(billed_amount), 0) AS total_billed,
+                COALESCE(SUM(remaining_amount), 0) AS total_remaining
+            FROM member_dues");
+            $gRow = $grandStmt->fetch();
+            if ($gRow) {
+                $grandPaid = floatval($gRow['total_paid']);
+                $grandBilled = floatval($gRow['total_billed']);
+                $grandRemaining = floatval($gRow['total_remaining']);
+            }
+        } catch (Exception $ex) {}
+
+        // Total expenses (outflow)
+        $totalExp = 0;
+        try {
+            $expStmt = $pdo->query("SELECT COALESCE(SUM(amount), 0) FROM expenses");
+            $totalExp = floatval($expStmt->fetchColumn());
+        } catch (Exception $ex) {}
+
+        $netCashRemaining = $grandPaid - $totalExp;
+
         echo json_encode([
             "status" => "success",
             "total_records" => intval($totalRecords),
             "total_pages" => ceil($totalRecords / $limit),
             "current_page" => $page,
             "limit" => $limit,
+            "summary" => [
+                "total_income" => number_format($grandPaid, 2, '.', ''),
+                "total_billed" => number_format($grandBilled, 2, '.', ''),
+                "total_uncollected" => number_format($grandRemaining, 2, '.', ''),
+                "total_expenses" => number_format($totalExp, 2, '.', ''),
+                "total_remaining" => number_format($netCashRemaining, 2, '.', '')
+            ],
             "records" => $records
         ]);
     } catch (PDOException $e) {
