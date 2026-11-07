@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from '../context/LanguageContext';
-import { addMember } from '../utils/storage';
 import { submitForm } from '../utils/formService';
 
 const benefits = [
@@ -83,7 +82,6 @@ export default function Membership() {
     setStatus({ loading: true, success: false, error: null });
     
     try {
-      addMember(formData);
       await submitForm(formData, 'Membership');
       setStatus({ loading: false, success: true, error: null });
       setFormData({ name: '', email: '', phone: '', originVillage: '', address: '', message: '' });

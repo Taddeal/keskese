@@ -35,10 +35,19 @@ export const submitForm = async (data, formType = 'Membership') => {
       const json = await res.json();
       if (json.status === 'success' && json.member_id) {
         assignedMemberId = json.member_id;
+      } else if (json.status === 'error') {
+        console.error('MySQL API error response:', json.message);
+        throw new Error(json.message || 'Database error occurred.');
       }
+    } else if (!res.ok) {
+      throw new Error(`Server returned status ${res.status}`);
     }
   } catch (dbErr) {
     console.warn('MySQL API submission error, proceeding with cache & fallback notifications:', dbErr);
+    // In production, re-throw real server error responses so they are not silently swallowed
+    if (!window.location.origin.includes('localhost') && dbErr.message && !dbErr.message.includes('Failed to fetch')) {
+      throw dbErr;
+    }
   }
 
   // 2. Save locally for instant offline admin panel visibility

@@ -40,7 +40,7 @@ if (strcasecmp($formType, 'Contact') === 0) {
             subject VARCHAR(255) DEFAULT '',
             message TEXT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )");
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 
         $stmt = $pdo->prepare("INSERT INTO contacts (name, email, phone, subject, message) VALUES (?, ?, ?, ?, ?)");
         $stmt->execute([$name, $email, $phone, $subject, $message]);
@@ -75,22 +75,81 @@ try {
         address VARCHAR(255) DEFAULT '',
         message TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )");
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 
-    // Auto-generate Member ID (e.g. KM-001)
-    $countStmt = $pdo->query("SELECT COUNT(*) FROM members");
-    $nextId = $countStmt->fetchColumn() + 1;
-    $memberId = "KM-" . str_pad($nextId, 3, "0", STR_PAD_LEFT);
+    // Robust Auto-generation of unique sequential Member ID (e.g. KM-001, KM-002, ...)
+    // 1) Find highest numeric ID in members table
+    $maxNumericId = 0;
+    try {
+        $stmt = $pdo->query("SELECT member_id FROM members WHERE member_id IS NOT NULL AND member_id != ''");
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            if (preg_match('/(\d+)/', $row['member_id'], $m)) {
+                $num = intval($m[1]);
+                if ($num > $maxNumericId) {
+                    $maxNumericId = $num;
+                }
+            }
+        }
+    } catch (Exception $e) {}
 
-    $stmt = $pdo->prepare("INSERT INTO members (member_id, form_type, name, email, phone, origin_village, address, message) VALUES (?, 'Membership', ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$memberId, $name, $email, $phone, $originVillage, $address, $message]);
+    // 2) Also scan member_dues table to avoid re-using pre-assigned IDs
+    try {
+        $duesStmt = $pdo->query("SELECT member_id FROM member_dues WHERE member_id IS NOT NULL AND member_id != ''");
+        while ($row = $duesStmt->fetch(PDO::FETCH_ASSOC)) {
+            if (preg_match('/(\d+)/', $row['member_id'], $m)) {
+                $num = intval($m[1]);
+                if ($num > $maxNumericId) {
+                    $maxNumericId = $num;
+                }
+            }
+        }
+    } catch (Exception $e) {}
+
+    // 3) Loop and attempt insert with collision safety & retry
+    $nextId = $maxNumericId + 1;
+    $assignedId = null;
+    $inserted = false;
+
+    for ($attempt = 0; $attempt < 100; $attempt++) {
+        $candidateId = "KM-" . str_pad($nextId, 3, "0", STR_PAD_LEFT);
+
+        // Pre-check if candidate already exists
+        $checkStmt = $pdo->prepare("SELECT id FROM members WHERE member_id = ? LIMIT 1");
+        $checkStmt->execute([$candidateId]);
+        if ($checkStmt->fetch()) {
+            $nextId++;
+            continue;
+        }
+
+        try {
+            $stmt = $pdo->prepare("INSERT INTO members (member_id, form_type, name, email, phone, origin_village, address, message) VALUES (?, 'Membership', ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$candidateId, $name, $email, $phone, $originVillage, $address, $message]);
+            $assignedId = $candidateId;
+            $inserted = true;
+            break;
+        } catch (PDOException $insErr) {
+            // Duplicate entry (MySQL error 1062 or SQLSTATE 23000)
+            if ($insErr->getCode() == 23000 || strpos($insErr->getMessage(), '1062') !== false) {
+                $nextId++;
+                continue;
+            }
+            throw $insErr;
+        }
+    }
+
+    if (!$inserted || !$assignedId) {
+        throw new Exception("Could not generate a unique Member ID. Please try again.");
+    }
 
     echo json_encode([
         "status" => "success",
         "message" => "Membership application received successfully!",
-        "member_id" => $memberId
+        "member_id" => $assignedId
     ]);
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode(["status" => "error", "message" => "Database error: " . $e->getMessage()]);
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(["status" => "error", "message" => $e->getMessage()]);
 }
